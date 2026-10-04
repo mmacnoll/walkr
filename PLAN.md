@@ -3,7 +3,7 @@
 ## Progress
 **Phase 1**
 - [x] M1. Project setup (code done; Google Cloud key setup is your manual step)
-- [ ] M2. Map display
+- [x] M2. Map display
 - [ ] M3. Park data
 - [ ] M4. Input form
 - [ ] M5. Route generation
