@@ -116,6 +116,7 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 
 ### M8. Ship it — *Medium*
 - README: what the app does, screenshots, setup steps, env vars, and the key-security notes.
+- Run `gh auth login`. Then switch the commit email from the `markm@walkr.invalid` placeholder to your GitHub no-reply address and rewrite earlier commits (safe because nothing is pushed yet).
 - Create a GitHub repo with `gh` (you pick public or private) and push.
 - Import the repo into Vercel, set both env vars, and deploy. Add the Vercel domain to the browser key's referrer list.
 - **Acceptance (= Phase 1 done):** on your phone, the live Vercel URL → choose park, length and mood → a real walking loop is drawn with its stops listed.
