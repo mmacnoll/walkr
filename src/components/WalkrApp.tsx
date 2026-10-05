@@ -4,9 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
 import type { Mood } from "@/lib/types";
-import { DEFAULT_MINUTES, describeLength, type LengthUnit, MOODS, minutesToMeters, type WalkRequest, type WalkResult } from "@/lib/walk";
+import {
+  DEFAULT_MINUTES,
+  describeLength,
+  formatDuration,
+  formatMiles,
+  type LengthUnit,
+  MOODS,
+  minutesToMeters,
+  type WalkRequest,
+  type WalkResult,
+} from "@/lib/walk";
 import ParkMap from "./ParkMap";
+import ResultsPanel from "./ResultsPanel";
 import WalkForm from "./WalkForm";
+
+type View = "form" | "results";
 
 export default function WalkrApp() {
   const [parkId, setParkId] = useState(parks[0].id);
@@ -17,11 +30,13 @@ export default function WalkrApp() {
   const [unit, setUnit] = useState<LengthUnit>("min");
   const [mood, setMood] = useState<Mood>("scenic");
   const [collapsed, setCollapsed] = useState(false); // phone bottom sheet only
-  const [notice, setNotice] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [walk, setWalk] = useState<WalkResult | null>(null);
+  const [view, setView] = useState<View>("form");
+  const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // On phones the form sheet covers the bottom of the map; tell the map so the park isn't hidden under it.
+  // On phones the sheet covers the bottom of the map; tell the map so the park isn't hidden under it.
   const sheetRef = useRef<HTMLElement>(null);
   const [mapBottomPadding, setMapBottomPadding] = useState(0);
   useEffect(() => {
@@ -46,38 +61,51 @@ export default function WalkrApp() {
     setWalk(null);
   }
 
-  async function generate() {
-    const request: WalkRequest = { parkId: park.id, entranceId: entrance.id, mood, distanceMeters: minutesToMeters(minutes) };
+  async function generate(options: { avoid?: string[] } = {}) {
+    const request: WalkRequest & { avoid?: string[] } = {
+      parkId: park.id,
+      entranceId: entrance.id,
+      mood,
+      distanceMeters: minutesToMeters(minutes),
+      avoid: options.avoid,
+    };
     setLoading(true);
-    setNotice(null);
+    setError(null);
     try {
       const res = await fetch("/api/route", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request) });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Couldn't build a walk.");
-      const result = json as WalkResult;
-      setWalk(result);
-      setCollapsed(true);
-      // Full results panel comes in M6; for now a short summary.
-      const mi = (result.distanceMeters / 1609.344).toFixed(1);
-      setNotice(`${mi} mi · ${Math.round(result.durationSeconds / 60)} min · ${result.stops.length} stops: ${result.stops.map((s) => s.name).join(", ")}${result.note ? `. ${result.note}` : ""}`);
+      setWalk(json as WalkResult);
+      setSelectedStopId(null);
+      setView("results");
+      setCollapsed(false);
     } catch (err) {
-      setNotice(err instanceof Error ? err.message : "Couldn't build a walk.");
+      setError(err instanceof Error ? err.message : "Couldn't build a walk.");
     } finally {
       setLoading(false);
     }
   }
 
+  function selectStop(id: string | null) {
+    setSelectedStopId(id);
+    if (id) setCollapsed(true); // phones: get the sheet out of the way so the stop is visible
+  }
+
   useEffect(() => {
-    if (!notice) return;
-    const t = setTimeout(() => setNotice(null), 12000);
+    if (!error) return;
+    const t = setTimeout(() => setError(null), 8000);
     return () => clearTimeout(t);
-  }, [notice]);
+  }, [error]);
 
   const moodInfo = MOODS.find((m) => m.id === mood);
+  const showResults = view === "results" && walk;
+  const summary = showResults
+    ? `${formatMiles(walk.distanceMeters)} · ${formatDuration(walk.durationSeconds)} · ${walk.stops.length} stops`
+    : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}`;
 
   return (
     <div className="relative flex h-full w-full flex-col md:flex-row">
-      {/* Form: bottom sheet on phones, sidebar on wider screens */}
+      {/* Form / results: bottom sheet on phones, sidebar on wider screens */}
       <aside
         ref={sheetRef}
         className="absolute inset-x-0 bottom-0 z-10 max-h-[78dvh] overflow-y-auto rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-[0_-6px_24px_rgba(0,0,0,0.15)] md:static md:order-first md:h-full md:max-h-none md:w-[380px] md:shrink-0 md:rounded-none md:border-r md:border-zinc-200 md:shadow-none"
@@ -87,36 +115,48 @@ export default function WalkrApp() {
           type="button"
           onClick={() => setCollapsed((c) => !c)}
           aria-expanded={!collapsed}
-          aria-controls="walk-form"
+          aria-controls="sheet-body"
           className="sticky top-0 z-10 flex w-full flex-col items-center gap-2 bg-white px-4 pb-3 pt-2 md:pointer-events-none md:pt-5"
         >
           <span aria-hidden className="h-1.5 w-10 rounded-full bg-zinc-300 md:hidden" />
           <span className="flex w-full items-center justify-between">
             <span className="text-left">
-              <span className="block text-lg font-bold text-green-800">Walkr</span>
-              <span className="block text-xs text-zinc-500">
-                {collapsed ? `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}` : "Loop walks through NYC parks"}
-              </span>
+              <span className="block text-lg font-bold text-green-800">{showResults ? `Your walk in ${park.name}` : "Walkr"}</span>
+              <span className="block text-xs text-zinc-500">{collapsed || showResults ? summary : "Loop walks through NYC parks"}</span>
             </span>
-            <span className="text-xs font-medium text-green-800 md:hidden">{collapsed ? "Edit" : "Hide"}</span>
+            <span className="text-xs font-medium text-green-800 md:hidden">{collapsed ? "Show" : "Hide"}</span>
           </span>
         </button>
 
-        <div id="walk-form" className={`px-4 pb-5 ${collapsed ? "hidden md:block" : ""}`}>
-          <WalkForm
-            park={park}
-            entranceId={entrance.id}
-            minutes={minutes}
-            unit={unit}
-            mood={mood}
-            onParkChange={changePark}
-            onEntranceChange={setEntranceId}
-            onMinutesChange={setMinutes}
-            onUnitChange={setUnit}
-            onMoodChange={setMood}
-            onSubmit={generate}
-            loading={loading}
-          />
+        <div id="sheet-body" className={`px-4 pb-5 ${collapsed ? "hidden md:block" : ""}`}>
+          {showResults ? (
+            <ResultsPanel
+              walk={walk}
+              selectedStopId={selectedStopId}
+              loading={loading}
+              onSelectStop={selectStop}
+              onTryAnother={() => generate({ avoid: walk.stops.map((s) => s.id) })}
+              onEdit={() => {
+                setView("form");
+                setSelectedStopId(null);
+              }}
+            />
+          ) : (
+            <WalkForm
+              park={park}
+              entranceId={entrance.id}
+              minutes={minutes}
+              unit={unit}
+              mood={mood}
+              onParkChange={changePark}
+              onEntranceChange={setEntranceId}
+              onMinutesChange={setMinutes}
+              onUnitChange={setUnit}
+              onMoodChange={setMood}
+              onSubmit={() => generate()}
+              loading={loading}
+            />
+          )}
         </div>
       </aside>
 
@@ -128,23 +168,45 @@ export default function WalkrApp() {
           selectedEntranceId={entrance.id}
           onSelectEntrance={(e) => setEntranceId(e.id)}
           bottomPadding={mapBottomPadding}
-          routePolyline={walk?.parkId === park.id ? walk.encodedPolyline : undefined}
+          walk={walk?.parkId === park.id ? walk : null}
+          focusOnWalk={view === "results"}
+          selectedStopId={selectedStopId}
+          onSelectStop={selectStop}
         />
 
         {/* Legend + required OpenStreetMap credit */}
         <div className="absolute left-3 top-3 rounded-md bg-white/90 px-2 py-1 text-[11px] leading-4 text-zinc-700 shadow">
-          <span className="mr-2 inline-flex items-center gap-1">
-            <i className="inline-block h-2 w-2 rounded-full bg-green-500" />
-            Entrance
-          </span>
-          <span className="mr-2 inline-flex items-center gap-1">
-            <i className="inline-block h-2 w-2 rounded-full bg-violet-600" />
-            Scenic
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <i className="inline-block h-2 w-2 rounded-full bg-teal-600" />
-            Quiet
-          </span>
+          {showResults ? (
+            <>
+              <span className="mr-2 inline-flex items-center gap-1">
+                <i className="inline-block h-2 w-2 rounded-full bg-green-700" />
+                Start
+              </span>
+              <span className="mr-2 inline-flex items-center gap-1">
+                <i className="inline-block h-2 w-2 rounded-full bg-blue-600" />
+                Stop
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <i className="inline-block h-2 w-2 rounded-full bg-amber-500" />
+                Food
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="mr-2 inline-flex items-center gap-1">
+                <i className="inline-block h-2 w-2 rounded-full bg-green-500" />
+                Entrance
+              </span>
+              <span className="mr-2 inline-flex items-center gap-1">
+                <i className="inline-block h-2 w-2 rounded-full bg-violet-600" />
+                Scenic
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <i className="inline-block h-2 w-2 rounded-full bg-teal-600" />
+                Quiet
+              </span>
+            </>
+          )}
           <div className="text-[10px] text-zinc-500">
             Outlines &amp; entrances ©{" "}
             <a className="underline" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
@@ -153,9 +215,9 @@ export default function WalkrApp() {
           </div>
         </div>
 
-        {notice && (
-          <div role="status" className="absolute inset-x-3 top-16 mx-auto max-w-md rounded-lg bg-zinc-900/90 px-4 py-3 text-sm text-white shadow-lg">
-            {notice}
+        {error && (
+          <div role="alert" className="absolute inset-x-3 top-16 mx-auto max-w-md rounded-lg bg-red-700/95 px-4 py-3 text-sm text-white shadow-lg">
+            {error}
           </div>
         )}
       </div>

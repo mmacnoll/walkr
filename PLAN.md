@@ -7,7 +7,7 @@
 - [x] M3. Park data (reworked after your review; last sights finish when the daily Google quota resets)
 - [x] M4. Input form
 - [x] M5. Route generation (Scenic/Quiet tested on all 12 parks; Coffee/Lunch matrix runs once the Places quota resets)
-- [ ] M6. Results view
+- [x] M6. Results view
 - [ ] M7. Loading and errors
 - [ ] M8. Ship it
 

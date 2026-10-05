@@ -85,3 +85,30 @@ export type WalkResult = {
 export const LENGTH_TOLERANCE = 0.15;
 export const MIN_TARGET_METERS = 800;
 export const MAX_TARGET_METERS = 7500;
+
+/** "2.4 mi" */
+export function formatMiles(meters: number): string {
+  return `${(meters / METERS_PER_MILE).toFixed(1)} mi`;
+}
+
+/** "51 min", "1 hr 5 min" */
+export function formatDuration(seconds: number): string {
+  const minutes = Math.max(1, Math.round(seconds / 60));
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m ? `${h} hr ${m} min` : `${h} hr`;
+}
+
+/**
+ * Link that opens the loop in Google Maps for turn-by-turn walking directions.
+ * Google Maps links accept up to 9 waypoints; extra stops are skipped evenly.
+ */
+export function googleMapsDirectionsUrl(start: LatLng, stops: { location: LatLng }[]): string {
+  const ll = (p: LatLng) => `${p.lat.toFixed(6)},${p.lng.toFixed(6)}`;
+  let points = stops.map((s) => s.location);
+  if (points.length > 9) points = Array.from({ length: 9 }, (_, i) => points[Math.round((i * (points.length - 1)) / 8)]);
+  const params = new URLSearchParams({ api: "1", origin: ll(start), destination: ll(start), travelmode: "walking" });
+  if (points.length) params.set("waypoints", points.map(ll).join("|"));
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
