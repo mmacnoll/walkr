@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "central-park",
+    "name": "Central Park",
+    "borough": "Manhattan",
+    "kind": "large",
+    "center": { "lat": 40.7825, "lng": -73.9655 },
+    "boundary": [
+      { "lat": 40.76853, "lng": -73.98115 },
+      { "lat": 40.76504, "lng": -73.97285 },
+      { "lat": 40.79647, "lng": -73.94985 },
+      { "lat": 40.79996, "lng": -73.95815 }
+    ],
+    "entrances": [
+      {
+        "id": "columbus-circle-59th-and-central-park-west",
+        "name": "Columbus Circle (59th & Central Park West)",
+        "location": { "lat": 40.76853, "lng": -73.98115 },
+        "isDefault": true
+      },
+      {
+        "id": "grand-army-plaza-59th-and-fifth-ave",
+        "name": "Grand Army Plaza (59th & Fifth Ave)",
+        "location": { "lat": 40.76504, "lng": -73.97285 }
+      },
+      {
+        "id": "72nd-st-and-central-park-west",
+        "name": "72nd St & Central Park West",
+        "location": { "lat": 40.77654, "lng": -73.97529 }
+      },
+      {
+        "id": "engineers-gate-90th-and-fifth-ave",
+        "name": "Engineers' Gate (90th & Fifth Ave)",
+        "location": { "lat": 40.78415, "lng": -73.95887 }
+      },
+      {
+        "id": "frederick-douglass-circle-110th-and-cpw",
+        "name": "Frederick Douglass Circle (110th & CPW)",
+        "location": { "lat": 40.79996, "lng": -73.95815 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "gapstow-bridge-and-the-pond",
+        "name": "Gapstow Bridge & The Pond",
+        "location": { "lat": 40.766, "lng": -73.9741 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "the-mall-and-literary-walk",
+        "name": "The Mall & Literary Walk",
+        "location": { "lat": 40.7714, "lng": -73.9734 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "sheep-meadow",
+        "name": "Sheep Meadow",
+        "location": { "lat": 40.7719, "lng": -73.975 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "bethesda-terrace-and-fountain",
+        "name": "Bethesda Terrace & Fountain",
+        "location": { "lat": 40.774, "lng": -73.9708 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "bow-bridge",
+        "name": "Bow Bridge",
+        "location": { "lat": 40.7756, "lng": -73.9719 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "strawberry-fields",
+        "name": "Strawberry Fields",
+        "location": { "lat": 40.7756, "lng": -73.975 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "conservatory-water",
+        "name": "Conservatory Water",
+        "location": { "lat": 40.7743, "lng": -73.9668 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "the-ramble",
+        "name": "The Ramble",
+        "location": { "lat": 40.7781, "lng": -73.9706 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "belvedere-castle",
+        "name": "Belvedere Castle",
+        "location": { "lat": 40.7794, "lng": -73.9691 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "shakespeare-garden",
+        "name": "Shakespeare Garden",
+        "location": { "lat": 40.7799, "lng": -73.9703 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "reservoir-south-gatehouse",
+        "name": "Reservoir (south gatehouse)",
+        "location": { "lat": 40.7816, "lng": -73.9631 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "conservatory-garden",
+        "name": "Conservatory Garden",
+        "location": { "lat": 40.794, "lng": -73.9525 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "harlem-meer",
+        "name": "Harlem Meer",
+        "location": { "lat": 40.7967, "lng": -73.952 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "loeb-boathouse",
+        "name": "Loeb Boathouse",
+        "location": { "lat": 40.7753, "lng": -73.9689 },
+        "moods": ["scenic", "coffee", "lunch"]
+      }
+    ]
+  },
+  {
+    "id": "riverside-park",
+    "name": "Riverside Park",
+    "borough": "Manhattan",
+    "kind": "large",
+    "center": { "lat": 40.7985, "lng": -73.9745 },
+    "boundary": [
+      { "lat": 40.7775, "lng": -73.9885 },
+      { "lat": 40.7803, "lng": -73.9853 },
+      { "lat": 40.7856, "lng": -73.9822 },
+      { "lat": 40.7905, "lng": -73.9785 },
+      { "lat": 40.7975, "lng": -73.9735 },
+      { "lat": 40.803, "lng": -73.9695 },
+      { "lat": 40.8105, "lng": -73.9645 },
+      { "lat": 40.817, "lng": -73.96 },
+      { "lat": 40.8185, "lng": -73.9625 },
+      { "lat": 40.8122, "lng": -73.9672 },
+      { "lat": 40.8048, "lng": -73.9725 },
+      { "lat": 40.799, "lng": -73.9772 },
+      { "lat": 40.7922, "lng": -73.9822 },
+      { "lat": 40.7865, "lng": -73.9865 },
+      { "lat": 40.7815, "lng": -73.989 },
+      { "lat": 40.7782, "lng": -73.9912 }
+    ],
+    "entrances": [
+      {
+        "id": "72nd-st-and-riverside-dr",
+        "name": "72nd St & Riverside Dr",
+        "location": { "lat": 40.7803, "lng": -73.9853 },
+        "isDefault": true
+      },
+      {
+        "id": "79th-st-boat-basin",
+        "name": "79th St (Boat Basin)",
+        "location": { "lat": 40.7856, "lng": -73.9825 }
+      },
+      {
+        "id": "96th-st-and-riverside-dr",
+        "name": "96th St & Riverside Dr",
+        "location": { "lat": 40.7975, "lng": -73.9737 }
+      },
+      {
+        "id": "116th-st-and-riverside-dr",
+        "name": "116th St & Riverside Dr",
+        "location": { "lat": 40.8105, "lng": -73.9647 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "pier-i-70th-st",
+        "name": "Pier i (70th St)",
+        "location": { "lat": 40.7787, "lng": -73.9904 },
+        "moods": ["scenic", "coffee", "lunch"]
+      },
+      {
+        "id": "79th-st-boat-basin",
+        "name": "79th St Boat Basin",
+        "location": { "lat": 40.786, "lng": -73.9855 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "soldiers-and-sailors-monument",
+        "name": "Soldiers' and Sailors' Monument",
+        "location": { "lat": 40.793, "lng": -73.978 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "91st-st-community-garden",
+        "name": "91st St Community Garden",
+        "location": { "lat": 40.7938, "lng": -73.9785 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "joan-of-arc-memorial",
+        "name": "Joan of Arc Memorial",
+        "location": { "lat": 40.7948, "lng": -73.9762 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "hudson-river-greenway-at-100th-st",
+        "name": "Hudson River Greenway at 100th St",
+        "location": { "lat": 40.802, "lng": -73.974 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "grant-s-tomb",
+        "name": "Grant's Tomb",
+        "location": { "lat": 40.8134, "lng": -73.9631 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "sakura-park",
+        "name": "Sakura Park",
+        "location": { "lat": 40.8124, "lng": -73.9628 },
+        "moods": ["quiet"]
+      }
+    ]
+  },
+  {
+    "id": "morningside-park",
+    "name": "Morningside Park",
+    "borough": "Manhattan",
+    "kind": "small",
+    "center": { "lat": 40.80593, "lng": -73.95779 },
+    "boundary": [
+      { "lat": 40.80178, "lng": -73.9604 },
+      { "lat": 40.80141, "lng": -73.95857 },
+      { "lat": 40.81008, "lng": -73.9555 },
+      { "lat": 40.81045, "lng": -73.95733 }
+    ],
+    "entrances": [
+      {
+        "id": "110th-st-and-manhattan-ave-pond",
+        "name": "110th St & Manhattan Ave (Pond)",
+        "location": { "lat": 40.80159, "lng": -73.95949 },
+        "isDefault": true
+      },
+      {
+        "id": "116th-st-and-morningside-dr-columbia-stairs",
+        "name": "116th St & Morningside Dr (Columbia stairs)",
+        "location": { "lat": 40.80578, "lng": -73.95899 }
+      },
+      {
+        "id": "116th-st-and-morningside-ave",
+        "name": "116th St & Morningside Ave",
+        "location": { "lat": 40.80541, "lng": -73.95715 }
+      },
+      {
+        "id": "123rd-st-and-morningside-ave",
+        "name": "123rd St & Morningside Ave",
+        "location": { "lat": 40.81027, "lng": -73.95641 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "morningside-pond-and-waterfall",
+        "name": "Morningside Pond & Waterfall",
+        "location": { "lat": 40.8017, "lng": -73.959 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "lafayette-and-washington-statue",
+        "name": "Lafayette & Washington Statue",
+        "location": { "lat": 40.8041, "lng": -73.9576 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "carl-schurz-memorial-overlook",
+        "name": "Carl Schurz Memorial overlook",
+        "location": { "lat": 40.8057, "lng": -73.9593 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "morningside-drive-overlook-120th-st",
+        "name": "Morningside Drive overlook (120th St)",
+        "location": { "lat": 40.809, "lng": -73.958 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "cathedral-of-st-john-the-divine",
+        "name": "Cathedral of St. John the Divine",
+        "location": { "lat": 40.8038, "lng": -73.9619 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "columbia-university-low-library-steps",
+        "name": "Columbia University (Low Library steps)",
+        "location": { "lat": 40.808, "lng": -73.9618 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "hungarian-pastry-shop",
+        "name": "Hungarian Pastry Shop",
+        "location": { "lat": 40.8034, "lng": -73.9634 },
+        "moods": ["coffee"]
+      }
+    ]
+  },
+  {
+    "id": "madison-square-park",
+    "name": "Madison Square Park",
+    "borough": "Manhattan",
+    "kind": "small",
+    "center": { "lat": 40.7421, "lng": -73.988 },
+    "boundary": [
+      { "lat": 40.74151, "lng": -73.98928 },
+      { "lat": 40.74096, "lng": -73.98798 },
+      { "lat": 40.74269, "lng": -73.98672 },
+      { "lat": 40.74324, "lng": -73.98802 }
+    ],
+    "entrances": [
+      {
+        "id": "23rd-st-and-broadway-flatiron",
+        "name": "23rd St & Broadway (Flatiron)",
+        "location": { "lat": 40.74151, "lng": -73.98928 },
+        "isDefault": true
+      },
+      {
+        "id": "23rd-st-and-madison-ave",
+        "name": "23rd St & Madison Ave",
+        "location": { "lat": 40.74096, "lng": -73.98798 }
+      },
+      {
+        "id": "26th-st-and-madison-ave",
+        "name": "26th St & Madison Ave",
+        "location": { "lat": 40.74269, "lng": -73.98672 }
+      },
+      {
+        "id": "26th-st-and-fifth-ave",
+        "name": "26th St & Fifth Ave",
+        "location": { "lat": 40.74324, "lng": -73.98802 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "madison-square-fountain-and-oval-lawn",
+        "name": "Madison Square fountain & oval lawn",
+        "location": { "lat": 40.7424, "lng": -73.9877 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "shake-shack-the-original",
+        "name": "Shake Shack (the original)",
+        "location": { "lat": 40.7414, "lng": -73.9882 },
+        "moods": ["lunch"]
+      },
+      {
+        "id": "flatiron-building",
+        "name": "Flatiron Building",
+        "location": { "lat": 40.7411, "lng": -73.9897 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "worth-square-obelisk",
+        "name": "Worth Square obelisk",
+        "location": { "lat": 40.7428, "lng": -73.9889 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "metlife-clock-tower",
+        "name": "MetLife Clock Tower",
+        "location": { "lat": 40.7411, "lng": -73.9871 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "eataly-flatiron",
+        "name": "Eataly Flatiron",
+        "location": { "lat": 40.7421, "lng": -73.99 },
+        "moods": ["coffee", "lunch"]
+      },
+      {
+        "id": "gramercy-park-outside-the-gates",
+        "name": "Gramercy Park (outside the gates)",
+        "location": { "lat": 40.738, "lng": -73.9862 },
+        "moods": ["quiet", "scenic"]
+      },
+      {
+        "id": "empire-state-building",
+        "name": "Empire State Building",
+        "location": { "lat": 40.7484, "lng": -73.9857 },
+        "moods": ["scenic"]
+      }
+    ]
+  },
+  {
+    "id": "union-square-park",
+    "name": "Union Square Park",
+    "borough": "Manhattan",
+    "kind": "small",
+    "center": { "lat": 40.73559, "lng": -73.99064 },
+    "boundary": [
+      { "lat": 40.73508, "lng": -73.99206 },
+      { "lat": 40.73441, "lng": -73.99045 },
+      { "lat": 40.7361, "lng": -73.98922 },
+      { "lat": 40.73677, "lng": -73.99083 }
+    ],
+    "entrances": [
+      {
+        "id": "14th-st-subway-plaza",
+        "name": "14th St subway plaza",
+        "location": { "lat": 40.73475, "lng": -73.99126 },
+        "isDefault": true
+      },
+      {
+        "id": "14th-st-and-union-square-west",
+        "name": "14th St & Union Square West",
+        "location": { "lat": 40.73508, "lng": -73.99206 }
+      },
+      {
+        "id": "17th-st-and-broadway",
+        "name": "17th St & Broadway",
+        "location": { "lat": 40.73677, "lng": -73.99083 }
+      },
+      {
+        "id": "17th-st-and-park-ave-south",
+        "name": "17th St & Park Ave South",
+        "location": { "lat": 40.7361, "lng": -73.98922 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "george-washington-statue",
+        "name": "George Washington statue",
+        "location": { "lat": 40.7353, "lng": -73.9905 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "union-square-greenmarket-north-plaza",
+        "name": "Union Square Greenmarket (north plaza)",
+        "location": { "lat": 40.7369, "lng": -73.9903 },
+        "moods": ["scenic", "lunch"]
+      },
+      {
+        "id": "gandhi-garden",
+        "name": "Gandhi Garden",
+        "location": { "lat": 40.7356, "lng": -73.9914 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "union-square-pavilion",
+        "name": "Union Square Pavilion",
+        "location": { "lat": 40.7368, "lng": -73.9907 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "strand-book-store",
+        "name": "Strand Book Store",
+        "location": { "lat": 40.7332, "lng": -73.9908 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "irving-place-quiet-blocks",
+        "name": "Irving Place (quiet blocks)",
+        "location": { "lat": 40.7356, "lng": -73.9876 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "madison-square-park",
+        "name": "Madison Square Park",
+        "location": { "lat": 40.7422, "lng": -73.9878 },
+        "moods": ["scenic", "quiet"]
+      }
+    ]
+  },
+  {
+    "id": "washington-square-park",
+    "name": "Washington Square Park",
+    "borough": "Manhattan",
+    "kind": "small",
+    "center": { "lat": 40.73075, "lng": -73.9975 },
+    "boundary": [
+      { "lat": 40.73065, "lng": -73.9994 },
+      { "lat": 40.72947, "lng": -73.9966 },
+      { "lat": 40.73085, "lng": -73.9956 },
+      { "lat": 40.73203, "lng": -73.9984 }
+    ],
+    "entrances": [
+      {
+        "id": "washington-square-arch-fifth-ave",
+        "name": "Washington Square Arch (Fifth Ave)",
+        "location": { "lat": 40.73144, "lng": -73.997 },
+        "isDefault": true
+      },
+      {
+        "id": "macdougal-st-and-w-4th-st",
+        "name": "MacDougal St & W 4th St",
+        "location": { "lat": 40.73065, "lng": -73.9994 }
+      },
+      {
+        "id": "w-4th-st-and-washington-sq-east-nyu",
+        "name": "W 4th St & Washington Sq East (NYU)",
+        "location": { "lat": 40.72947, "lng": -73.9966 }
+      },
+      {
+        "id": "waverly-pl-and-macdougal-st",
+        "name": "Waverly Pl & MacDougal St",
+        "location": { "lat": 40.73203, "lng": -73.9984 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "washington-square-arch",
+        "name": "Washington Square Arch",
+        "location": { "lat": 40.7315, "lng": -73.9971 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "washington-square-fountain",
+        "name": "Washington Square Fountain",
+        "location": { "lat": 40.7308, "lng": -73.9975 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "chess-and-checkers-tables",
+        "name": "Chess & checkers tables",
+        "location": { "lat": 40.7302, "lng": -73.9984 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "garibaldi-statue",
+        "name": "Garibaldi statue",
+        "location": { "lat": 40.7305, "lng": -73.9963 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "washington-mews",
+        "name": "Washington Mews",
+        "location": { "lat": 40.732, "lng": -73.9963 },
+        "moods": ["quiet", "scenic"]
+      },
+      {
+        "id": "macdougal-st-eateries",
+        "name": "MacDougal St eateries",
+        "location": { "lat": 40.7298, "lng": -74.0003 },
+        "moods": ["lunch", "coffee"]
+      },
+      {
+        "id": "grove-court-and-grove-st",
+        "name": "Grove Court & Grove St",
+        "location": { "lat": 40.7331, "lng": -74.005 },
+        "moods": ["quiet", "scenic"]
+      }
+    ]
+  },
+  {
+    "id": "the-high-line",
+    "name": "The High Line",
+    "borough": "Manhattan",
+    "kind": "linear",
+    "center": { "lat": 40.748, "lng": -74.0045 },
+    "boundary": [
+      { "lat": 40.73982, "lng": -74.00834 },
+      { "lat": 40.74194, "lng": -74.00803 },
+      { "lat": 40.74298, "lng": -74.00741 },
+      { "lat": 40.74547, "lng": -74.00562 },
+      { "lat": 40.74757, "lng": -74.00482 },
+      { "lat": 40.74948, "lng": -74.00341 },
+      { "lat": 40.75186, "lng": -74.00183 },
+      { "lat": 40.75294, "lng": -74.00452 },
+      { "lat": 40.75408, "lng": -74.00684 },
+      { "lat": 40.75668, "lng": -74.00511 },
+      { "lat": 40.75652, "lng": -74.00469 },
+      { "lat": 40.75412, "lng": -74.00636 },
+      { "lat": 40.75326, "lng": -74.00428 },
+      { "lat": 40.75194, "lng": -74.00137 },
+      { "lat": 40.74932, "lng": -74.00299 },
+      { "lat": 40.74743, "lng": -74.00438 },
+      { "lat": 40.74533, "lng": -74.00518 },
+      { "lat": 40.74282, "lng": -74.00699 },
+      { "lat": 40.74186, "lng": -74.00757 },
+      { "lat": 40.73978, "lng": -74.00786 }
+    ],
+    "path": [
+      { "lat": 40.7398, "lng": -74.0081 },
+      { "lat": 40.7419, "lng": -74.0078 },
+      { "lat": 40.7429, "lng": -74.0072 },
+      { "lat": 40.7454, "lng": -74.0054 },
+      { "lat": 40.7475, "lng": -74.0046 },
+      { "lat": 40.7494, "lng": -74.0032 },
+      { "lat": 40.7519, "lng": -74.0016 },
+      { "lat": 40.7531, "lng": -74.0044 },
+      { "lat": 40.7541, "lng": -74.0066 },
+      { "lat": 40.7566, "lng": -74.0049 }
+    ],
+    "entrances": [
+      {
+        "id": "gansevoort-st-whitney-museum",
+        "name": "Gansevoort St (Whitney Museum)",
+        "location": { "lat": 40.7398, "lng": -74.0081 },
+        "isDefault": true
+      },
+      {
+        "id": "14th-st",
+        "name": "14th St",
+        "location": { "lat": 40.7419, "lng": -74.0078 }
+      },
+      {
+        "id": "23rd-st",
+        "name": "23rd St",
+        "location": { "lat": 40.7475, "lng": -74.0046 }
+      },
+      {
+        "id": "30th-st-hudson-yards",
+        "name": "30th St (Hudson Yards)",
+        "location": { "lat": 40.7519, "lng": -74.0016 }
+      },
+      {
+        "id": "34th-st-and-12th-ave",
+        "name": "34th St & 12th Ave",
+        "location": { "lat": 40.7566, "lng": -74.0049 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "whitney-museum",
+        "name": "Whitney Museum",
+        "location": { "lat": 40.7396, "lng": -74.0089 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "little-island",
+        "name": "Little Island",
+        "location": { "lat": 40.742, "lng": -74.0103 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "chelsea-market",
+        "name": "Chelsea Market",
+        "location": { "lat": 40.7424, "lng": -74.0061 },
+        "moods": ["coffee", "lunch"]
+      },
+      {
+        "id": "tenth-avenue-square-overlook",
+        "name": "Tenth Avenue Square overlook",
+        "location": { "lat": 40.7433, "lng": -74.0067 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "chelsea-thicket",
+        "name": "Chelsea Thicket",
+        "location": { "lat": 40.7462, "lng": -74.005 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "23rd-st-lawn",
+        "name": "23rd St Lawn",
+        "location": { "lat": 40.7476, "lng": -74.0046 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "the-spur-30th-st-and-10th-ave",
+        "name": "The Spur (30th St & 10th Ave)",
+        "location": { "lat": 40.7522, "lng": -74.0018 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "hudson-river-greenway-at-chelsea-piers",
+        "name": "Hudson River Greenway at Chelsea Piers",
+        "location": { "lat": 40.7466, "lng": -74.009 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "the-vessel",
+        "name": "The Vessel",
+        "location": { "lat": 40.7538, "lng": -74.0021 },
+        "moods": ["scenic"]
+      }
+    ]
+  },
+  {
+    "id": "the-battery",
+    "name": "The Battery",
+    "borough": "Manhattan",
+    "kind": "small",
+    "center": { "lat": 40.7033, "lng": -74.0163 },
+    "boundary": [
+      { "lat": 40.7055, "lng": -74.0179 },
+      { "lat": 40.704, "lng": -74.0178 },
+      { "lat": 40.7025, "lng": -74.0175 },
+      { "lat": 40.7012, "lng": -74.016 },
+      { "lat": 40.701, "lng": -74.014 },
+      { "lat": 40.7025, "lng": -74.0128 },
+      { "lat": 40.7042, "lng": -74.014 },
+      { "lat": 40.7053, "lng": -74.016 }
+    ],
+    "entrances": [
+      {
+        "id": "bowling-green-state-st",
+        "name": "Bowling Green (State St)",
+        "location": { "lat": 40.7044, "lng": -74.0144 },
+        "isDefault": true
+      },
+      {
+        "id": "pier-a-battery-pl",
+        "name": "Pier A (Battery Pl)",
+        "location": { "lat": 40.705, "lng": -74.0177 }
+      },
+      {
+        "id": "whitehall-staten-island-ferry",
+        "name": "Whitehall (Staten Island Ferry)",
+        "location": { "lat": 40.7013, "lng": -74.0137 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "castle-clinton",
+        "name": "Castle Clinton",
+        "location": { "lat": 40.7036, "lng": -74.0168 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "seaglass-carousel",
+        "name": "SeaGlass Carousel",
+        "location": { "lat": 40.7027, "lng": -74.0158 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "battery-bosque-gardens",
+        "name": "Battery Bosque gardens",
+        "location": { "lat": 40.7031, "lng": -74.0157 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "the-sphere",
+        "name": "The Sphere",
+        "location": { "lat": 40.7041, "lng": -74.0161 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "statue-of-liberty-view-waterfront-promenade",
+        "name": "Statue of Liberty view (waterfront promenade)",
+        "location": { "lat": 40.7027, "lng": -74.0177 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "battery-urban-farm",
+        "name": "Battery Urban Farm",
+        "location": { "lat": 40.7022, "lng": -74.0148 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "pier-a-harbor-house",
+        "name": "Pier A Harbor House",
+        "location": { "lat": 40.7048, "lng": -74.0178 },
+        "moods": ["lunch"]
+      },
+      {
+        "id": "wagner-park",
+        "name": "Wagner Park",
+        "location": { "lat": 40.706, "lng": -74.0183 },
+        "moods": ["quiet", "scenic"]
+      },
+      {
+        "id": "charging-bull",
+        "name": "Charging Bull",
+        "location": { "lat": 40.7056, "lng": -74.0134 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "stone-street",
+        "name": "Stone Street",
+        "location": { "lat": 40.7043, "lng": -74.0105 },
+        "moods": ["lunch"]
+      }
+    ]
+  },
+  {
+    "id": "prospect-park",
+    "name": "Prospect Park",
+    "borough": "Brooklyn",
+    "kind": "large",
+    "center": { "lat": 40.661, "lng": -73.969 },
+    "boundary": [
+      { "lat": 40.6727, "lng": -73.97 },
+      { "lat": 40.6705, "lng": -73.9733 },
+      { "lat": 40.6669, "lng": -73.9762 },
+      { "lat": 40.6613, "lng": -73.9797 },
+      { "lat": 40.6545, "lng": -73.9765 },
+      { "lat": 40.6513, "lng": -73.9725 },
+      { "lat": 40.6551, "lng": -73.9618 },
+      { "lat": 40.66, "lng": -73.962 },
+      { "lat": 40.6631, "lng": -73.9622 },
+      { "lat": 40.67, "lng": -73.9665 },
+      { "lat": 40.6721, "lng": -73.9685 }
+    ],
+    "entrances": [
+      {
+        "id": "grand-army-plaza",
+        "name": "Grand Army Plaza",
+        "location": { "lat": 40.6725, "lng": -73.9702 },
+        "isDefault": true
+      },
+      {
+        "id": "3rd-st-and-prospect-park-west",
+        "name": "3rd St & Prospect Park West",
+        "location": { "lat": 40.6705, "lng": -73.9731 }
+      },
+      {
+        "id": "bartel-pritchard-square-15th-st",
+        "name": "Bartel-Pritchard Square (15th St)",
+        "location": { "lat": 40.6614, "lng": -73.9794 }
+      },
+      {
+        "id": "parkside-and-ocean-ave-lakeside",
+        "name": "Parkside & Ocean Ave (Lakeside)",
+        "location": { "lat": 40.6553, "lng": -73.9622 }
+      },
+      {
+        "id": "park-circle",
+        "name": "Park Circle",
+        "location": { "lat": 40.6515, "lng": -73.9722 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "long-meadow",
+        "name": "Long Meadow",
+        "location": { "lat": 40.665, "lng": -73.9725 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "prospect-park-bandshell",
+        "name": "Prospect Park Bandshell",
+        "location": { "lat": 40.6658, "lng": -73.9755 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "ravine-and-ambergill-falls",
+        "name": "Ravine & Ambergill Falls",
+        "location": { "lat": 40.6623, "lng": -73.9697 },
+        "moods": ["quiet", "scenic"]
+      },
+      {
+        "id": "prospect-park-boathouse",
+        "name": "Prospect Park Boathouse",
+        "location": { "lat": 40.6604, "lng": -73.9653 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "nethermead",
+        "name": "Nethermead",
+        "location": { "lat": 40.6575, "lng": -73.969 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "concert-grove-and-oriental-pavilion",
+        "name": "Concert Grove & Oriental Pavilion",
+        "location": { "lat": 40.6573, "lng": -73.9656 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "lookout-hill",
+        "name": "Lookout Hill",
+        "location": { "lat": 40.656, "lng": -73.9715 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "prospect-park-lake",
+        "name": "Prospect Park Lake",
+        "location": { "lat": 40.6545, "lng": -73.968 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "lefrak-center-at-lakeside",
+        "name": "LeFrak Center at Lakeside",
+        "location": { "lat": 40.656, "lng": -73.964 },
+        "moods": ["coffee", "lunch"]
+      },
+      {
+        "id": "grand-army-plaza-arch",
+        "name": "Grand Army Plaza Arch",
+        "location": { "lat": 40.6739, "lng": -73.97 },
+        "moods": ["scenic"]
+      }
+    ]
+  },
+  {
+    "id": "brooklyn-heights-promenade",
+    "name": "Brooklyn Heights Promenade",
+    "borough": "Brooklyn",
+    "kind": "linear",
+    "center": { "lat": 40.6966, "lng": -73.9971 },
+    "boundary": [
+      { "lat": 40.69405, "lng": -73.99877 },
+      { "lat": 40.69484, "lng": -73.99837 },
+      { "lat": 40.69604, "lng": -73.99797 },
+      { "lat": 40.69784, "lng": -73.99727 },
+      { "lat": 40.69934, "lng": -73.99657 },
+      { "lat": 40.69926, "lng": -73.99623 },
+      { "lat": 40.69776, "lng": -73.99693 },
+      { "lat": 40.69596, "lng": -73.99763 },
+      { "lat": 40.69476, "lng": -73.99803 },
+      { "lat": 40.69395, "lng": -73.99843 }
+    ],
+    "path": [
+      { "lat": 40.694, "lng": -73.9986 },
+      { "lat": 40.6948, "lng": -73.9982 },
+      { "lat": 40.696, "lng": -73.9978 },
+      { "lat": 40.6978, "lng": -73.9971 },
+      { "lat": 40.6993, "lng": -73.9964 }
+    ],
+    "entrances": [
+      {
+        "id": "montague-st",
+        "name": "Montague St",
+        "location": { "lat": 40.6948, "lng": -73.9982 },
+        "isDefault": true
+      },
+      {
+        "id": "remsen-st",
+        "name": "Remsen St",
+        "location": { "lat": 40.694, "lng": -73.9986 }
+      },
+      {
+        "id": "clark-st",
+        "name": "Clark St",
+        "location": { "lat": 40.6978, "lng": -73.9971 }
+      },
+      {
+        "id": "orange-st",
+        "name": "Orange St",
+        "location": { "lat": 40.6993, "lng": -73.9964 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "manhattan-skyline-view-montague-st",
+        "name": "Manhattan skyline view (Montague St)",
+        "location": { "lat": 40.695, "lng": -73.9984 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "pierrepont-st-lookout",
+        "name": "Pierrepont St lookout",
+        "location": { "lat": 40.696, "lng": -73.9979 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "willow-st-historic-homes",
+        "name": "Willow St (historic homes)",
+        "location": { "lat": 40.6972, "lng": -73.9955 },
+        "moods": ["quiet", "scenic"]
+      },
+      {
+        "id": "plymouth-church",
+        "name": "Plymouth Church",
+        "location": { "lat": 40.6995, "lng": -73.9933 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "montague-st-shops",
+        "name": "Montague St shops",
+        "location": { "lat": 40.6945, "lng": -73.9935 },
+        "moods": ["coffee", "lunch"]
+      },
+      {
+        "id": "brooklyn-borough-hall",
+        "name": "Brooklyn Borough Hall",
+        "location": { "lat": 40.6929, "lng": -73.9904 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "brooklyn-bridge-park-pier-1",
+        "name": "Brooklyn Bridge Park Pier 1",
+        "location": { "lat": 40.7008, "lng": -73.9974 },
+        "moods": ["scenic"]
+      }
+    ]
+  },
+  {
+    "id": "brooklyn-bridge-park",
+    "name": "Brooklyn Bridge Park",
+    "borough": "Brooklyn",
+    "kind": "large",
+    "center": { "lat": 40.699, "lng": -73.9975 },
+    "boundary": [
+      { "lat": 40.6918, "lng": -74.0003 },
+      { "lat": 40.6925, "lng": -74.0025 },
+      { "lat": 40.696, "lng": -74.0028 },
+      { "lat": 40.699, "lng": -74.0022 },
+      { "lat": 40.702, "lng": -73.9995 },
+      { "lat": 40.7045, "lng": -73.995 },
+      { "lat": 40.705, "lng": -73.989 },
+      { "lat": 40.704, "lng": -73.9875 },
+      { "lat": 40.703, "lng": -73.9905 },
+      { "lat": 40.702, "lng": -73.9935 },
+      { "lat": 40.699, "lng": -73.997 },
+      { "lat": 40.695, "lng": -73.999 }
+    ],
+    "entrances": [
+      {
+        "id": "pier-1-old-fulton-st",
+        "name": "Pier 1 (Old Fulton St)",
+        "location": { "lat": 40.7024, "lng": -73.9938 },
+        "isDefault": true
+      },
+      {
+        "id": "pier-6-atlantic-ave",
+        "name": "Pier 6 (Atlantic Ave)",
+        "location": { "lat": 40.6921, "lng": -74.0002 }
+      },
+      {
+        "id": "joralemon-st",
+        "name": "Joralemon St",
+        "location": { "lat": 40.6952, "lng": -73.9989 }
+      },
+      {
+        "id": "main-st-dumbo",
+        "name": "Main St (DUMBO)",
+        "location": { "lat": 40.7037, "lng": -73.9893 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "pier-6-and-fornino",
+        "name": "Pier 6 & Fornino",
+        "location": { "lat": 40.6928, "lng": -74.0015 },
+        "moods": ["lunch", "scenic"]
+      },
+      {
+        "id": "pier-5-picnic-peninsula",
+        "name": "Pier 5 picnic peninsula",
+        "location": { "lat": 40.6955, "lng": -74.0012 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "pier-3-greenway-terrace-and-labyrinth",
+        "name": "Pier 3 Greenway Terrace & labyrinth",
+        "location": { "lat": 40.6982, "lng": -74.001 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "pier-1-harbor-view-lawns",
+        "name": "Pier 1 harbor view lawns",
+        "location": { "lat": 40.7008, "lng": -73.9974 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "juliana-s-pizza",
+        "name": "Juliana's Pizza",
+        "location": { "lat": 40.7026, "lng": -73.9934 },
+        "moods": ["lunch"]
+      },
+      {
+        "id": "time-out-market-empire-stores",
+        "name": "Time Out Market (Empire Stores)",
+        "location": { "lat": 40.7034, "lng": -73.9925 },
+        "moods": ["lunch", "coffee"]
+      },
+      {
+        "id": "jane-s-carousel",
+        "name": "Jane's Carousel",
+        "location": { "lat": 40.7045, "lng": -73.9916 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "pebble-beach",
+        "name": "Pebble Beach",
+        "location": { "lat": 40.7038, "lng": -73.9905 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "washington-st-and-manhattan-bridge-view",
+        "name": "Washington St & Manhattan Bridge view",
+        "location": { "lat": 40.7033, "lng": -73.9895 },
+        "moods": ["scenic"]
+      }
+    ]
+  },
+  {
+    "id": "walt-whitman-park",
+    "name": "Walt Whitman Park",
+    "borough": "Brooklyn",
+    "kind": "small",
+    "center": { "lat": 40.6982, "lng": -73.9893 },
+    "boundary": [
+      { "lat": 40.69771, "lng": -73.9901 },
+      { "lat": 40.69743, "lng": -73.9891 },
+      { "lat": 40.69869, "lng": -73.9885 },
+      { "lat": 40.69897, "lng": -73.9895 }
+    ],
+    "entrances": [
+      {
+        "id": "cadman-plaza-east",
+        "name": "Cadman Plaza East",
+        "location": { "lat": 40.69834, "lng": -73.9898 },
+        "isDefault": true
+      },
+      {
+        "id": "north-end-toward-dumbo",
+        "name": "North end (toward DUMBO)",
+        "location": { "lat": 40.69883, "lng": -73.989 }
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "brooklyn-bridge-walkway-entrance",
+        "name": "Brooklyn Bridge walkway entrance",
+        "location": { "lat": 40.699, "lng": -73.9887 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "cadman-plaza-park-lawn",
+        "name": "Cadman Plaza Park lawn",
+        "location": { "lat": 40.6975, "lng": -73.991 },
+        "moods": ["quiet"]
+      },
+      {
+        "id": "brooklyn-war-memorial",
+        "name": "Brooklyn War Memorial",
+        "location": { "lat": 40.6966, "lng": -73.9905 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "washington-st-and-manhattan-bridge-view",
+        "name": "Washington St & Manhattan Bridge view",
+        "location": { "lat": 40.7033, "lng": -73.9895 },
+        "moods": ["scenic"]
+      },
+      {
+        "id": "juliana-s-pizza",
+        "name": "Juliana's Pizza",
+        "location": { "lat": 40.7026, "lng": -73.9934 },
+        "moods": ["lunch"]
+      },
+      {
+        "id": "brooklyn-heights-promenade",
+        "name": "Brooklyn Heights Promenade",
+        "location": { "lat": 40.696, "lng": -73.9978 },
+        "moods": ["scenic", "quiet"]
+      },
+      {
+        "id": "brooklyn-borough-hall",
+        "name": "Brooklyn Borough Hall",
+        "location": { "lat": 40.6929, "lng": -73.9904 },
+        "moods": ["scenic"]
+      }
+    ]
+  }
+]
