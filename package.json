@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "refresh:sights": "node scripts/fetch-sights.mjs",
+    "refresh:osm": "node scripts/osm-fetch.mjs && node scripts/osm-build.mjs"
   },
   "dependencies": {
     "@googlemaps/polyline-codec": "^1.0.28",

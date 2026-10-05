@@ -6,6 +6,9 @@ import {
   distanceToPolygonEdgeMeters,
   isInsidePolygon,
   isWithinPolygonBuffer,
+  isInsideRings,
+  distanceToRingsEdgeMeters,
+  isWithinRingsBuffer,
 } from "./geo";
 
 const columbusCircle = { lat: 40.7681, lng: -73.9819 };
@@ -73,5 +76,21 @@ describe("isWithinPolygonBuffer", () => {
 describe("boundsOf", () => {
   it("returns the bounding box", () => {
     expect(boundsOf(square)).toEqual({ north: 40.781, south: 40.78, east: -73.969, west: -73.97 });
+  });
+});
+
+describe("multi-piece outlines", () => {
+  const farSquare = square.map((p) => ({ lat: p.lat + 0.01, lng: p.lng }));
+  const rings = [square, farSquare];
+
+  it("finds points inside either piece", () => {
+    expect(isInsideRings({ lat: 40.7805, lng: -73.9695 }, rings)).toBe(true);
+    expect(isInsideRings({ lat: 40.7905, lng: -73.9695 }, rings)).toBe(true);
+    expect(isInsideRings({ lat: 40.785, lng: -73.9695 }, rings)).toBe(false);
+  });
+
+  it("measures distance to the nearest piece", () => {
+    expect(distanceToRingsEdgeMeters({ lat: 40.7815, lng: -73.9695 }, rings)).toBeCloseTo(55.7, 0);
+    expect(isWithinRingsBuffer({ lat: 40.7815, lng: -73.9695 }, rings, 60)).toBe(true);
   });
 });

@@ -1,0 +1,4290 @@
+{
+ "source": "Google Places API (New). Only place IDs, coordinates and our own mood tags are stored, per Google's terms.",
+ "refreshedAt": "2026-10-05",
+ "parks": {
+  "madison-square-park": [
+   {
+    "placeId": "ChIJXVlypaZZwokR3r5N3xRP0gs",
+    "location": {
+     "lat": 40.741766,
+     "lng": -73.988293
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ_Uauv6ZZwokRE5QSv33gGv0",
+    "location": {
+     "lat": 40.742099,
+     "lng": -73.988711
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJcZvoqaZZwokRr2wegeyB9Hs",
+    "location": {
+     "lat": 40.741481,
+     "lng": -73.988815
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJsSS1KQBZwokRbM0fdXdcLyE",
+    "location": {
+     "lat": 40.741251,
+     "lng": -73.988216
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJCRo48rpZwokRnWCwdhIMYl8",
+    "location": {
+     "lat": 40.742102,
+     "lng": -73.988459
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ0_uy9KZZwokR9unwaE7UchY",
+    "location": {
+     "lat": 40.742751,
+     "lng": -73.987658
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJu9txQYdZwokRSVs738yhnss",
+    "location": {
+     "lat": 40.742789,
+     "lng": -73.986997
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJWQHW9KZZwokRKLzyBDe6mIc",
+    "location": {
+     "lat": 40.740655,
+     "lng": -73.99468
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJmeJht6JZwokRhGIV677qvFw",
+    "location": {
+     "lat": 40.738096,
+     "lng": -73.993746
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ6UitwqRZwokR2UuUi8NrdAg",
+    "location": {
+     "lat": 40.743592,
+     "lng": -73.993328
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJwzzDKqJZwokRJ14URM9j4q0",
+    "location": {
+     "lat": 40.738593,
+     "lng": -73.989013
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ7ZepVKBZwokR_kWTg5ib0hA",
+    "location": {
+     "lat": 40.737917,
+     "lng": -73.985898
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJB8iB-u5ZwokRb0DtfLUzpCo",
+    "location": {
+     "lat": 40.741632,
+     "lng": -73.996062
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJEeWrKalZwokRg6qlyNqcv2A",
+    "location": {
+     "lat": 40.748706,
+     "lng": -73.988338
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJQStVJKZZwokRji7w52QeiTo",
+    "location": {
+     "lat": 40.745585,
+     "lng": -73.986896
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJA3NBLKZZwokRcQdOFdvd_0U",
+    "location": {
+     "lat": 40.745066,
+     "lng": -73.985828
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   }
+  ],
+  "union-square-park": [
+   {
+    "placeId": "ChIJB7kS9ZhZwokRwFC2eh9d2FI",
+    "location": {
+     "lat": 40.735383,
+     "lng": -73.991224
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJi1d3lJhZwokRG4OHsEdyYBc",
+    "location": {
+     "lat": 40.735384,
+     "lng": -73.990695
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJy1yV3udZwokRhGADUtLAz9o",
+    "location": {
+     "lat": 40.73515,
+     "lng": -73.991116
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAy-QjJhZwokRX8ZjUdA5NrM",
+    "location": {
+     "lat": 40.735548,
+     "lng": -73.99133
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJf0CWYgBZwokRNH7-F_G2OqA",
+    "location": {
+     "lat": 40.734836,
+     "lng": -73.990309
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJcYBC-rJZwokRGzuepEHv6c4",
+    "location": {
+     "lat": 40.735355,
+     "lng": -73.991409
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAzPqm5hZwokRjCBXOAfq6ns",
+    "location": {
+     "lat": 40.736062,
+     "lng": -73.990789
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJm7kWophZwokR1tsrUmool4s",
+    "location": {
+     "lat": 40.735921,
+     "lng": -73.990304
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJtUab9nlZwokRUFHYbHV181Q",
+    "location": {
+     "lat": 40.73575,
+     "lng": -73.98992
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJF70OoJhZwokREkDFD_i9nCk",
+    "location": {
+     "lat": 40.736235,
+     "lng": -73.990058
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJxQM8cABZwokRRwVrPrxlERU",
+    "location": {
+     "lat": 40.736058,
+     "lng": -73.990177
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8akBcZlZwokRlGROGaTkMnM",
+    "location": {
+     "lat": 40.731975,
+     "lng": -73.990902
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJOQ-7a5pZwokRewFuCQNqCzk",
+    "location": {
+     "lat": 40.730554,
+     "lng": -73.993053
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJa3i-PJxZwokRsPim6LUlxc0",
+    "location": {
+     "lat": 40.730393,
+     "lng": -73.987089
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJH8eOxZ9ZwokR1GxjNrdIyLQ",
+    "location": {
+     "lat": 40.733946,
+     "lng": -73.984105
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJy_huuptZwokRX0HGsxJ31ZQ",
+    "location": {
+     "lat": 40.729905,
+     "lng": -73.99102
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJFZVROZxZwokR_uApVNwuZKc",
+    "location": {
+     "lat": 40.729996,
+     "lng": -73.986964
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJZx8c96NZwokRJklw7SVhKt4",
+    "location": {
+     "lat": 40.74106,
+     "lng": -73.989699
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJWQHW9KZZwokRKLzyBDe6mIc",
+    "location": {
+     "lat": 40.740655,
+     "lng": -73.99468
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJmeJht6JZwokRhGIV677qvFw",
+    "location": {
+     "lat": 40.738096,
+     "lng": -73.993746
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ8Yt6BKRZwokRQoQtLN9_2T8",
+    "location": {
+     "lat": 40.741524,
+     "lng": -73.989233
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ7ZepVKBZwokR_kWTg5ib0hA",
+    "location": {
+     "lat": 40.737917,
+     "lng": -73.985898
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJXVlypaZZwokR3r5N3xRP0gs",
+    "location": {
+     "lat": 40.741766,
+     "lng": -73.988293
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   }
+  ],
+  "morningside-park": [
+   {
+    "placeId": "ChIJ113iLhb2wokRADdM5EoTUiA",
+    "location": {
+     "lat": 40.803991,
+     "lng": -73.959002
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAxwuGwD3wokRe2Sm0CJLscg",
+    "location": {
+     "lat": 40.803393,
+     "lng": -73.958847
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJobRZLBb2wokRWk8n3C3bepM",
+    "location": {
+     "lat": 40.803711,
+     "lng": -73.958897
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJT4bCOhb2wokRj13BZi86IaQ",
+    "location": {
+     "lat": 40.804185,
+     "lng": -73.958702
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJjUlO2333wokRH_s4VXa2kEQ",
+    "location": {
+     "lat": 40.806001,
+     "lng": -73.959084
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJR5ETBaX3wokR2j40kwslMqs",
+    "location": {
+     "lat": 40.808688,
+     "lng": -73.956812
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJlWL5BiL2wokRd6ytmvcmyiE",
+    "location": {
+     "lat": 40.796892,
+     "lng": -73.958943
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ16PbGBj2wokRdX0RlI-j5cM",
+    "location": {
+     "lat": 40.80059,
+     "lng": -73.958181
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJY5up-jz2wokR7OadsAwvEp0",
+    "location": {
+     "lat": 40.803489,
+     "lng": -73.963057
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJEV5gLhH2wokR15bcwSNuggw",
+    "location": {
+     "lat": 40.803249,
+     "lng": -73.95321
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJLwk4rBn2wokR0szxbmZV6WY",
+    "location": {
+     "lat": 40.798644,
+     "lng": -73.956314
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ_WRfCBn2wokR9CfrUN50XJg",
+    "location": {
+     "lat": 40.797783,
+     "lng": -73.956141
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJHUtN5RD2wokRfed8ihFv-Tc",
+    "location": {
+     "lat": 40.802483,
+     "lng": -73.951562
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJa0R7Vjz2wokR_wv0XhIOo8Q",
+    "location": {
+     "lat": 40.803836,
+     "lng": -73.961875
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJySgehD72wokRrEPDDAaTrx0",
+    "location": {
+     "lat": 40.806978,
+     "lng": -73.962616
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJk5hmXj72wokRXEFiq0942t8",
+    "location": {
+     "lat": 40.807845,
+     "lng": -73.962125
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ6Vxh_j32wokRNX3DN2TtuPk",
+    "location": {
+     "lat": 40.804905,
+     "lng": -73.95807
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJn1wYcBP2wokRx7nTNZ2d-DM",
+    "location": {
+     "lat": 40.808191,
+     "lng": -73.952796
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJtW6KlRL2wokRe2rqAPwhzEk",
+    "location": {
+     "lat": 40.808759,
+     "lng": -73.948867
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJK3YoURP2wokRaakkgyKAoM4",
+    "location": {
+     "lat": 40.809655,
+     "lng": -73.953203
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJbfoLm0D2wokRciT8D0epqOM",
+    "location": {
+     "lat": 40.811901,
+     "lng": -73.963076
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ6ZV3WUD2wokRd56jEa1BSjg",
+    "location": {
+     "lat": 40.812786,
+     "lng": -73.962249
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJE5Bhe2v2wokRh44Ws5wleeM",
+    "location": {
+     "lat": 40.811758,
+     "lng": -73.954114
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   }
+  ],
+  "riverside-park": [
+   {
+    "placeId": "ChIJ1-H8LGJYwokR4bTCQerEJpo",
+    "location": {
+     "lat": 40.780642,
+     "lng": -73.985797
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJFw0H7WJYwokRNQA1k9K98ws",
+    "location": {
+     "lat": 40.783259,
+     "lng": -73.984622
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJBbP6LmFYwokRuMGoP_F5G5A",
+    "location": {
+     "lat": 40.785938,
+     "lng": -73.985187
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJy-1ea4dYwokRScwsYRb88Vw",
+    "location": {
+     "lat": 40.78794,
+     "lng": -73.98161
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJexKEXIdYwokRT-Sq1qS_JAA",
+    "location": {
+     "lat": 40.788693,
+     "lng": -73.982423
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJI1J9wo1ZwokRZ2cA1GHj4qA",
+    "location": {
+     "lat": 40.788126,
+     "lng": -73.982327
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ-2hhfoVYwokR5bXEXqlkujA",
+    "location": {
+     "lat": 40.789762,
+     "lng": -73.980316
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJTwGkpIFYwokRf5k4y-SDUfg",
+    "location": {
+     "lat": 40.791993,
+     "lng": -73.979008
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ9Z8P54FYwokRaGNSaloX4LE",
+    "location": {
+     "lat": 40.793526,
+     "lng": -73.978463
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJqU0jxPhZwokRRs_aldNKNPA",
+    "location": {
+     "lat": 40.79337,
+     "lng": -73.978235
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJOc3h-in2wokRGz3HMGk2AKo",
+    "location": {
+     "lat": 40.7941,
+     "lng": -73.976521
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJp9VK5Sn2wokRDxvyrlGODms",
+    "location": {
+     "lat": 40.794717,
+     "lng": -73.976426
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJj44aMS_2wokR9yAYRv3GfYQ",
+    "location": {
+     "lat": 40.798611,
+     "lng": -73.973333
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJpwhfYgj3wokRuTG3WuyZd8Q",
+    "location": {
+     "lat": 40.797936,
+     "lng": -73.974399
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJo4nXmZb3wokRIa1dGud4v0Q",
+    "location": {
+     "lat": 40.801781,
+     "lng": -73.970305
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJK9CsTiX2wokRtQpEpgLiFsc",
+    "location": {
+     "lat": 40.802315,
+     "lng": -73.970149
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJpZHg2zv2wokRBvHkk3aGFx8",
+    "location": {
+     "lat": 40.806859,
+     "lng": -73.967296
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ77UYxjv2wokRfsTXC6nuLtc",
+    "location": {
+     "lat": 40.806219,
+     "lng": -73.967551
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJJ5BHHdD3wokR4ha5fCAQhAo",
+    "location": {
+     "lat": 40.809083,
+     "lng": -73.966005
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJbfoLm0D2wokRciT8D0epqOM",
+    "location": {
+     "lat": 40.811901,
+     "lng": -73.963076
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJoxqn-kD2wokRLvhOLfAneU8",
+    "location": {
+     "lat": 40.813405,
+     "lng": -73.963067
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJK6f8gED2wokRpBwJzq_B7EE",
+    "location": {
+     "lat": 40.811546,
+     "lng": -73.963348
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJKYCZuRL2wokRAjayLVhioPc",
+    "location": {
+     "lat": 40.810936,
+     "lng": -73.963991
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ0TKfSQD3wokRD0Fs2rLOVBA",
+    "location": {
+     "lat": 40.812063,
+     "lng": -73.963601
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJi8xRTUD2wokRnvWzK-H70AM",
+    "location": {
+     "lat": 40.813865,
+     "lng": -73.961575
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJU94lDkH2wokR7-VO3DOa2HU",
+    "location": {
+     "lat": 40.814643,
+     "lng": -73.963364
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJwfEacqb3wokRVW-ijcTv7fM",
+    "location": {
+     "lat": 40.813891,
+     "lng": -73.962433
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJQWt3NgD3wokRLb97RbA6JQE",
+    "location": {
+     "lat": 40.817764,
+     "lng": -73.96048
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   }
+  ],
+  "central-park": [
+   {
+    "placeId": "ChIJNx8UL_FYwokR-8ZEBo8mysc",
+    "location": {
+     "lat": 40.766924,
+     "lng": -73.976505
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJax7txPZYwokR5wzsx9UEhj8",
+    "location": {
+     "lat": 40.767382,
+     "lng": -73.978105
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJPS28w_BYwokRHneMhhEXxGw",
+    "location": {
+     "lat": 40.765722,
+     "lng": -73.975876
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJhTNPaQBZwokRNaAu01PVUrA",
+    "location": {
+     "lat": 40.766546,
+     "lng": -73.97622
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8eBoAvFYwokReluTBzdv03Q",
+    "location": {
+     "lat": 40.766014,
+     "lng": -73.974004
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ5ZN3SldZwokR87qIqYqwVPc",
+    "location": {
+     "lat": 40.768249,
+     "lng": -73.981011
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJA7IofvZYwokRbu4vpTwr83E",
+    "location": {
+     "lat": 40.769258,
+     "lng": -73.979922
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJaxIspPFYwokRRNCKESnPsDs",
+    "location": {
+     "lat": 40.766932,
+     "lng": -73.97381
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJh6-g2vtZwokRon4RcAKyZNc",
+    "location": {
+     "lat": 40.766744,
+     "lng": -73.975468
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJOdmYHPFYwokRupmHNBEUwxw",
+    "location": {
+     "lat": 40.76664,
+     "lng": -73.975024
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8zW8OPBYwokRu3OONID3rXE",
+    "location": {
+     "lat": 40.76508,
+     "lng": -73.972638
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJvSbJXPBYwokR9JYz4VSEmTE",
+    "location": {
+     "lat": 40.765063,
+     "lng": -73.973485
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8UCaOcJZwokRsALzmMjWdsg",
+    "location": {
+     "lat": 40.765936,
+     "lng": -73.973246
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJcRdPuvdZwokRX_bJrz13etI",
+    "location": {
+     "lat": 40.768544,
+     "lng": -73.975668
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ49l0jdD1wokRolt34tBgxoI",
+    "location": {
+     "lat": 40.767731,
+     "lng": -73.97125
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJRd55yPFYwokRsjadF7g-dm0",
+    "location": {
+     "lat": 40.766779,
+     "lng": -73.972915
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJv-ceaQBZwokR-bSToHOTb-0",
+    "location": {
+     "lat": 40.766516,
+     "lng": -73.971905
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJDW5ZVQBZwokRCs0ckLI0GGI",
+    "location": {
+     "lat": 40.768576,
+     "lng": -73.973562
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJr5cyAO5YwokRizcKbWOo49M",
+    "location": {
+     "lat": 40.768053,
+     "lng": -73.971103
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJe3cp8nRZwokRn0vH-LJiI-U",
+    "location": {
+     "lat": 40.767854,
+     "lng": -73.971732
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJi8ghUgBZwokRCHoEU41PNDo",
+    "location": {
+     "lat": 40.768375,
+     "lng": -73.97102
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAQAA5e1YwokRoWnhrGR6MZ4",
+    "location": {
+     "lat": 40.768579,
+     "lng": -73.97033
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJoSvKqfZYwokRtIN_mIfZckM",
+    "location": {
+     "lat": 40.769124,
+     "lng": -73.977771
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJoyh4nvZYwokRlS1KhvQvymQ",
+    "location": {
+     "lat": 40.769224,
+     "lng": -73.978922
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJCXnH5vNYwokRnz5xi2OSlQ4",
+    "location": {
+     "lat": 40.769269,
+     "lng": -73.97593
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJgTu1PvRYwokRBvv-11nYr_0",
+    "location": {
+     "lat": 40.770727,
+     "lng": -73.978527
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJezBcrvNYwokRCGwwAfivN4g",
+    "location": {
+     "lat": 40.771781,
+     "lng": -73.974842
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ1UposeRZwokRXaMNjYfkypk",
+    "location": {
+     "lat": 40.770572,
+     "lng": -73.974506
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJD0H895lYwokRYhI86GhcxTg",
+    "location": {
+     "lat": 40.769823,
+     "lng": -73.972391
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJnfVbyBBZwokR1B3UVruJeto",
+    "location": {
+     "lat": 40.770713,
+     "lng": -73.972304
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJT3o2avJYwokRKLEJD6mP9Ak",
+    "location": {
+     "lat": 40.76983,
+     "lng": -73.972554
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJsYmHEShZwokR7MpGnGVeu5k",
+    "location": {
+     "lat": 40.769895,
+     "lng": -73.972729
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJqehxIPtZwokRHQW4MGimZ2g",
+    "location": {
+     "lat": 40.769484,
+     "lng": -73.971683
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJB_QTz_NYwokRdiWs-0FM4qY",
+    "location": {
+     "lat": 40.769581,
+     "lng": -73.974812
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJCfjYMwBZwokRNvkVDeFfPbg",
+    "location": {
+     "lat": 40.769368,
+     "lng": -73.975803
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJU0MHie1YwokReOT8XBMbxzU",
+    "location": {
+     "lat": 40.769974,
+     "lng": -73.97102
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJoazTqChZwokRHMpHeXGdhAw",
+    "location": {
+     "lat": 40.770132,
+     "lng": -73.971251
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJXYzZtwJZwokRmhoDmCvGsQ0",
+    "location": {
+     "lat": 40.770109,
+     "lng": -73.972578
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ5aBnb_JYwokRmLZIzrPzpew",
+    "location": {
+     "lat": 40.770211,
+     "lng": -73.972252
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJL3X7XfNYwokRjTwsY0qGDOA",
+    "location": {
+     "lat": 40.77277,
+     "lng": -73.976718
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJxcSlpvJYwokRLcMSp1tjBf4",
+    "location": {
+     "lat": 40.772352,
+     "lng": -73.97159
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJicSsRnlZwokR4KhwIUHfeP8",
+    "location": {
+     "lat": 40.772208,
+     "lng": -73.973521
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJIbp-YvJYwokRw47JmPkJA3o",
+    "location": {
+     "lat": 40.770833,
+     "lng": -73.972187
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ97puocdZwokRc_9-DEBT4yY",
+    "location": {
+     "lat": 40.77241,
+     "lng": -73.972493
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJh22wDZhZwokRDwS7Bu9mOnc",
+    "location": {
+     "lat": 40.770453,
+     "lng": -73.973072
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ17uScZRZwokR-jjhDpy8s28",
+    "location": {
+     "lat": 40.770739,
+     "lng": -73.972117
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJH9I_yWJZwokRPwB9e-gihBs",
+    "location": {
+     "lat": 40.772734,
+     "lng": -73.972186
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJQ2zLzIxYwokR09PXnTF7xS8",
+    "location": {
+     "lat": 40.772976,
+     "lng": -73.974352
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJg1Wx0vJYwokR5LSN4KOMlBM",
+    "location": {
+     "lat": 40.773064,
+     "lng": -73.974159
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJvXn8Vu1YwokRXuwoU7tOMsM",
+    "location": {
+     "lat": 40.772683,
+     "lng": -73.971028
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ07CllMFZwokRd9XVWeZlyR4",
+    "location": {
+     "lat": 40.772449,
+     "lng": -73.971046
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJCSXYXu1YwokRwtW3KQ6Gdeg",
+    "location": {
+     "lat": 40.772017,
+     "lng": -73.970802
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJawH7eAJZwokRb8EArl383sM",
+    "location": {
+     "lat": 40.772882,
+     "lng": -73.971867
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ9WHAQ3NZwokRCUDpjEgHsxA",
+    "location": {
+     "lat": 40.773144,
+     "lng": -73.971436
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJU4e0l-1YwokRDCILm4vX8f8",
+    "location": {
+     "lat": 40.76995,
+     "lng": -73.969817
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJZ_qxPQBZwokRdthMG1tbWZo",
+    "location": {
+     "lat": 40.772099,
+     "lng": -73.968451
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ57AMB11ZwokRVZRBH4PALCU",
+    "location": {
+     "lat": 40.769355,
+     "lng": -73.969552
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ23jqTu1YwokRwm-XfAzsdVk",
+    "location": {
+     "lat": 40.772453,
+     "lng": -73.969748
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJw5mnTu1YwokRZ2NDLqNujfw",
+    "location": {
+     "lat": 40.772871,
+     "lng": -73.970147
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJQ-USN-1YwokR1KR23pXc4H8",
+    "location": {
+     "lat": 40.772409,
+     "lng": -73.96954
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJZ9BjmppZwokRfAfkpemvaDk",
+    "location": {
+     "lat": 40.772313,
+     "lng": -73.969812
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJbV3kzOxYwokRlI8aHZnisKk",
+    "location": {
+     "lat": 40.772528,
+     "lng": -73.967363
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJwWqaWkdZwokRh3us6_bs0n0",
+    "location": {
+     "lat": 40.77156,
+     "lng": -73.9679
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJA1MnBwBZwokRFAqF1u9hHhs",
+    "location": {
+     "lat": 40.772178,
+     "lng": -73.968031
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ2aWDJ_hYwokRUKinWgKdI70",
+    "location": {
+     "lat": 40.775754,
+     "lng": -73.975208
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8TaMS81ZwokRp8cqT1dag2A",
+    "location": {
+     "lat": 40.774707,
+     "lng": -73.972728
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJwaQlGI1YwokRg93zIfaM7XA",
+    "location": {
+     "lat": 40.774786,
+     "lng": -73.97335
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJe0sTII1YwokRjFiJcFF4CC8",
+    "location": {
+     "lat": 40.774756,
+     "lng": -73.974292
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJPQYC9YxYwokREoLOWC0dSmM",
+    "location": {
+     "lat": 40.774083,
+     "lng": -73.973833
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJFz-EPj5ZwokRgDX3NnXiS04",
+    "location": {
+     "lat": 40.776092,
+     "lng": -73.975548
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJtby2_M5ZwokRdjEGE9S1XWA",
+    "location": {
+     "lat": 40.775938,
+     "lng": -73.97364
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJBcQDUvNYwokRt8eAlw9Zmdk",
+    "location": {
+     "lat": 40.773697,
+     "lng": -73.976455
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAaBzXPNYwokRettQajG0xis",
+    "location": {
+     "lat": 40.773003,
+     "lng": -73.976655
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJEYYWppJYwokRUTul6ztwlJ0",
+    "location": {
+     "lat": 40.773953,
+     "lng": -73.970966
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJZaQT5aVZwokRffG4eQn-mrA",
+    "location": {
+     "lat": 40.774321,
+     "lng": -73.970883
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ7wowppJYwokRg9IDOa4D5YM",
+    "location": {
+     "lat": 40.773833,
+     "lng": -73.971
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJa4jLj41YwokRMsYYN8stApQ",
+    "location": {
+     "lat": 40.773823,
+     "lng": -73.970818
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJiR6aeI1YwokRkCNO-e1lQfs",
+    "location": {
+     "lat": 40.775754,
+     "lng": -73.971778
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJjQ6lHfpZwokRCGosmdj_ks4",
+    "location": {
+     "lat": 40.776814,
+     "lng": -73.972664
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJORzKho1YwokRH7UvIfHZaCw",
+    "location": {
+     "lat": 40.776033,
+     "lng": -73.971648
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJa3kCNQBZwokRG4RWcX6ELeg",
+    "location": {
+     "lat": 40.776542,
+     "lng": -73.971697
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAzkNnpNYwokRMqg4xyMQuIU",
+    "location": {
+     "lat": 40.775036,
+     "lng": -73.966545
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8Vy5a5NYwokR8uerLuroobc",
+    "location": {
+     "lat": 40.77394,
+     "lng": -73.96667
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJzVmDbJNYwokR1_bKExR7BoY",
+    "location": {
+     "lat": 40.774233,
+     "lng": -73.967115
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJK1HCKJNYwokRQ6cshCHDnFo",
+    "location": {
+     "lat": 40.773295,
+     "lng": -73.968257
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJL8kaG5NYwokRZ7BeuVcP9Ms",
+    "location": {
+     "lat": 40.774465,
+     "lng": -73.967691
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJX-QrUp9ZwokRFpX-tNDuhMM",
+    "location": {
+     "lat": 40.774494,
+     "lng": -73.968852
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJJT7gSQBZwokRmlAiWz5zCNk",
+    "location": {
+     "lat": 40.774997,
+     "lng": -73.970417
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJLTc8VgBZwokRKbCZtZhZ1BM",
+    "location": {
+     "lat": 40.774767,
+     "lng": -73.969696
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ94-sw41YwokRQwRTC7sXRnQ",
+    "location": {
+     "lat": 40.777638,
+     "lng": -73.973036
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJxQgYwo1YwokRRyqau-LLuMs",
+    "location": {
+     "lat": 40.777469,
+     "lng": -73.972817
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJqRJeDZJYwokRJTKc7gx2uEY",
+    "location": {
+     "lat": 40.77703,
+     "lng": -73.969637
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJd35YC5JYwokRw0fRiubWcoQ",
+    "location": {
+     "lat": 40.777438,
+     "lng": -73.970671
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJffwW9JNYwokRKxiGyHRdLxc",
+    "location": {
+     "lat": 40.776356,
+     "lng": -73.965661
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJz4GOaGVZwokRN89nHaIJ6X8",
+    "location": {
+     "lat": 40.776813,
+     "lng": -73.967175
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ7VQsU1NZwokRVuSWI5BD3u4",
+    "location": {
+     "lat": 40.775188,
+     "lng": -73.968562
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJhWJedpRYwokRlx2i7fovtxQ",
+    "location": {
+     "lat": 40.775762,
+     "lng": -73.965095
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJt3BI45NYwokROO-xYLDx-z4",
+    "location": {
+     "lat": 40.777224,
+     "lng": -73.966175
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJAS94WQBZwokRj_d_t7XXbTg",
+    "location": {
+     "lat": 40.777765,
+     "lng": -73.967861
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJcfVyopZYwokRaZ9cKrjGHVk",
+    "location": {
+     "lat": 40.777479,
+     "lng": -73.963942
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ5XS7JDtZwokRD_2NlVWCJas",
+    "location": {
+     "lat": 40.778717,
+     "lng": -73.971696
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJDZBYE45YwokRQf2jLWpoHjY",
+    "location": {
+     "lat": 40.779246,
+     "lng": -73.972657
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJn9jtLFBZwokRjqV3ZoaTC_Q",
+    "location": {
+     "lat": 40.777977,
+     "lng": -73.972994
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJRTdtb45YwokRlxneeIY-WUw",
+    "location": {
+     "lat": 40.779239,
+     "lng": -73.973364
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJn761MQVZwokREknJC1pcRpU",
+    "location": {
+     "lat": 40.77937,
+     "lng": -73.973345
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJDdsvjh5ZwokR22H06R8olKU",
+    "location": {
+     "lat": 40.778398,
+     "lng": -73.971344
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJk5GJbABZwokRaR5eL__7X1w",
+    "location": {
+     "lat": 40.778145,
+     "lng": -73.971401
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ0a217BNZwokRuHKJLfDBxmE",
+    "location": {
+     "lat": 40.778661,
+     "lng": -73.972531
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJcxomU3BZwokRHE-Pl871qfo",
+    "location": {
+     "lat": 40.779486,
+     "lng": -73.973358
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJo0WxMPdYwokR5ufmmfz1YA4",
+    "location": {
+     "lat": 40.779959,
+     "lng": -73.970365
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJFXzf4e9YwokRtXgpty_i74g",
+    "location": {
+     "lat": 40.77943,
+     "lng": -73.969068
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ5TzYr_RYwokR2Im-b6TYQJE",
+    "location": {
+     "lat": 40.780203,
+     "lng": -73.968794
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJd0X-wJBYwokR5wYveXQ6l9s",
+    "location": {
+     "lat": 40.779754,
+     "lng": -73.969882
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ2xMcPpFYwokRNcul9G-9soM",
+    "location": {
+     "lat": 40.778935,
+     "lng": -73.966695
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJNRzWp7hZwokRrh_w0YgQGRk",
+    "location": {
+     "lat": 40.778943,
+     "lng": -73.969647
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJTxErGQBZwokRrvgLPM-6eSw",
+    "location": {
+     "lat": 40.778459,
+     "lng": -73.967418
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJT2WwCJFYwokR8VMKAE-7h54",
+    "location": {
+     "lat": 40.779541,
+     "lng": -73.967976
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJTVetJwJZwokRDLRcaVN7AWs",
+    "location": {
+     "lat": 40.78184,
+     "lng": -73.969491
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJmQdRcNlZwokRZ4FJREAFrQw",
+    "location": {
+     "lat": 40.780485,
+     "lng": -73.968733
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ50Yr1ZZYwokRWOi8baPCbrY",
+    "location": {
+     "lat": 40.779636,
+     "lng": -73.965396
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ51JhVsZZwokRbyOpZYHtuaY",
+    "location": {
+     "lat": 40.779049,
+     "lng": -73.965561
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJb8Jg9pZYwokR-qHGtvSkLzs",
+    "location": {
+     "lat": 40.779437,
+     "lng": -73.963244
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJByzZO5dYwokRsjZ6ZNN82Sk",
+    "location": {
+     "lat": 40.781044,
+     "lng": -73.964575
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJd7iQrJBYwokROrpPbxeQsUc",
+    "location": {
+     "lat": 40.781692,
+     "lng": -73.966419
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJi8cEnfpZwokRGNcbFLLJop4",
+    "location": {
+     "lat": 40.780697,
+     "lng": -73.961325
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJS5YOZJdYwokR4jwTkDYRP74",
+    "location": {
+     "lat": 40.781622,
+     "lng": -73.963469
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJEyg6mQtZwokR599NwhujlMU",
+    "location": {
+     "lat": 40.781955,
+     "lng": -73.962719
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJyx4H3phYwokRRBz8hFnii1I",
+    "location": {
+     "lat": 40.785719,
+     "lng": -73.963902
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJsw-uFJpYwokR5x3yq9tDzEM",
+    "location": {
+     "lat": 40.783364,
+     "lng": -73.966685
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJJZ5rBJBYwokRojcf2FMx__Y",
+    "location": {
+     "lat": 40.783195,
+     "lng": -73.970039
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8anpOoNZwokRkELgpmWmyjw",
+    "location": {
+     "lat": 40.783994,
+     "lng": -73.968901
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJJxencQBZwokRiv2NG2dibqA",
+    "location": {
+     "lat": 40.782405,
+     "lng": -73.969945
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJDRjNApFYwokRbjdoHPQd5-U",
+    "location": {
+     "lat": 40.782546,
+     "lng": -73.965727
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ-3O_NYRZwokRASLN78tdX2Q",
+    "location": {
+     "lat": 40.784474,
+     "lng": -73.966223
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJq6o605lYwokRRzTc_KGg8pA",
+    "location": {
+     "lat": 40.782238,
+     "lng": -73.962479
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ2RKwfqJYwokRSOi32AH6WII",
+    "location": {
+     "lat": 40.784086,
+     "lng": -73.959178
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJKcSmZKJYwokRJJJ2vP9taTA",
+    "location": {
+     "lat": 40.784066,
+     "lng": -73.958694
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ7XOQMwJZwokR7wOFRAF7Mv8",
+    "location": {
+     "lat": 40.784313,
+     "lng": -73.958687
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJD7ByBABZwokRZ7q0F8-heZU",
+    "location": {
+     "lat": 40.78637,
+     "lng": -73.966633
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJjx5LAZ9YwokRKHcUgaBvfT8",
+    "location": {
+     "lat": 40.78892,
+     "lng": -73.962072
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJMxA6ZwBZwokRy80vT1e8L6Y",
+    "location": {
+     "lat": 40.788169,
+     "lng": -73.96585
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ4ysCBbRZwokRqvBatE5vz7M",
+    "location": {
+     "lat": 40.788563,
+     "lng": -73.956062
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJKZJlmqBYwokR8eWdVsifED8",
+    "location": {
+     "lat": 40.790096,
+     "lng": -73.955739
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ32XY7h_2wokRXb54DHKYs00",
+    "location": {
+     "lat": 40.792136,
+     "lng": -73.958285
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ6y_P9R72wokRgCY7RDKp1j0",
+    "location": {
+     "lat": 40.793186,
+     "lng": -73.955391
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJcVbPdB_2wokRO6oXc6jln8E",
+    "location": {
+     "lat": 40.793681,
+     "lng": -73.958087
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJh70nPBz2wokR7EWPEdNPP9s",
+    "location": {
+     "lat": 40.793693,
+     "lng": -73.952459
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJbylnbBz2wokRi_Z2TynZXUI",
+    "location": {
+     "lat": 40.794262,
+     "lng": -73.951957
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJveyiMRz2wokREcluZri7Adk",
+    "location": {
+     "lat": 40.793164,
+     "lng": -73.952775
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJA9_ARhz2wokRS269Zv0lfdQ",
+    "location": {
+     "lat": 40.79352,
+     "lng": -73.951904
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJQaPZdin3wokRsRi5S5BFcr4",
+    "location": {
+     "lat": 40.791772,
+     "lng": -73.9535
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJF68QJAD3wokRb7JGwiYHnf0",
+    "location": {
+     "lat": 40.792391,
+     "lng": -73.954283
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJzQX4xiH2wokRP_4yKk0Mt1E",
+    "location": {
+     "lat": 40.79475,
+     "lng": -73.960688
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ_WRfCBn2wokR9CfrUN50XJg",
+    "location": {
+     "lat": 40.797783,
+     "lng": -73.956141
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJlWL5BiL2wokRd6ytmvcmyiE",
+    "location": {
+     "lat": 40.796892,
+     "lng": -73.958943
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJyd8AOx_2wokRdOrcQAFsr_I",
+    "location": {
+     "lat": 40.794628,
+     "lng": -73.958187
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJSRZePyT2wokRiRkKCt3wSi8",
+    "location": {
+     "lat": 40.795049,
+     "lng": -73.955667
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJNTWoMxn2wokRLEBP4tutW1M",
+    "location": {
+     "lat": 40.795765,
+     "lng": -73.955697
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJlZVuYR_2wokRsWVO29FQTdY",
+    "location": {
+     "lat": 40.794668,
+     "lng": -73.959232
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJb_8dDyL2wokRomt-m7dAzVc",
+    "location": {
+     "lat": 40.797228,
+     "lng": -73.959731
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ_RLsCyL2wokR_53umw136gM",
+    "location": {
+     "lat": 40.795217,
+     "lng": -73.954543
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJKyRyNxr2wokRhf1KzU-28vE",
+    "location": {
+     "lat": 40.797399,
+     "lng": -73.952814
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ28DSihv2wokRe4uvB2t-P_Y",
+    "location": {
+     "lat": 40.795253,
+     "lng": -73.952114
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ7e6zwhv2wokRxTD8XgEZR70",
+    "location": {
+     "lat": 40.796548,
+     "lng": -73.952859
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ531SVNT3wokR8QsjaUy30AQ",
+    "location": {
+     "lat": 40.797438,
+     "lng": -73.951062
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJm50j9Rv2wokR7zwrnJXxRPc",
+    "location": {
+     "lat": 40.795305,
+     "lng": -73.952267
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJLwk4rBn2wokR0szxbmZV6WY",
+    "location": {
+     "lat": 40.798644,
+     "lng": -73.956314
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJe0iaKwD3wokRr5f33ERtqG0",
+    "location": {
+     "lat": 40.796037,
+     "lng": -73.951918
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   }
+  ],
+  "washington-square-park": [
+   {
+    "placeId": "ChIJRd-w45BZwokRMluvVXM2Bbk",
+    "location": {
+     "lat": 40.730851,
+     "lng": -73.997431
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJXT1tAOVZwokRdMbkRt9Odec",
+    "location": {
+     "lat": 40.731047,
+     "lng": -73.999153
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJmQgFGZFZwokRfaAjMz1DQ4I",
+    "location": {
+     "lat": 40.731297,
+     "lng": -73.998154
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJXa-d3ZBZwokRGcUkpZc_uC4",
+    "location": {
+     "lat": 40.731219,
+     "lng": -73.997093
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ_7KtXpBZwokR8qkeE1Dquys",
+    "location": {
+     "lat": 40.730506,
+     "lng": -73.996864
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJL_35MJFZwokRQmjT1UVDOO8",
+    "location": {
+     "lat": 40.731956,
+     "lng": -73.998613
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJz1YttJJZwokRZtZyCKbuzMU",
+    "location": {
+     "lat": 40.72982,
+     "lng": -74.006395
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJwQC_aWlZwokR8-RuQ0J5nz8",
+    "location": {
+     "lat": 40.727912,
+     "lng": -73.996624
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJp4YzdZJZwokRDRYoSfTv8Q0",
+    "location": {
+     "lat": 40.72853,
+     "lng": -74.002311
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJp_TMSZJZwokRPbNZ7EWnTOY",
+    "location": {
+     "lat": 40.730261,
+     "lng": -74.002189
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJCWqa2ppZwokRj3c3kcIR9x4",
+    "location": {
+     "lat": 40.727665,
+     "lng": -73.99234
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJOQ-7a5pZwokRewFuCQNqCzk",
+    "location": {
+     "lat": 40.730554,
+     "lng": -73.993053
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJC-exc5RZwokRWb0fbD6ZBTc",
+    "location": {
+     "lat": 40.733578,
+     "lng": -74.002341
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJq37Uk5ZZwokRwzc-KYIeYhY",
+    "location": {
+     "lat": 40.734418,
+     "lng": -73.999535
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJt1Tec5RZwokRWvxamY3LHME",
+    "location": {
+     "lat": 40.733633,
+     "lng": -74.002127
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJM72shZBZwokRztOW_yxN3Yg",
+    "location": {
+     "lat": 40.729998,
+     "lng": -73.995467
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJy_huuptZwokRX0HGsxJ31ZQ",
+    "location": {
+     "lat": 40.729905,
+     "lng": -73.99102
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   }
+  ],
+  "the-high-line": [
+   {
+    "placeId": "ChIJVRQIjcBZwokRnHusg-u4kso",
+    "location": {
+     "lat": 40.741755,
+     "lng": -74.007883
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJW4z-JABZwokRvqI9vmnnnro",
+    "location": {
+     "lat": 40.740792,
+     "lng": -74.008019
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJo6ZHsMBZwokRBCS2f2XuMVU",
+    "location": {
+     "lat": 40.742874,
+     "lng": -74.007343
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJycs-CaJZwokRhjOqB96tKSw",
+    "location": {
+     "lat": 40.743508,
+     "lng": -74.007088
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJtf5OUcdZwokR1Gqy03yX9dg",
+    "location": {
+     "lat": 40.744025,
+     "lng": -74.006909
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJdVnlgKhZwokRSUVmLw1m4Nc",
+    "location": {
+     "lat": 40.752217,
+     "lng": -74.001062
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJp38eJgBZwokRPDzn0exNjmo",
+    "location": {
+     "lat": 40.752937,
+     "lng": -74.002691
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJL-CJmTFZwokRsPcqje_bn7w",
+    "location": {
+     "lat": 40.742002,
+     "lng": -74.010299
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJN3MJ6pRYwokRiXg91flSP8Y",
+    "location": {
+     "lat": 40.739588,
+     "lng": -74.008863
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJNUwaa-pZwokRh_DHYDHBWkc",
+    "location": {
+     "lat": 40.738202,
+     "lng": -74.010845
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJbV-XugpZwokRMnInQGFNY9Y",
+    "location": {
+     "lat": 40.739976,
+     "lng": -74.010894
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ7-JxocFZwokRC5WeLJsMfXk",
+    "location": {
+     "lat": 40.741548,
+     "lng": -74.009974
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJEeaS9r9ZwokREocF5Pn0S2E",
+    "location": {
+     "lat": 40.739533,
+     "lng": -74.006237
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJuTG_GEBZwokRRelB58X_YQM",
+    "location": {
+     "lat": 40.739457,
+     "lng": -74.010885
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJSztkP5VZwokRXVSH9NrC_Xs",
+    "location": {
+     "lat": 40.737334,
+     "lng": -74.005359
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ6XBmhaZZwokRlmXoc8vxrsE",
+    "location": {
+     "lat": 40.739687,
+     "lng": -74.002907
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJdY3Rwr9ZwokR-69tc5yUGlA",
+    "location": {
+     "lat": 40.73911,
+     "lng": -74.00479
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJYfqGML5ZwokRYK2jK8PObFc",
+    "location": {
+     "lat": 40.738968,
+     "lng": -74.002846
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJywJ318BZwokR4uWXUTbMRtc",
+    "location": {
+     "lat": 40.743424,
+     "lng": -74.009012
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJC1UQPABZwokRtfrQRhle8Fo",
+    "location": {
+     "lat": 40.747266,
+     "lng": -74.008927
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJQ6yZIaFZwokRl0jsn5VBk_M",
+    "location": {
+     "lat": 40.7426,
+     "lng": -74.00657
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJVdeFgMBZwokR6O7aBJFn0g4",
+    "location": {
+     "lat": 40.741231,
+     "lng": -74.006701
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJT3KwwcBZwokRVmCEBkMUd60",
+    "location": {
+     "lat": 40.742725,
+     "lng": -74.008315
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJM67XlqxfwokRyybUBAj-iak",
+    "location": {
+     "lat": 40.746646,
+     "lng": -74.004379
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJbTXfEMhZwokRiT4DmTq_HVQ",
+    "location": {
+     "lat": 40.749512,
+     "lng": -74.007498
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJnV0rhshZwokRuouoY2Rd6Gw",
+    "location": {
+     "lat": 40.749524,
+     "lng": -74.009263
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJNdIro8lZwokRZfZY-8UQwTg",
+    "location": {
+     "lat": 40.752293,
+     "lng": -74.008437
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJG0F3-shZwokRFs6L0IMKybQ",
+    "location": {
+     "lat": 40.750724,
+     "lng": -74.008802
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ3aqq5Q1ZwokRb9hLO7Gyxgw",
+    "location": {
+     "lat": 40.753394,
+     "lng": -74.001055
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJQ1pGK7dZwokRfVM1hZ1QmU4",
+    "location": {
+     "lat": 40.750059,
+     "lng": -74.001196
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJY7fnXbNZwokRKgpXxu-dZKQ",
+    "location": {
+     "lat": 40.755574,
+     "lng": -74.000574
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJL-tZOmxZwokRlic1sJKtYqI",
+    "location": {
+     "lat": 40.754034,
+     "lng": -74.000225
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJbVCpoUpYwokRBW_ITVuX_3g",
+    "location": {
+     "lat": 40.7595,
+     "lng": -74.0063
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJCwHl5EpYwokR-q8jdQg_ER8",
+    "location": {
+     "lat": 40.759715,
+     "lng": -74.00397
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ3UCFxJ9ZwokRtmzKvTaL6yg",
+    "location": {
+     "lat": 40.754011,
+     "lng": -74.002455
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJQ3chfLRZwokRuTRcS9z3HDg",
+    "location": {
+     "lat": 40.754972,
+     "lng": -74.001023
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   }
+  ],
+  "the-battery": [
+   {
+    "placeId": "ChIJm9tkjRJawokR1LRAe3Sh-6w",
+    "location": {
+     "lat": 40.700924,
+     "lng": -74.015161
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJryEQYRJawokR_bfRRa_lPqs",
+    "location": {
+     "lat": 40.702153,
+     "lng": -74.015002
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJediv5RJawokRmMf13KiefBY",
+    "location": {
+     "lat": 40.702063,
+     "lng": -74.015937
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJyWjPWBJawokRHg5ppzaWC38",
+    "location": {
+     "lat": 40.703061,
+     "lng": -74.016402
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJh15LPQBbwokR5wVqbSEvfnQ",
+    "location": {
+     "lat": 40.703027,
+     "lng": -74.015988
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJvwbl-2NbwokRpc57srOpoFE",
+    "location": {
+     "lat": 40.702673,
+     "lng": -74.014306
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJoQb5SxBawokRtYcvnZAI2lE",
+    "location": {
+     "lat": 40.70344,
+     "lng": -74.016802
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJfSnNxxNawokRaMUlghzGpi4",
+    "location": {
+     "lat": 40.70412,
+     "lng": -74.014532
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJQf98zxNawokRMD9w8tTBqts",
+    "location": {
+     "lat": 40.704411,
+     "lng": -74.014601
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJY159axJawokR-Wijk8hcfHQ",
+    "location": {
+     "lat": 40.704057,
+     "lng": -74.017044
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJFU8BMgBbwokRZc_MwTpo49Q",
+    "location": {
+     "lat": 40.703807,
+     "lng": -74.017329
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJZ45CMhJawokReDKVTT45rMg",
+    "location": {
+     "lat": 40.704588,
+     "lng": -74.015833
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJa-7u62hbwokRaug2uICiIaM",
+    "location": {
+     "lat": 40.703618,
+     "lng": -74.014531
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJnyetOxJawokRh6fXsZAKAzA",
+    "location": {
+     "lat": 40.704643,
+     "lng": -74.016245
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ-6ETOE5bwokR03EuR2St5J0",
+    "location": {
+     "lat": 40.703179,
+     "lng": -74.014688
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJbbPXOBJawokRspfSmFaf_vY",
+    "location": {
+     "lat": 40.704378,
+     "lng": -74.01639
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJex6ai6pbwokRbh3cz6wKQ0w",
+    "location": {
+     "lat": 40.701942,
+     "lng": -74.016524
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ6UIVsxVawokR3eZJUCIPr3E",
+    "location": {
+     "lat": 40.702677,
+     "lng": -74.009789
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJAw6IZBFbwokRQfEy-LXgDXw",
+    "location": {
+     "lat": 40.703404,
+     "lng": -74.011297
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJYTeZ_BFawokRe_SRVX_pKIs",
+    "location": {
+     "lat": 40.706253,
+     "lng": -74.018778
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJEaNa-g1awokRT3ZdL-sMbA0",
+    "location": {
+     "lat": 40.705291,
+     "lng": -74.018763
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJPQiP2BFawokR9WXe3W8X3qs",
+    "location": {
+     "lat": 40.707057,
+     "lng": -74.018353
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJWY0aXBBawokRLRzS9HU5VcE",
+    "location": {
+     "lat": 40.708705,
+     "lng": -74.015762
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJg3aBExJawokRyAfoP91tZhw",
+    "location": {
+     "lat": 40.703989,
+     "lng": -74.017806
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ_ekUGQ5awokRB2Wjt-ZbQBQ",
+    "location": {
+     "lat": 40.706807,
+     "lng": -74.018736
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJURWoF5pYwokRIfXv4To528c",
+    "location": {
+     "lat": 40.705575,
+     "lng": -74.01345
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJbVfZzhBawokRnmCT-muojBA",
+    "location": {
+     "lat": 40.707893,
+     "lng": -74.01179
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJywFTXhFawokR0uiJjnkwNwQ",
+    "location": {
+     "lat": 40.704938,
+     "lng": -74.013687
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJgSycqf5bwokRteIQBZGu8nI",
+    "location": {
+     "lat": 40.70679,
+     "lng": -74.010832
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ95aJ6hNawokRQFMmQ08gkYg",
+    "location": {
+     "lat": 40.703986,
+     "lng": -74.013689
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJAaIFAxdawokR8txc3YPbD3A",
+    "location": {
+     "lat": 40.707399,
+     "lng": -74.010209
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJd_J7XBdawokRpAdtBwzIx0s",
+    "location": {
+     "lat": 40.709265,
+     "lng": -74.011262
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJ____yBVawokRr9EDtQbdWTA",
+    "location": {
+     "lat": 40.703336,
+     "lng": -74.008576
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJXfIHKDFbwokRNY9N9RKuvH8",
+    "location": {
+     "lat": 40.70768,
+     "lng": -74.012349
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   }
+  ],
+  "prospect-park": [
+   {
+    "placeId": "ChIJiaU1pxVbwokRnQeT5g5uXPw",
+    "location": {
+     "lat": 40.653186,
+     "lng": -73.96761
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJuSv90RlbwokRidrPp5IeZss",
+    "location": {
+     "lat": 40.658044,
+     "lng": -73.970453
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ_d5svmpbwokRwC4d4vrd3z0",
+    "location": {
+     "lat": 40.658337,
+     "lng": -73.969427
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJqy4VVBRbwokRTBAjcY5uA74",
+    "location": {
+     "lat": 40.655851,
+     "lng": -73.962477
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJEWU1wA5bwokRY2s-V-owheY",
+    "location": {
+     "lat": 40.658596,
+     "lng": -73.963072
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJbQuxOIVbwokRzoVexY147zA",
+    "location": {
+     "lat": 40.661838,
+     "lng": -73.971475
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJB45qQgBbwokRu-q1uVURM3g",
+    "location": {
+     "lat": 40.658313,
+     "lng": -73.970922
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJC3UieTNbwokRuLWm5SYo1vk",
+    "location": {
+     "lat": 40.659167,
+     "lng": -73.966389
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ1zV_mZBbwokRzEFxHiZefrY",
+    "location": {
+     "lat": 40.659354,
+     "lng": -73.964143
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJKYeg-f9bwokRGRsnflwCa9s",
+    "location": {
+     "lat": 40.65841,
+     "lng": -73.96493
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJlfwQh3xbwokRU0a6tqG-4_A",
+    "location": {
+     "lat": 40.66022,
+     "lng": -73.965165
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJnVsMEwZbwokRkstY216BAX8",
+    "location": {
+     "lat": 40.658812,
+     "lng": -73.964813
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ55I2NYlbwokRdX7DzDI6Kpw",
+    "location": {
+     "lat": 40.658634,
+     "lng": -73.964516
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJv94LUABbwokRGo5SwJmMLik",
+    "location": {
+     "lat": 40.660643,
+     "lng": -73.965883
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ6UIqEQBbwokR5DuyABsg8ao",
+    "location": {
+     "lat": 40.66202,
+     "lng": -73.967076
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJTTYbPQBbwokR3RQgJEXhch4",
+    "location": {
+     "lat": 40.659924,
+     "lng": -73.964829
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJOVjpEgBbwokRnMFLlaI135s",
+    "location": {
+     "lat": 40.662322,
+     "lng": -73.965102
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJHS_cCsJbwokRPBgEk77dlU4",
+    "location": {
+     "lat": 40.659011,
+     "lng": -73.963699
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJrQQYihRbwokRe__ecqcp85A",
+    "location": {
+     "lat": 40.659097,
+     "lng": -73.963302
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJWZ4X0uxbwokRvDmjbML-hhs",
+    "location": {
+     "lat": 40.658634,
+     "lng": -73.964088
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJFaktZRtbwokRyONny2toA08",
+    "location": {
+     "lat": 40.663394,
+     "lng": -73.976642
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJMUACWhtbwokRrVzBkWKTXQg",
+    "location": {
+     "lat": 40.664504,
+     "lng": -73.976588
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJxTz6WwVbwokRHyrDcZXVPTE",
+    "location": {
+     "lat": 40.66556,
+     "lng": -73.971575
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ7WeoBgVbwokRz3H_YxwUsgw",
+    "location": {
+     "lat": 40.666973,
+     "lng": -73.97378
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJywXnlA1bwokR4M8y6jscPzQ",
+    "location": {
+     "lat": 40.664345,
+     "lng": -73.963764
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJSVNV4Q5bwokRHycSdQJFoYk",
+    "location": {
+     "lat": 40.667497,
+     "lng": -73.967994
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJs1S2ahBbwokRXLux-VvTcWo",
+    "location": {
+     "lat": 40.663872,
+     "lng": -73.968746
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ5S-ZYQ5bwokR6Oz7lr9atxg",
+    "location": {
+     "lat": 40.66613,
+     "lng": -73.966455
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJFSG4Vz1bwokR06UKixkZN0U",
+    "location": {
+     "lat": 40.666333,
+     "lng": -73.967208
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJXesh0Q1bwokRmL5rYJj2qGw",
+    "location": {
+     "lat": 40.665568,
+     "lng": -73.964918
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJt63r5DhbwokRGny5zr9-EDs",
+    "location": {
+     "lat": 40.664207,
+     "lng": -73.968016
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ8QRVhw1bwokRYqVow0goFT0",
+    "location": {
+     "lat": 40.663251,
+     "lng": -73.962809
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJYfjRMQlbwokRUkgY4QX62_4",
+    "location": {
+     "lat": 40.668765,
+     "lng": -73.968237
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJuRSjxZpbwokRGkGXranh2eg",
+    "location": {
+     "lat": 40.671058,
+     "lng": -73.969051
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJ2QlCCQBbwokRdRP9YsLpSe8",
+    "location": {
+     "lat": 40.669123,
+     "lng": -73.967456
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJwYpQ6AhbwokRSSXiVbX1XD0",
+    "location": {
+     "lat": 40.670478,
+     "lng": -73.968812
+    },
+    "moods": [
+     "quiet",
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJxYzbgkxbwokRtLFd8CtUPtc",
+    "location": {
+     "lat": 40.672175,
+     "lng": -73.970098
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJf18GAABbwokR_3nRS-srXZk",
+    "location": {
+     "lat": 40.672262,
+     "lng": -73.9699
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": false
+   },
+   {
+    "placeId": "ChIJGSfpXAhbwokRhyP17uTzUE4",
+    "location": {
+     "lat": 40.672155,
+     "lng": -73.969535
+    },
+    "moods": [
+     "scenic"
+    ],
+    "inPark": true
+   },
+   {
+    "placeId": "ChIJQTlYrxpbwokR6lQWu6T1y94",
+    "location": {
+     "lat": 40.66793,
+     "lng": -73.970788
+    },
+    "moods": [
+     "quiet"
+    ],
+    "inPark": true
+   }
+  ]
+ }
+}

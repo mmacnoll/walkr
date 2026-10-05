@@ -78,3 +78,18 @@ export function boundsOf(points: LatLng[]) {
     west: Math.min(...points.map((p) => p.lng)),
   };
 }
+
+/** Is the point inside any piece of a multi-piece outline? */
+export function isInsideRings(point: LatLng, rings: LatLng[][]): boolean {
+  return rings.some((ring) => isInsidePolygon(point, ring));
+}
+
+/** Shortest distance in meters from the point to the edge of any piece. */
+export function distanceToRingsEdgeMeters(point: LatLng, rings: LatLng[][]): number {
+  return Math.min(...rings.map((ring) => distanceToPolygonEdgeMeters(point, ring)));
+}
+
+/** Inside any piece, or within `bufferMeters` of an edge. */
+export function isWithinRingsBuffer(point: LatLng, rings: LatLng[][], bufferMeters: number): boolean {
+  return isInsideRings(point, rings) || distanceToRingsEdgeMeters(point, rings) <= bufferMeters;
+}

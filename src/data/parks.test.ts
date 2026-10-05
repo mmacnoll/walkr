@@ -1,7 +1,7 @@
 // Sanity checks for the hand-entered park data. These catch typos in coordinates,
 // e.g. an entrance accidentally placed a mile away from its park.
 import { describe, expect, it } from "vitest";
-import { distanceToPolygonEdgeMeters, isWithinPolygonBuffer } from "@/lib/geo";
+import { distanceToRingsEdgeMeters, isWithinRingsBuffer } from "@/lib/geo";
 import { parks } from "./parks";
 
 const TWO_BLOCKS_M = 250;
@@ -15,20 +15,23 @@ describe("parks data", () => {
 
   describe.each(parks.map((p) => [p.name, p] as const))("%s", (_, park) => {
     it("has a valid outline", () => {
-      expect(park.boundary.length).toBeGreaterThanOrEqual(3);
+      expect(park.boundary.length).toBeGreaterThanOrEqual(1);
+      for (const ring of park.boundary) expect(ring.length).toBeGreaterThanOrEqual(3);
     });
 
-    it("has exactly one default entrance and unique entrance ids", () => {
-      expect(park.entrances.filter((e) => e.isDefault)).toHaveLength(1);
+    it("has exactly one default entrance, which is on the popular list, and unique entrance ids", () => {
+      const defaults = park.entrances.filter((e) => e.isDefault);
+      expect(defaults).toHaveLength(1);
+      expect(defaults[0].popular).toBe(true);
       expect(new Set(park.entrances.map((e) => e.id)).size).toBe(park.entrances.length);
     });
 
     it("has its center inside or right next to the outline", () => {
-      expect(isWithinPolygonBuffer(park.center, park.boundary, 100)).toBe(true);
+      expect(isWithinRingsBuffer(park.center, park.boundary, 100)).toBe(true);
     });
 
     it.each(park.entrances.map((e) => [e.name, e] as const))("entrance %s is on the park edge", (_, e) => {
-      expect(isWithinPolygonBuffer(e.location, park.boundary, 120)).toBe(true);
+      expect(isWithinRingsBuffer(e.location, park.boundary, 120)).toBe(true);
     });
 
     it("has unique landmark ids and at least one scenic and one quiet landmark", () => {
@@ -41,9 +44,9 @@ describe("parks data", () => {
       if (park.kind === "large") {
         const isFoodStop = l.moods.includes("coffee") || l.moods.includes("lunch");
         const allowed = isFoodStop ? TWO_BLOCKS_M : 150;
-        expect(isWithinPolygonBuffer(l.location, park.boundary, allowed)).toBe(true);
+        expect(isWithinRingsBuffer(l.location, park.boundary, allowed)).toBe(true);
       } else {
-        expect(distanceToPolygonEdgeMeters(l.location, park.boundary)).toBeLessThanOrEqual(WALK_ZONE_M);
+        expect(distanceToRingsEdgeMeters(l.location, park.boundary)).toBeLessThanOrEqual(WALK_ZONE_M);
       }
     });
 

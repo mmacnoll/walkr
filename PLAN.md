@@ -4,7 +4,7 @@
 **Phase 1**
 - [x] M1. Project setup (code done; Google Cloud key setup is your manual step)
 - [x] M2. Map display
-- [x] M3. Park data
+- [ ] M3. Park data (reworking: real entrances + all sights, after your review)
 - [ ] M4. Input form
 - [ ] M5. Route generation
 - [ ] M6. Results view
@@ -41,7 +41,11 @@ This is a class project with two graded phases. The app makes a **loop walking r
 
 The `NEXT_PUBLIC_` prefix tells Next.js "it's OK to send this to the browser." The server key doesn't have that prefix, so Next.js keeps it on the server. We can't lock the server key to an IP address because Vercel's servers don't have fixed IPs. Instead, API limits and daily quota caps are the safety net.
 
-**3. Hand-picked landmarks plus live Places data.** Each park's JSON file lists 4–10 famous spots (Bethesda Fountain, the Washington Square Arch, Pier 1 at Brooklyn Bridge Park…), each tagged with the moods it fits. Places API (New) adds live results on top: cafes, restaurants, gardens and other spots. Why both? Places search inside parks is patchy, and small parks like Walt Whitman Park have few tagged places. The hand-picked list means every park + mood combination still makes a good route, and coffee and lunch spots are always live and real.
+**3. Where the map data comes from (revised during M3).**
+- **Outlines and entrances come from OpenStreetMap**, a free, open map with a license that allows saving its data as long as we credit it on the map. `scripts/osm-fetch.mjs` downloads it, and `scripts/osm-build.mjs` turns it into outlines and entrances. An entrance is any spot where a walking path crosses the park edge, named after the nearby streets (e.g. "Central Park West & W 81st St"). Central Park has about 54. A few hand-picked entrances per park are marked `popular` for the short list.
+- **Sights come from Google Places.** `scripts/fetch-sights.mjs` collects every qualifying place in each park: landmarks, statues, bridges, gardens, viewpoints and water. It skips restrooms, sports and recreation, shops and services. Google's terms allow storing only place IDs (forever) and coordinates (up to 30 days), so `src/data/sights.json` holds just those plus our own mood tags. Names are looked up live, only when a sight is shown. **Re-run `npm run refresh:sights` at least every 30 days**; a test fails as a reminder. A full refresh is about 400 searches, inside Google's free monthly allowance.
+- **Coffee and lunch spots** are searched live when a route is built (1–2 searches).
+- The original hand-picked landmarks stay in `parks.json` as a backup if Google is unreachable.
 
 **3b. Three kinds of park.** Each park in the data gets a `kind`, which changes how its loop is built:
 - **Large** (Central, Riverside, Prospect, Brooklyn Bridge Park): the loop stays inside the park boundary.
@@ -82,12 +86,13 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 - Full-screen `<Map>` component using the browser key, centered on Central Park.
 - **Acceptance:** the map loads on desktop and on a phone-width screen, with no key errors in the browser console.
 
-### M3. Park data — *Medium* (12 parks of hand-entered data)
-- `src/data/parks.json`: the 12 parks, each with `id`, `name`, `borough`, `kind` (large / small / linear), `center`, `entrances[]` (name + coordinates, one marked default; 2–4 per park), a rough `boundary` polygon (~6–15 points) and `landmarks[]` (name, coordinates, mood tags).
-- TypeScript types plus a small `geo.ts` with distance, compass direction, "is this point inside the park" and "is this point near the park edge."
-- Picking a park moves the map there and outlines the boundary.
-- **Acceptance:** all 12 parks show a sensible outline. The High Line and the Promenade show as narrow strips. The `geo.ts` unit tests pass.
-- *Effort note:* entering accurate data for 12 parks by hand is the slowest part. I'll draft it, and you sanity-check the entrances and landmarks, since you know these parks.
+### M3. Park data — *Medium → Hard* (revised after your review: real entrances and all sights)
+- `src/data/parks.json`: the 12 parks with `kind`, `center`, OpenStreetMap outlines (one or more pieces), every entrance (popular ones flagged, one default) and backup landmarks.
+- `src/data/sights.json`: Google sights per park (place ID, coordinates, mood tags), tagged in-park or nearby.
+- `/api/place/[placeId]`: server route that looks up a sight's name live. It only accepts place IDs from our own list, so the key can't be misused.
+- The map shows the outline, all entrances (tap one to start there) and sights (tap one for its name), with the OpenStreetMap credit.
+- `geo.ts` helpers and data tests: entrances on the edge, one default, sights fresh within 30 days.
+- **Acceptance:** all 12 parks show accurate outlines, entrances where Google Maps shows them, and the sights you'd expect (e.g. everything you circled in Central Park), with no restrooms, ball fields or rinks.
 
 ### M4. Input form — *Medium*
 - Mobile-first bottom sheet (a sidebar on desktop) with: park, entrance (filtered to the chosen park), length slider with a min/mi switch (10–90 min / 0.5–4.5 mi), park picker grouped by borough (Manhattan / Brooklyn), mood buttons (Scenic / Quiet / Coffee Stop / Lunch Spot), and a "Generate walk" button.

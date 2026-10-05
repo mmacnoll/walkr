@@ -23,7 +23,7 @@ export default function ParkBoundary({ park }: { park: Park }) {
     });
 
     const bounds = new google.maps.LatLngBounds();
-    park.boundary.forEach((p) => bounds.extend(p));
+    park.boundary.flat().forEach((p) => bounds.extend(p));
     map.fitBounds(bounds, 48);
 
     return () => outline.setMap(null);
