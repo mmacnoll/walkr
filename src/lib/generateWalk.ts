@@ -25,9 +25,12 @@ export type WalkOptions = {
   avoid?: string[];
   /** Look up names of the stops (skipped by the test script to save calls). */
   includeNames?: boolean;
+  /** Stop fine-tuning after this long and return the closest loop so far (the browser gives up at 15 s). */
+  timeBudgetMs?: number;
 };
 
 const MAX_ROUTE_ATTEMPTS = 4;
+const DEFAULT_TIME_BUDGET_MS = 10_000;
 const FOOD_EDGE_BUFFER_M = { large: 250, small: 600, linear: 600 }; // "about 2 blocks" for big parks
 
 const miles = (m: number) => `${(m / 1609.344).toFixed(1)} mi`;
@@ -69,6 +72,8 @@ async function findFoodStop(
 
 export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<WalkResult> {
   const { park, entrance, mood, targetMeters } = opts;
+  const startedAt = Date.now();
+  const budget = opts.timeBudgetMs ?? DEFAULT_TIME_BUDGET_MS;
   const start = entrance.location;
   const rng = seededRandom(opts.seed);
   const avoid = new Set(opts.avoid ?? []);
@@ -100,6 +105,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
   let stops = plan?.stops ?? [];
   let circle = plan ? null : fallbackCircle(start, park.center, targetMeters, detour);
   for (let attempt = 0; attempt < MAX_ROUTE_ATTEMPTS; attempt++) {
+    if (attempt > 0 && Date.now() - startedAt > budget) break; // out of time: keep the closest loop so far
     const waypoints: RouteWaypoint[] = circle
       ? circle.map((location) => ({ location }))
       : stops.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location }));

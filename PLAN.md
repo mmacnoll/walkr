@@ -8,7 +8,7 @@
 - [x] M4. Input form
 - [x] M5. Route generation (Scenic/Quiet tested on all 12 parks; Coffee/Lunch matrix runs once the Places quota resets)
 - [x] M6. Results view
-- [ ] M7. Loading and errors
+- [x] M7. Loading and errors
 - [ ] M8. Ship it
 
 **Phase 2:** to be chosen after Phase 1 is live (see the ranking below).

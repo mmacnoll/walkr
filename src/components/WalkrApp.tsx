@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
+import { fetchWalk, WalkError } from "@/lib/fetchWalk";
 import type { Mood } from "@/lib/types";
 import {
   DEFAULT_MINUTES,
@@ -30,7 +31,7 @@ export default function WalkrApp() {
   const [unit, setUnit] = useState<LengthUnit>("min");
   const [mood, setMood] = useState<Mood>("scenic");
   const [collapsed, setCollapsed] = useState(false); // phone bottom sheet only
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ message: string; retry?: () => void } | null>(null);
   const [walk, setWalk] = useState<WalkResult | null>(null);
   const [view, setView] = useState<View>("form");
   const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
@@ -72,15 +73,14 @@ export default function WalkrApp() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/route", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request) });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "Couldn't build a walk.");
-      setWalk(json as WalkResult);
+      const result: WalkResult = await fetchWalk(request);
+      setWalk(result);
       setSelectedStopId(null);
       setView("results");
       setCollapsed(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't build a walk.");
+      const e = err instanceof WalkError ? err : new WalkError("Something went wrong. Please try again.", true);
+      setError({ message: e.message, retry: e.retryable ? () => generate(options) : undefined });
     } finally {
       setLoading(false);
     }
@@ -90,12 +90,6 @@ export default function WalkrApp() {
     setSelectedStopId(id);
     if (id) setCollapsed(true); // phones: get the sheet out of the way so the stop is visible
   }
-
-  useEffect(() => {
-    if (!error) return;
-    const t = setTimeout(() => setError(null), 8000);
-    return () => clearTimeout(t);
-  }, [error]);
 
   const moodInfo = MOODS.find((m) => m.id === mood);
   const showResults = view === "results" && walk;
@@ -215,9 +209,26 @@ export default function WalkrApp() {
           </div>
         </div>
 
-        {error && (
-          <div role="alert" className="absolute inset-x-3 top-16 mx-auto max-w-md rounded-lg bg-red-700/95 px-4 py-3 text-sm text-white shadow-lg">
-            {error}
+        {loading && (
+          <div className="pointer-events-none absolute inset-x-0 top-16 flex justify-center" role="status" aria-live="polite">
+            <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg">
+              <span aria-hidden className="h-4 w-4 animate-spin rounded-full border-2 border-green-700 border-t-transparent" />
+              Finding a loop…
+            </div>
+          </div>
+        )}
+
+        {error && !loading && (
+          <div role="alert" className="absolute inset-x-3 top-16 mx-auto flex max-w-md items-start gap-3 rounded-lg bg-red-700 px-4 py-3 text-sm text-white shadow-lg">
+            <p className="flex-1">{error.message}</p>
+            {error.retry && (
+              <button type="button" onClick={error.retry} className="shrink-0 rounded-md bg-white/20 px-2.5 py-1 font-semibold hover:bg-white/30">
+                Try again
+              </button>
+            )}
+            <button type="button" onClick={() => setError(null)} aria-label="Dismiss" className="shrink-0 px-1 text-lg leading-none opacity-80 hover:opacity-100">
+              ×
+            </button>
           </div>
         )}
       </div>

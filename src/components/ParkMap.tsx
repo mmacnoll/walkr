@@ -1,6 +1,6 @@
 "use client";
 
-import { AdvancedMarker, APIProvider, InfoWindow, Map, useMap } from "@vis.gl/react-google-maps";
+import { AdvancedMarker, APILoadingStatus, APIProvider, InfoWindow, Map, useApiLoadingStatus, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import type { Entrance, Park, Sight } from "@/lib/types";
 import type { WalkResult } from "@/lib/walk";
@@ -44,6 +44,7 @@ export default function ParkMap(props: Props) {
 
   return (
     <APIProvider apiKey={API_KEY}>
+      <MapLoadProblem />
       <Map
         className="h-full w-full"
         mapId={MAP_ID}
@@ -137,6 +138,34 @@ export default function ParkMap(props: Props) {
         {showPoints && openSight && <SightInfo sight={openSight} onClose={() => setOpenSight(null)} />}
       </Map>
     </APIProvider>
+  );
+}
+
+/** Friendly message if Google Maps itself can't load (bad key, website not allowed, no internet). */
+function MapLoadProblem() {
+  const status = useApiLoadingStatus();
+  const [authFailed, setAuthFailed] = useState(false);
+  useEffect(() => {
+    // Google calls this global function when it rejects the browser key (e.g. website not allowed).
+    const w = window as unknown as { gm_authFailure?: () => void };
+    w.gm_authFailure = () => setAuthFailed(true);
+    return () => {
+      delete w.gm_authFailure;
+    };
+  }, []);
+  const keyProblem = authFailed || status === APILoadingStatus.AUTH_FAILURE;
+  if (!keyProblem && status !== APILoadingStatus.FAILED) return null;
+  return (
+    <div role="alert" className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-100/95 p-6 text-center">
+      <div className="max-w-xs">
+        <p className="font-semibold text-zinc-900">The map couldn&apos;t load.</p>
+        <p className="mt-1 text-sm text-zinc-600">
+          {keyProblem
+            ? "Google Maps didn't accept this site. If you run Walkr, check the browser key's allowed websites."
+            : "Check your internet connection and reload the page."}
+        </p>
+      </div>
+    </div>
   );
 }
 

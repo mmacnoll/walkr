@@ -1,7 +1,8 @@
 import { getPark } from "@/data/parks";
 import { generateWalk } from "@/lib/generateWalk";
 import { getPlaceSummary, searchFood } from "@/lib/places";
-import { computeWalkingLoop, RoutesError } from "@/lib/routes";
+import { computeWalkingLoop } from "@/lib/routes";
+import { errorResponse } from "@/lib/apiErrors";
 import type { Mood } from "@/lib/types";
 import { MAX_TARGET_METERS, MIN_TARGET_METERS } from "@/lib/walk";
 
@@ -36,11 +37,7 @@ export async function POST(request: Request) {
     );
     return Response.json(walk, { headers: { "Cache-Control": "no-store" } });
   } catch (err) {
-    console.error("Route generation failed:", err);
-    if (err instanceof RoutesError && err.status === 429)
-      return Response.json({ error: "We've hit today's limit for map requests. Please try again later." }, { status: 503 });
-    if (err instanceof Error && err.name === "TimeoutError")
-      return Response.json({ error: "Google Maps is taking too long to answer. Please try again." }, { status: 504 });
-    return Response.json({ error: "Couldn't build a walk right now. Please try again." }, { status: 502 });
+    return errorResponse(err);
   }
 }
+
