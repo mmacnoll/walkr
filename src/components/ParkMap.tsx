@@ -14,9 +14,11 @@ type Props = {
   sights: Sight[];
   selectedEntranceId?: string;
   onSelectEntrance?: (entrance: Entrance) => void;
+  /** Pixels of map hidden under the phone bottom sheet. */
+  bottomPadding?: number;
 };
 
-export default function ParkMap({ park, sights, selectedEntranceId, onSelectEntrance }: Props) {
+export default function ParkMap({ park, sights, selectedEntranceId, onSelectEntrance, bottomPadding = 0 }: Props) {
   const [openSight, setOpenSight] = useState<Sight | null>(null);
 
   if (!API_KEY) {
@@ -41,7 +43,7 @@ export default function ParkMap({ park, sights, selectedEntranceId, onSelectEntr
         clickableIcons={false}
         onClick={() => setOpenSight(null)}
       >
-        <ParkBoundary park={park} />
+        <ParkBoundary park={park} bottomPadding={bottomPadding} />
 
         {sights.map((s) => (
           <AdvancedMarker key={s.placeId} position={s.location} onClick={() => setOpenSight(s)}>

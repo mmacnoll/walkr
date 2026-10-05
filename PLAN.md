@@ -4,8 +4,8 @@
 **Phase 1**
 - [x] M1. Project setup (code done; Google Cloud key setup is your manual step)
 - [x] M2. Map display
-- [ ] M3. Park data (reworking: real entrances + all sights, after your review)
-- [ ] M4. Input form
+- [x] M3. Park data (reworked after your review; last sights finish when the daily Google quota resets)
+- [x] M4. Input form
 - [ ] M5. Route generation
 - [ ] M6. Results view
 - [ ] M7. Loading and errors
@@ -142,6 +142,7 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 | 8 | **More parks + "near me"** | Medium | Medium | Mostly data work (e.g. Fort Tryon, Hudson River Park, Domino Park), plus a location prompt. |
 | 9 | **Live GPS mode** | Medium | Medium–High | Show the blue dot on the route. Needs HTTPS (Vercel has it) and a lot of phone testing. |
 | 10 | **Accessibility / terrain** | Medium | High | The Elevation API helps with hills, but stroller-friendly path data is limited. |
+| 11 | **Photos for sights** (your request) | High | Low | Show Google's photo in the popup when you tap a sight. The `/api/place` route also asks for the place's first photo, and a second route streams the image so the key stays on the server. Photos are fetched live, which fits Google's terms. Costs about $0.007 per photo, inside the free allowance at class scale. |
 
 Suggested Phase 2 set: ranks 1–5. We'll decide together once Phase 1 is live.
 
