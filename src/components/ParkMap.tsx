@@ -4,6 +4,7 @@ import { AdvancedMarker, APIProvider, InfoWindow, Map } from "@vis.gl/react-goog
 import { useEffect, useState } from "react";
 import type { Entrance, Park, Sight } from "@/lib/types";
 import ParkBoundary from "./ParkBoundary";
+import RouteLine from "./RouteLine";
 
 // Browser key: restricted to Maps JavaScript API + our domains, so it's safe to expose.
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY;
@@ -16,9 +17,11 @@ type Props = {
   onSelectEntrance?: (entrance: Entrance) => void;
   /** Pixels of map hidden under the phone bottom sheet. */
   bottomPadding?: number;
+  /** Walking route to draw (Google's encoded polyline). */
+  routePolyline?: string;
 };
 
-export default function ParkMap({ park, sights, selectedEntranceId, onSelectEntrance, bottomPadding = 0 }: Props) {
+export default function ParkMap({ park, sights, selectedEntranceId, onSelectEntrance, bottomPadding = 0, routePolyline }: Props) {
   const [openSight, setOpenSight] = useState<Sight | null>(null);
 
   if (!API_KEY) {
@@ -43,7 +46,8 @@ export default function ParkMap({ park, sights, selectedEntranceId, onSelectEntr
         clickableIcons={false}
         onClick={() => setOpenSight(null)}
       >
-        <ParkBoundary park={park} bottomPadding={bottomPadding} />
+        <ParkBoundary park={park} bottomPadding={bottomPadding} fit={!routePolyline} />
+        {routePolyline && <RouteLine encodedPolyline={routePolyline} bottomPadding={bottomPadding} />}
 
         {sights.map((s) => (
           <AdvancedMarker key={s.placeId} position={s.location} onClick={() => setOpenSight(s)}>

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
 import type { Mood } from "@/lib/types";
-import { DEFAULT_MINUTES, describeLength, type LengthUnit, MOODS, minutesToMeters, type WalkRequest } from "@/lib/walk";
+import { DEFAULT_MINUTES, describeLength, type LengthUnit, MOODS, minutesToMeters, type WalkRequest, type WalkResult } from "@/lib/walk";
 import ParkMap from "./ParkMap";
 import WalkForm from "./WalkForm";
 
@@ -18,6 +18,8 @@ export default function WalkrApp() {
   const [mood, setMood] = useState<Mood>("scenic");
   const [collapsed, setCollapsed] = useState(false); // phone bottom sheet only
   const [notice, setNotice] = useState<string | null>(null);
+  const [walk, setWalk] = useState<WalkResult | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // On phones the form sheet covers the bottom of the map; tell the map so the park isn't hidden under it.
   const sheetRef = useRef<HTMLElement>(null);
@@ -41,19 +43,33 @@ export default function WalkrApp() {
     const next = parks.find((p) => p.id === id) ?? parks[0];
     setParkId(next.id);
     setEntranceId(defaultEntrance(next).id); // a new park starts at its default entrance
+    setWalk(null);
   }
 
-  function generate() {
+  async function generate() {
     const request: WalkRequest = { parkId: park.id, entranceId: entrance.id, mood, distanceMeters: minutesToMeters(minutes) };
-    // Route generation arrives in M5; for now, show what would be sent.
-    console.log("Walk request:", request);
-    setNotice(`Ready: ${describeLength(minutes)} ${MOODS.find((m) => m.id === mood)?.label} walk from ${entrance.name}. Route drawing comes in M5.`);
-    setCollapsed(true);
+    setLoading(true);
+    setNotice(null);
+    try {
+      const res = await fetch("/api/route", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request) });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Couldn't build a walk.");
+      const result = json as WalkResult;
+      setWalk(result);
+      setCollapsed(true);
+      // Full results panel comes in M6; for now a short summary.
+      const mi = (result.distanceMeters / 1609.344).toFixed(1);
+      setNotice(`${mi} mi · ${Math.round(result.durationSeconds / 60)} min · ${result.stops.length} stops: ${result.stops.map((s) => s.name).join(", ")}${result.note ? `. ${result.note}` : ""}`);
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : "Couldn't build a walk.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     if (!notice) return;
-    const t = setTimeout(() => setNotice(null), 5000);
+    const t = setTimeout(() => setNotice(null), 12000);
     return () => clearTimeout(t);
   }, [notice]);
 
@@ -99,6 +115,7 @@ export default function WalkrApp() {
             onUnitChange={setUnit}
             onMoodChange={setMood}
             onSubmit={generate}
+            loading={loading}
           />
         </div>
       </aside>
@@ -111,6 +128,7 @@ export default function WalkrApp() {
           selectedEntranceId={entrance.id}
           onSelectEntrance={(e) => setEntranceId(e.id)}
           bottomPadding={mapBottomPadding}
+          routePolyline={walk?.parkId === park.id ? walk.encodedPolyline : undefined}
         />
 
         {/* Legend + required OpenStreetMap credit */}

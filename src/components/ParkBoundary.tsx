@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import type { Park } from "@/lib/types";
 
 /** Draws the park outline and zooms the map to fit it whenever the park changes. */
-export default function ParkBoundary({ park, bottomPadding = 0 }: { park: Park; bottomPadding?: number }) {
+export default function ParkBoundary({ park, bottomPadding = 0, fit = true }: { park: Park; bottomPadding?: number; fit?: boolean }) {
   const map = useMap();
 
   useEffect(() => {
@@ -27,11 +27,11 @@ export default function ParkBoundary({ park, bottomPadding = 0 }: { park: Park; 
 
   // Zoom to the park when it changes, leaving room for the phone bottom sheet.
   useEffect(() => {
-    if (!map) return;
+    if (!map || !fit) return;
     const bounds = new google.maps.LatLngBounds();
     park.boundary.flat().forEach((p) => bounds.extend(p));
     map.fitBounds(bounds, { top: 56, left: 24, right: 24, bottom: bottomPadding + 24 });
-  }, [map, park, bottomPadding]);
+  }, [map, park, bottomPadding, fit]);
 
   return null;
 }

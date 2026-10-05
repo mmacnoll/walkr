@@ -24,6 +24,7 @@ type Props = {
   onUnitChange: (unit: LengthUnit) => void;
   onMoodChange: (mood: Mood) => void;
   onSubmit: () => void;
+  loading?: boolean;
 };
 
 const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
@@ -187,9 +188,10 @@ export default function WalkForm(props: Props) {
 
       <button
         type="submit"
-        className="rounded-xl bg-green-700 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-green-800 active:scale-[0.99]"
+        disabled={props.loading}
+        className="rounded-xl bg-green-700 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-green-800 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
       >
-        Generate walk
+        {props.loading ? "Finding a loop…" : "Generate walk"}
       </button>
     </form>
   );

@@ -1,4 +1,4 @@
-import type { Mood } from "./types";
+import type { LatLng, Mood } from "./types";
 
 /** Average walking pace used to convert minutes ↔ miles: 3 mph = 20 minutes per mile. */
 export const MINUTES_PER_MILE = 20;
@@ -54,3 +54,34 @@ export function describeLength(minutes: number): string {
   const miles = minutesToMiles(minutes);
   return `${Math.round(minutes)} min · ${Number(miles.toFixed(2))} mi`;
 }
+
+export type WalkStop = {
+  id: string;
+  name: string;
+  location: LatLng;
+  kind: "sight" | "landmark" | "coffee" | "lunch";
+  placeId?: string;
+  /** e.g. "Sculpture", "Coffee shop · 4.6★" */
+  detail?: string;
+};
+
+/** What /api/route sends back. */
+export type WalkResult = {
+  parkId: string;
+  start: { name: string; location: LatLng };
+  stops: WalkStop[];
+  encodedPolyline: string;
+  distanceMeters: number;
+  durationSeconds: number;
+  targetMeters: number;
+  /** Within ±15% of the requested length. */
+  withinTarget: boolean;
+  /** Friendly explanation when something didn't go perfectly. */
+  note?: string;
+  /** How each planning round went (for testing and tuning). */
+  attempts?: { detour: number; estimatedMeters: number; actualMeters: number; stops: number }[];
+};
+
+export const LENGTH_TOLERANCE = 0.15;
+export const MIN_TARGET_METERS = 800;
+export const MAX_TARGET_METERS = 7500;

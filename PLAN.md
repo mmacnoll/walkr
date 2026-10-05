@@ -6,7 +6,7 @@
 - [x] M2. Map display
 - [x] M3. Park data (reworked after your review; last sights finish when the daily Google quota resets)
 - [x] M4. Input form
-- [ ] M5. Route generation
+- [x] M5. Route generation (Scenic/Quiet tested on all 12 parks; Coffee/Lunch matrix runs once the Places quota resets)
 - [ ] M6. Results view
 - [ ] M7. Loading and errors
 - [ ] M8. Ship it
@@ -60,7 +60,7 @@ In every case the route starts and ends at the chosen entrance, and stops inside
 2. **Candidates:** collect points of interest that fit the mood and sit in the search area. That's the park boundary for large parks, or the walk zone for small and linear parks (see 3b). Cafes and restaurants can be just outside it. Score each one by how well it fits the mood, with a bonus for being inside the park.
 3. **Pick and order:** sort candidates by their compass direction from the entrance, then walk around the circle picking high-scoring stops. This keeps the path from zig-zagging back and forth. Keep adding stops until the *estimated* loop length reaches the target. The estimate is straight-line distance × 1.3, because paths curve. Coffee Stop always includes exactly one cafe, and Lunch Spot exactly one restaurant, placed roughly mid-walk. For linear parks, the "circle" is stretched along the park.
 4. **Check with Google:** send entrance → stops → entrance to the Routes API in walking mode. Google returns the real distance, time and path.
-5. **Retry:** if the real distance is more than 15% off target, drop or add a stop (or swap for a closer or farther one) and try again. Stop after 3 tries.
+5. **Retry:** if the real distance is more than 15% off target, measure how winding this loop's paths really are (real ÷ straight-line distance). Then make *one* small change (drop, add or swap a stop), whichever brings the estimate closest to the target, and measure again. Up to 4 Routes calls. (Re-planning from scratch each round see-sawed, so small changes it is.) Test run: 48/48 Scenic/Quiet walks within ±15%, averaging 1.5 Routes calls.
 6. **Fallback:** if nothing lands within ±15%, return the closest attempt with a note like "This loop is 2.1 mi instead of 1.5 mi." If there are no usable stops at all, return a simple loop through the park's hand-picked landmarks.
 
 This caps each request at about 1 Places call and 1–4 Routes calls, so costs stay low and predictable.
