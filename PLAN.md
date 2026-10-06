@@ -9,7 +9,7 @@
 - [x] M5. Route generation (Scenic/Quiet tested on all 12 parks; Coffee/Lunch matrix runs once the Places quota resets)
 - [x] M6. Results view
 - [x] M7. Loading and errors
-- [ ] M8. Ship it
+- [x] M8. Ship it (live at https://walkr-gamma.vercel.app)
 
 **Phase 2:** to be chosen after Phase 1 is live (see the ranking below).
 

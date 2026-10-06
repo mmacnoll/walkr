@@ -2,7 +2,7 @@
 
 **Loop walks through New York City parks.** Pick a park, a starting entrance, how long you want to walk and a mood. Walkr draws a loop that starts and ends at your entrance, passes interesting stops along the way and lists them in order.
 
-Live app: _coming soon_
+Live app: **https://walkr-gamma.vercel.app**
 
 ## Features
 - **12 NYC parks:** Central Park, Riverside, Morningside, Prospect, Madison Square, Union Square, Washington Square, the High Line, the Battery, Brooklyn Heights Promenade, Brooklyn Bridge Park and Walt Whitman Park.
