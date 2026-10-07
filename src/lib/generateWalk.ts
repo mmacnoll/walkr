@@ -137,13 +137,13 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
       if (s.kind === "coffee" || s.kind === "lunch") {
         const p = food!.place;
         const detail = [p.type, p.rating ? `${p.rating.toFixed(1)}★` : null].filter(Boolean).join(" · ");
-        return { id: s.id, name: p.name, location: s.location, kind: s.kind, placeId: s.placeId, detail };
+        return { id: s.id, name: p.name, location: s.location, kind: s.kind, placeId: s.placeId, detail, photo: p.photo };
       }
       if (s.kind === "landmark") return { id: s.id, name: s.name ?? "Landmark", location: s.location, kind: s.kind };
       if (opts.includeNames === false || !s.placeId) return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
       try {
         const summary = await deps.getPlaceSummary(s.placeId);
-        return { id: s.id, name: summary.name, detail: summary.type, location: s.location, kind: s.kind, placeId: s.placeId };
+        return { id: s.id, name: summary.name, detail: summary.type, photo: summary.photo, location: s.location, kind: s.kind, placeId: s.placeId };
       } catch {
         return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
       }

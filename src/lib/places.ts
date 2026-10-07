@@ -1,9 +1,34 @@
 // Server-side Google Places helpers. Uses the server key, which never reaches the browser.
+import { signPhotoName } from "./photoToken";
 import type { LatLng } from "./types";
+import type { PhotoRef } from "./walk";
 
 const PLACES_URL = "https://places.googleapis.com/v1/places";
 
-export type PlaceSummary = { name: string; type?: string };
+export type PlaceSummary = { name: string; type?: string; photo?: PhotoRef };
+
+type ApiPhoto = { name: string; authorAttributions?: { displayName?: string; uri?: string }[] };
+
+/** First photo of a place, signed for the browser. (Asking for `photos` costs nothing extra.) */
+function firstPhoto(photos: ApiPhoto[] | undefined): PhotoRef | undefined {
+  const p = photos?.[0];
+  if (!p?.name) return undefined;
+  const author = p.authorAttributions?.[0];
+  return { token: signPhotoName(p.name), credit: author?.displayName ? { name: author.displayName, uri: author.uri } : undefined };
+}
+
+/** Short-lived image address for a photo (this request is the billed "Place Photo" call). */
+export async function getPhotoUri(photoName: string, maxWidthPx = 480): Promise<string> {
+  const res = await fetch(`https://places.googleapis.com/v1/${photoName}/media?maxWidthPx=${maxWidthPx}&skipHttpRedirect=true`, {
+    headers: { "X-Goog-Api-Key": serverKey() },
+    cache: "no-store",
+    signal: AbortSignal.timeout(8_000),
+  });
+  if (!res.ok) throw new Error(`Photo lookup failed: HTTP ${res.status}`);
+  const json = await res.json();
+  if (typeof json.photoUri !== "string" || !json.photoUri.startsWith("https://")) throw new Error("No photo address");
+  return json.photoUri;
+}
 
 function serverKey() {
   const key = process.env.GOOGLE_MAPS_SERVER_KEY;
@@ -17,14 +42,14 @@ export async function getPlaceSummary(placeId: string): Promise<PlaceSummary> {
     headers: {
       "X-Goog-Api-Key": serverKey(),
       // Ask only for what we show; keeps the call in a cheaper pricing tier.
-      "X-Goog-FieldMask": "displayName,primaryTypeDisplayName",
+      "X-Goog-FieldMask": "displayName,primaryTypeDisplayName,photos",
     },
     cache: "no-store",
     signal: AbortSignal.timeout(8_000),
   });
   if (!res.ok) throw new Error(`Places lookup failed: HTTP ${res.status}`);
   const json = await res.json();
-  return { name: json.displayName?.text ?? "Unnamed place", type: json.primaryTypeDisplayName?.text };
+  return { name: json.displayName?.text ?? "Unnamed place", type: json.primaryTypeDisplayName?.text, photo: firstPhoto(json.photos) };
 }
 
 export type FoodPlace = {
@@ -35,6 +60,7 @@ export type FoodPlace = {
   ratingCount: number;
   openNow?: boolean;
   type?: string;
+  photo?: PhotoRef;
 };
 
 const FOOD_TYPES = {
@@ -50,7 +76,7 @@ export async function searchFood(kind: "coffee" | "lunch", center: LatLng, radiu
       "Content-Type": "application/json",
       "X-Goog-Api-Key": serverKey(),
       "X-Goog-FieldMask":
-        "places.id,places.displayName,places.location,places.rating,places.userRatingCount,places.currentOpeningHours.openNow,places.businessStatus,places.primaryTypeDisplayName",
+        "places.id,places.displayName,places.location,places.rating,places.userRatingCount,places.currentOpeningHours.openNow,places.businessStatus,places.primaryTypeDisplayName,places.photos",
     },
     body: JSON.stringify({
       includedTypes: FOOD_TYPES[kind],
@@ -73,6 +99,7 @@ export async function searchFood(kind: "coffee" | "lunch", center: LatLng, radiu
     currentOpeningHours?: { openNow?: boolean };
     businessStatus?: string;
     primaryTypeDisplayName?: { text: string };
+    photos?: ApiPhoto[];
   };
   return ((json.places ?? []) as ApiPlace[])
     .filter((p) => !p.businessStatus || p.businessStatus === "OPERATIONAL")
@@ -84,5 +111,6 @@ export async function searchFood(kind: "coffee" | "lunch", center: LatLng, radiu
       ratingCount: p.userRatingCount ?? 0,
       openNow: p.currentOpeningHours?.openNow,
       type: p.primaryTypeDisplayName?.text,
+      photo: firstPhoto(p.photos),
     }));
 }

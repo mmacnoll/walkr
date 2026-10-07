@@ -63,7 +63,18 @@ export type WalkStop = {
   placeId?: string;
   /** e.g. "Sculpture", "Coffee shop · 4.6★" */
   detail?: string;
+  photo?: PhotoRef;
 };
+
+/** A Google photo the browser can show via /api/photo?t=<token>, plus the credit Google requires. */
+export type PhotoRef = {
+  token: string;
+  credit?: { name: string; uri?: string };
+};
+
+export function photoSrc(photo: PhotoRef): string {
+  return `/api/photo?t=${encodeURIComponent(photo.token)}`;
+}
 
 /** What /api/route sends back. */
 export type WalkResult = {
