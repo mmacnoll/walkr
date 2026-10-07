@@ -17,9 +17,11 @@ Phase 1 saved as **v1.0.0** (tag + GitHub release, 2026-10-07).
 - [x] M9. Sliding panel
 - [x] M10. Bigger sight dots + photos
 - [x] M11. Customize mode
-- [ ] M12. Security headers + ship v2.0
+- [x] M12. Security headers + ship v2.0
 
-**Phase 3:** to be chosen after Phase 2 is live (see the ranking below).
+Phase 2 saved as **v2.0.0** (tag + GitHub release, 2026-10-07).
+
+**Phase 3:** to be chosen (see the ranking below).
 
 ## Context
 This is a class project with two graded phases. The app makes a **loop walking route** in an NYC park. The user picks a park, an entrance, a walk length and a mood, and the app draws the loop on a map with its stops listed. Phase 1 is a working proof of concept, live on Vercel and usable on a phone. Phase 2 adds polish and stretch features.
