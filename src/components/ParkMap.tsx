@@ -139,7 +139,14 @@ export default function ParkMap(props: Props) {
             onClose={() => setOpenSight(null)}
             pick={
               picking && onTogglePick
-                ? { picked: pickOrder.has(openSight.placeId), full: picksFull, onToggle: (name) => onTogglePick(openSight, name) }
+                ? {
+                    picked: pickOrder.has(openSight.placeId),
+                    full: picksFull,
+                    onToggle: (name) => {
+                      onTogglePick(openSight, name);
+                      setOpenSight(null); // done with this sight: close the popup so the map is clear for the next pick
+                    },
+                  }
                 : undefined
             }
           />
