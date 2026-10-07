@@ -11,7 +11,15 @@
 - [x] M7. Loading and errors
 - [x] M8. Ship it (live at https://walkr-gamma.vercel.app)
 
-**Phase 2:** to be chosen after Phase 1 is live (see the ranking below).
+Phase 1 saved as **v1.0.0** (tag + GitHub release, 2026-10-07).
+
+**Phase 2: usability and Customize mode**
+- [ ] M9. Sliding panel
+- [ ] M10. Bigger sight dots + photos
+- [ ] M11. Customize mode
+- [ ] M12. Security headers + ship v2.0
+
+**Phase 3:** to be chosen after Phase 2 is live (see the ranking below).
 
 ## Context
 This is a class project with two graded phases. The app makes a **loop walking route** in an NYC park. The user picks a park, an entrance, a walk length and a mood, and the app draws the loop on a map with its stops listed. Phase 1 is a working proof of concept, live on Vercel and usable on a phone. Phase 2 adds polish and stretch features.
@@ -128,7 +136,39 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 
 ---
 
-## Phase 2: Polish and stretch (ranked by impact ÷ effort)
+## Phase 2: Usability and Customize mode (your requests, 2026-10-07)
+
+### M9. Sliding panel — *Medium*
+- On phones, the panel becomes a real draggable sheet that follows your finger and snaps to one of three heights: **peek** (title bar only), **half** and **full**. A quick flick moves it one step.
+- Tapping the header still toggles between peek and half. Desktop stays a sidebar.
+- The map keeps its padding in step with the sheet, so the park and route stay visible above it.
+- **Test:** drag up and down, flick, and tap on a phone-sized screen. Scrolling inside the full sheet must still work.
+
+### M10. Bigger sight dots + photos — *Medium*
+- Sight dots go from 10 px to about 18 px, each with an invisible 44 px tap area. Same for entrances.
+- Tapping a sight shows its name, type and a **Google photo** with the required photographer credit.
+- The server asks Google for the photo and only passes the browser a short-lived image link, so the key stays hidden.
+- Photos are fetched live, which Google's terms allow; we never store them.
+- **Cost:** about $0.007 per photo. I'll confirm the exact pricing and you set a daily cap in Google Cloud.
+- The same photo also appears when you tap a stop in a finished walk.
+
+### M11. Customize mode — *Hard*
+- A switch at the top of the panel: **Surprise me** (today's mode) or **Customize**.
+- **Picking sights:** in Customize, tap a sight dot or its popup's **Add** button to add it. Chosen sights turn into numbered pins and appear in a list, where each has a remove button. The limit is 10, Google's cheapest Routes tier.
+- **Order:** Walkr arranges the picks into the shortest loop from your entrance (best order, no backtracking).
+- **Live tracker:** shows the estimated time and distance, updated instantly and for free from straight-line distances times our measured detour factor. It's typically within about 10%.
+- **Food stop:** an optional "Add a coffee stop / lunch spot" toggle. Walkr picks a well-rated place near the route, as it does today.
+- **Build walk** asks Google for the real route and shows the usual results view with the exact time. **Edit picks** goes back to picking.
+- **Test:** unit tests for ordering and the estimate. Then compare the estimate with Google's exact time on about 20 custom walks.
+
+### M12. Security headers + ship v2.0 — *Easy*
+- Standard security headers in `next.config.ts`: no framing by other sites, no MIME sniffing, a strict referrer policy and a locked-down permissions policy. Check that the map and photos still load.
+- **You, in Google Cloud:** daily caps on the Routes, Maps JavaScript and photo APIs, plus a billing budget alert.
+- Phone test on the live site, then tag and release **v2.0.0**.
+
+---
+
+## Phase 3: Polish and stretch (ranked by impact ÷ effort)
 
 | Rank | Feature | Impact | Effort | Notes |
 |---|---|---|---|---|
@@ -142,9 +182,8 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 | 8 | **More parks + "near me"** | Medium | Medium | Mostly data work (e.g. Fort Tryon, Hudson River Park, Domino Park), plus a location prompt. |
 | 9 | **Live GPS mode** | Medium | Medium–High | Show the blue dot on the route. Needs HTTPS (Vercel has it) and a lot of phone testing. |
 | 10 | **Accessibility / terrain** | Medium | High | The Elevation API helps with hills, but stroller-friendly path data is limited. |
-| 11 | **Photos for sights** (your request) | High | Low | Show Google's photo in the popup when you tap a sight. The `/api/place` route also asks for the place's first photo, and a second route streams the image so the key stays on the server. Photos are fetched live, which fits Google's terms. Costs about $0.007 per photo, inside the free allowance at class scale. |
 
-Suggested Phase 2 set: ranks 1–5. We'll decide together once Phase 1 is live.
+Suggested Phase 3 set: ranks 1–5. We'll decide together once Phase 2 is live. (Photos moved up into Phase 2, M10.)
 
 ---
 
