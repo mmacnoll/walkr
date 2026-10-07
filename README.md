@@ -13,6 +13,8 @@ Live app: **https://walkr-gamma.vercel.app**
   - **Quiet:** gardens and calmer corners, away from busy plazas.
   - **Coffee Stop:** a well-rated café on the way, found live.
   - **Lunch Spot:** a well-rated restaurant on the way, found live.
+- **Customize mode:** pick your own sights on the map. Walkr puts them in the shortest loop, shows a live time estimate as you pick, and can add a café or lunch stop.
+- **Photos:** tap any sight or stop to see a Google photo of it.
 - **Numbered stops** on the map and in a list. Tap one to see where it is.
 - **Try another:** builds a different loop with the same settings.
 - **Works on a phone**, with friendly messages when something goes wrong (offline, slow connection, daily limits).
@@ -53,6 +55,7 @@ You need Node 24 and a Google Cloud project with billing turned on.
 | `npm test` | Runs the automated tests. They never call Google. |
 | `npm run lint` | Checks the code style. |
 | `npm run refresh:sights` | Re-collects park sights from Google Places, about 400–500 searches. **Run at least every 30 days:** Google's terms only allow storing place locations for 30 days, and a test will remind you. |
+| `node scripts/custom-matrix.mjs` | With the dev server running, builds sample Customize walks in every park and checks the live estimate against Google's real times. |
 | `npm run refresh:osm` | Re-collects park outlines and entrances from OpenStreetMap. |
 
 ## Data and attribution

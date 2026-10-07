@@ -1,8 +1,9 @@
 // Builds a walk: plan stops → (coffee/lunch: find a place) → measure with the Routes API → retry.
 // The Google calls are passed in (`deps`) so this can be tested without the network.
 import { getSights } from "@/data/sights";
+import { CUSTOM_DETOUR, orderLoop } from "./customWalk";
 import { distanceMeters, isWithinRingsBuffer } from "./geo";
-import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, loopStraightMeters, planLoop, seededRandom } from "./loop";
+import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, insertCheapest, loopStraightMeters, planLoop, seededRandom } from "./loop";
 import type { FoodPlace, PlaceSummary } from "./places";
 import type { RouteWaypoint, WalkingRoute } from "./routes";
 import { scoreFood, scoreLandmark, scoreSight } from "./scoring";
@@ -131,24 +132,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
   const withinTarget = Math.abs(best.route.distanceMeters - targetMeters) <= targetMeters * LENGTH_TOLERANCE;
   if (!withinTarget) notes.push(`This loop is ${miles(best.route.distanceMeters)}, the closest we could get to ${miles(targetMeters)}.`);
 
-  // Names: looked up live for Google sights (we're not allowed to store them).
-  const namedStops: WalkStop[] = await Promise.all(
-    best.stops.map(async (s): Promise<WalkStop> => {
-      if (s.kind === "coffee" || s.kind === "lunch") {
-        const p = food!.place;
-        const detail = [p.type, p.rating ? `${p.rating.toFixed(1)}★` : null].filter(Boolean).join(" · ");
-        return { id: s.id, name: p.name, location: s.location, kind: s.kind, placeId: s.placeId, detail, photo: p.photo };
-      }
-      if (s.kind === "landmark") return { id: s.id, name: s.name ?? "Landmark", location: s.location, kind: s.kind };
-      if (opts.includeNames === false || !s.placeId) return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
-      try {
-        const summary = await deps.getPlaceSummary(s.placeId);
-        return { id: s.id, name: summary.name, detail: summary.type, photo: summary.photo, location: s.location, kind: s.kind, placeId: s.placeId };
-      } catch {
-        return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
-      }
-    }),
-  );
+  const namedStops = await nameStops(best.stops, food?.place, deps, opts.includeNames);
 
   return {
     parkId: park.id,
@@ -161,5 +145,80 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
     withinTarget,
     note: notes.length ? notes.join(" ") : undefined,
     attempts,
+  };
+}
+
+/** Names (and photos) for the final stops, looked up live: Google's terms don't let us store names. */
+async function nameStops(stops: Candidate[], foodPlace: FoodPlace | undefined, deps: WalkDeps, includeNames = true): Promise<WalkStop[]> {
+  return Promise.all(
+    stops.map(async (s): Promise<WalkStop> => {
+      if ((s.kind === "coffee" || s.kind === "lunch") && foodPlace) {
+        const p = foodPlace;
+        const detail = [p.type, p.rating ? `${p.rating.toFixed(1)}★` : null].filter(Boolean).join(" · ");
+        return { id: s.id, name: p.name, location: s.location, kind: s.kind, placeId: s.placeId, detail, photo: p.photo };
+      }
+      if (s.kind === "landmark") return { id: s.id, name: s.name ?? "Landmark", location: s.location, kind: s.kind };
+      if (!includeNames || !s.placeId) return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
+      try {
+        const summary = await deps.getPlaceSummary(s.placeId);
+        return { id: s.id, name: summary.name, detail: summary.type, photo: summary.photo, location: s.location, kind: s.kind, placeId: s.placeId };
+      } catch {
+        return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
+      }
+    }),
+  );
+}
+
+export type CustomWalkOptions = {
+  park: Park;
+  entrance: Entrance;
+  /** Sights the walker picked (already checked to belong to this park). */
+  placeIds: string[];
+  food?: "coffee" | "lunch";
+  includeNames?: boolean;
+};
+
+/** Customize mode: the walker's picks in the shortest loop order (+ optional food stop), one Routes call. */
+export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps): Promise<WalkResult> {
+  const { park, entrance, food: foodKind } = opts;
+  const start = entrance.location;
+  const sights = new Map(getSights(park.id).map((s) => [s.placeId, s]));
+  const picks: Candidate[] = opts.placeIds.flatMap((id) => {
+    const s = sights.get(id);
+    return s ? [{ id, placeId: id, location: s.location, score: 1, kind: "sight" as const }] : [];
+  });
+  if (!picks.length) throw new Error("No valid sights picked");
+  let stops = orderLoop(start, picks);
+  const notes: string[] = [];
+
+  let food: Awaited<ReturnType<typeof findFoodStop>> = null;
+  if (foodKind) {
+    const what = foodKind === "coffee" ? "café" : "lunch spot";
+    // Look near the stop farthest from the start (roughly the middle of the walk).
+    const far = stops.reduce((a, b) => (distanceMeters(start, b.location) > distanceMeters(start, a.location) ? b : a));
+    try {
+      food = await findFoodStop(deps, park, foodKind, far.location, start);
+      if (food) stops = insertCheapest(start, stops, food.candidate);
+      else notes.push(`Couldn't find a well-rated ${what} open near your picks, so here's the walk without one.`);
+    } catch (err) {
+      console.error("Food search failed:", err);
+      notes.push(`Couldn't look up ${what}s right now, so here's the walk without one.`);
+    }
+  }
+
+  const route = await deps.computeRoute(start, stops.map((s) => ({ placeId: s.placeId! })));
+  const namedStops = await nameStops(stops, food?.place, deps, opts.includeNames);
+  return {
+    parkId: park.id,
+    start: { name: entrance.name, location: start },
+    stops: namedStops,
+    encodedPolyline: route.encodedPolyline,
+    distanceMeters: route.distanceMeters,
+    durationSeconds: route.durationSeconds,
+    targetMeters: route.distanceMeters,
+    withinTarget: true,
+    custom: true,
+    note: notes.length ? notes.join(" ") : undefined,
+    attempts: [{ detour: Number((route.distanceMeters / Math.max(1, loopStraightMeters(start, stops))).toFixed(2)), estimatedMeters: Math.round(loopStraightMeters(start, stops) * CUSTOM_DETOUR), actualMeters: route.distanceMeters, stops: stops.length }],
   };
 }

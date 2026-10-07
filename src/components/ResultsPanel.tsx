@@ -7,17 +7,19 @@ type Props = {
   selectedStopId: string | null;
   loading: boolean;
   onSelectStop: (id: string) => void;
-  onTryAnother: () => void;
+  /** Not offered for Customize walks (the walker chose the stops). */
+  onTryAnother?: () => void;
   onEdit: () => void;
 };
 
-export function stopBadge(stop: WalkStop, index: number): string {
-  if (stop.kind === "coffee") return "☕";
-  if (stop.kind === "lunch") return "🥪";
-  return String(index + 1);
+/** Badge for each stop: food gets an icon; sights are numbered 1, 2, 3… skipping food stops. */
+export function stopBadges(stops: WalkStop[]): string[] {
+  let n = 0;
+  return stops.map((s) => (s.kind === "coffee" ? "☕" : s.kind === "lunch" ? "🥪" : String(++n)));
 }
 
 export default function ResultsPanel({ walk, selectedStopId, loading, onSelectStop, onTryAnother, onEdit }: Props) {
+  const badges = stopBadges(walk.stops);
   return (
     <div className="flex flex-col gap-4">
       {/* Summary */}
@@ -27,8 +29,15 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
         <Stat label="Stops" value={String(walk.stops.length)} />
       </div>
       <p className="-mt-2 text-center text-xs text-zinc-500">
-        You asked for {formatMiles(walk.targetMeters)}
-        {walk.withinTarget ? " ✓" : ""}. Time is Google&apos;s estimate at an easy pace.
+        {walk.custom ? (
+          <>Your sights in the best order. </>
+        ) : (
+          <>
+            You asked for {formatMiles(walk.targetMeters)}
+            {walk.withinTarget ? " ✓" : ""}.{" "}
+          </>
+        )}
+        Time is Google&apos;s estimate at an easy pace.
       </p>
 
       {walk.note && <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">{walk.note}</p>}
@@ -45,7 +54,7 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
                 selectedStopId === stop.id ? "bg-blue-50" : ""
               }`}
             >
-              <Badge text={stopBadge(stop, i)} className={stop.kind === "coffee" || stop.kind === "lunch" ? "bg-amber-500" : "bg-blue-600"} />
+              <Badge text={badges[i]} className={stop.kind === "coffee" || stop.kind === "lunch" ? "bg-amber-500" : "bg-blue-600"} />
               <span className="min-w-0">
                 <span className="block font-medium leading-5 text-zinc-900">{stop.name}</span>
                 {stop.detail && <span className="block text-xs text-zinc-500">{stop.detail}</span>}
@@ -56,21 +65,23 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
         <StopRow badge="■" badgeClass="bg-green-700" title={walk.start.name} subtitle="Back to start" />
       </ol>
 
-      <div className="grid grid-cols-2 gap-2">
-        <button
-          type="button"
-          onClick={onTryAnother}
-          disabled={loading}
-          className="rounded-xl bg-green-700 px-3 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 disabled:cursor-wait disabled:opacity-70"
-        >
-          {loading ? "Finding another…" : "↻ Try another"}
-        </button>
+      <div className={`grid gap-2 ${onTryAnother ? "grid-cols-2" : "grid-cols-1"}`}>
+        {onTryAnother && (
+          <button
+            type="button"
+            onClick={onTryAnother}
+            disabled={loading}
+            className="rounded-xl bg-green-700 px-3 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 disabled:cursor-wait disabled:opacity-70"
+          >
+            {loading ? "Finding another…" : "↻ Try another"}
+          </button>
+        )}
         <button
           type="button"
           onClick={onEdit}
           className="rounded-xl border border-zinc-300 bg-white px-3 py-3 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50"
         >
-          ✎ Edit walk
+          {walk.custom ? "✎ Edit picks" : "✎ Edit walk"}
         </button>
       </div>
       <a

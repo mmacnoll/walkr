@@ -1,8 +1,9 @@
 "use client";
 
-import { type CSSProperties, type PointerEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
+import { estimateCustomWalk, maxPicks, orderLoop } from "@/lib/customWalk";
 import { fetchWalk, WalkError } from "@/lib/fetchWalk";
 import { clampHeight, settle, type Snap, type SnapHeights, snapHeights, toggle } from "@/lib/sheet";
 import type { Mood } from "@/lib/types";
@@ -18,8 +19,9 @@ import {
   type WalkResult,
 } from "@/lib/walk";
 import ParkMap from "./ParkMap";
+import CustomPicker, { type FoodChoice, type Pick } from "./CustomPicker";
 import ResultsPanel from "./ResultsPanel";
-import WalkForm from "./WalkForm";
+import WalkForm, { type Mode } from "./WalkForm";
 
 type View = "form" | "results";
 
@@ -38,6 +40,24 @@ export default function WalkrApp() {
   const [view, setView] = useState<View>("form");
   const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // Customize mode
+  const [mode, setMode] = useState<Mode>("surprise");
+  const [picks, setPicks] = useState<Pick[]>([]);
+  const [food, setFood] = useState<FoodChoice>("none");
+  const orderedPicks = useMemo(() => orderLoop(entrance.location, picks), [entrance.location, picks]);
+  const estimate = estimateCustomWalk(entrance.location, orderedPicks, food !== "none");
+  const pickLimit = maxPicks(food !== "none");
+  const picking = mode === "custom" && view === "form";
+
+  function togglePick(sight: { placeId: string; location: Pick["location"] }, name?: string) {
+    setPicks((current) =>
+      current.some((p) => p.placeId === sight.placeId)
+        ? current.filter((p) => p.placeId !== sight.placeId)
+        : current.length >= pickLimit
+          ? current
+          : [...current, { placeId: sight.placeId, location: sight.location, name }],
+    );
+  }
 
   // Phone bottom sheet: rests at peek / half / full and follows the finger while dragged.
   // (null heights = desktop, where it's a sidebar instead.)
@@ -97,16 +117,26 @@ export default function WalkrApp() {
     setParkId(next.id);
     setEntranceId(defaultEntrance(next).id); // a new park starts at its default entrance
     setWalk(null);
+    setPicks([]); // picks belong to one park
   }
 
   async function generate(options: { avoid?: string[] } = {}) {
-    const request: WalkRequest & { avoid?: string[] } = {
-      parkId: park.id,
-      entranceId: entrance.id,
-      mood,
-      distanceMeters: minutesToMeters(minutes),
-      avoid: options.avoid,
-    };
+    const request: Parameters<typeof fetchWalk>[0] =
+      mode === "custom"
+        ? {
+            mode: "custom",
+            parkId: park.id,
+            entranceId: entrance.id,
+            placeIds: orderedPicks.map((p) => p.placeId),
+            food: food === "none" ? undefined : food,
+          }
+        : ({
+            parkId: park.id,
+            entranceId: entrance.id,
+            mood,
+            distanceMeters: minutesToMeters(minutes),
+            avoid: options.avoid,
+          } satisfies WalkRequest & { avoid?: string[] });
     setLoading(true);
     setError(null);
     try {
@@ -132,7 +162,9 @@ export default function WalkrApp() {
   const showResults = view === "results" && walk;
   const summary = showResults
     ? `${formatMiles(walk.distanceMeters)} · ${formatDuration(walk.durationSeconds)} · ${walk.stops.length} stops`
-    : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}`;
+    : mode === "custom"
+      ? `${park.name} · ${picks.length} sight${picks.length === 1 ? "" : "s"}${picks.length ? ` · ≈ ${Math.round(estimate.minutes)} min` : ""}`
+      : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}`;
 
   return (
     <div className="relative flex h-full w-full flex-col md:flex-row">
@@ -180,7 +212,7 @@ export default function WalkrApp() {
               selectedStopId={selectedStopId}
               loading={loading}
               onSelectStop={selectStop}
-              onTryAnother={() => generate({ avoid: walk.stops.map((s) => s.id) })}
+              onTryAnother={walk.custom ? undefined : () => generate({ avoid: walk.stops.map((s) => s.id) })}
               onEdit={() => {
                 setView("form");
                 setSelectedStopId(null);
@@ -188,6 +220,21 @@ export default function WalkrApp() {
             />
           ) : (
             <WalkForm
+              mode={mode}
+              onModeChange={setMode}
+              canSubmit={orderedPicks.length > 0}
+              customSection={
+                <CustomPicker
+                  picks={orderedPicks}
+                  estimate={estimate}
+                  max={pickLimit}
+                  food={food}
+                  foodAllowed={picks.length <= maxPicks(true)}
+                  onFoodChange={setFood}
+                  onRemove={(id) => setPicks((current) => current.filter((p) => p.placeId !== id))}
+                  onClear={() => setPicks([])}
+                />
+              }
               park={park}
               entranceId={entrance.id}
               minutes={minutes}
@@ -213,7 +260,11 @@ export default function WalkrApp() {
           selectedEntranceId={entrance.id}
           onSelectEntrance={(e) => setEntranceId(e.id)}
           bottomPadding={mapBottomPadding}
-          walk={walk?.parkId === park.id ? walk : null}
+          walk={walk?.parkId === park.id && !picking ? walk : null}
+          picking={picking}
+          picks={orderedPicks}
+          picksFull={picks.length >= pickLimit}
+          onTogglePick={togglePick}
           focusOnWalk={view === "results"}
           selectedStopId={selectedStopId}
           onSelectStop={selectStop}
@@ -250,6 +301,12 @@ export default function WalkrApp() {
                 <i className="inline-block h-2 w-2 rounded-full bg-teal-600" />
                 Quiet
               </span>
+              {picking && (
+                <span className="ml-2 inline-flex items-center gap-1">
+                  <i className="inline-block h-2 w-2 rounded-full bg-blue-600" />
+                  Picked
+                </span>
+              )}
             </>
           )}
           <div className="text-[10px] text-zinc-500">

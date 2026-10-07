@@ -1,5 +1,5 @@
 // Browser side: ask our server for a walk, with a timeout and friendly error messages.
-import type { WalkRequest, WalkResult } from "./walk";
+import type { CustomWalkRequest, WalkRequest, WalkResult } from "./walk";
 
 export const CLIENT_TIMEOUT_MS = 15_000;
 
@@ -20,7 +20,7 @@ export const MESSAGES = {
 };
 
 export async function fetchWalk(
-  request: WalkRequest & { avoid?: string[] },
+  request: (WalkRequest & { avoid?: string[] }) | CustomWalkRequest,
   { fetchImpl = fetch, timeoutMs = CLIENT_TIMEOUT_MS, isOnline = () => typeof navigator === "undefined" || navigator.onLine !== false } = {},
 ): Promise<WalkResult> {
   if (!isOnline()) throw new WalkError(MESSAGES.offline, true);

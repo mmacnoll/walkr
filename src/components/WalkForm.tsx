@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { parks } from "@/data/parks";
 import type { Mood, Park } from "@/lib/types";
 import {
@@ -12,7 +13,15 @@ import {
   snapToSlider,
 } from "@/lib/walk";
 
+export type Mode = "surprise" | "custom";
+
 type Props = {
+  mode: Mode;
+  onModeChange: (mode: Mode) => void;
+  /** Customize mode: shown instead of length + mood. */
+  customSection?: ReactNode;
+  /** Customize mode: false until at least one sight is picked. */
+  canSubmit?: boolean;
   park: Park;
   entranceId: string;
   minutes: number;
@@ -30,7 +39,8 @@ type Props = {
 const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
 
 export default function WalkForm(props: Props) {
-  const { park, entranceId, minutes, unit, mood } = props;
+  const { mode, park, entranceId, minutes, unit, mood } = props;
+  const custom = mode === "custom";
   const popular = park.entrances.filter((e) => e.popular);
   const others = park.entrances.filter((e) => !e.popular);
   const sliderValue = unit === "min" ? minutes : snapToSlider(minutesToMiles(minutes), "mi");
@@ -52,6 +62,26 @@ export default function WalkForm(props: Props) {
         props.onSubmit();
       }}
     >
+      {/* Mode */}
+      <div role="group" aria-label="How to plan the walk" className="grid grid-cols-2 rounded-xl bg-zinc-100 p-1 text-sm font-semibold">
+        {(
+          [
+            ["surprise", "🎲 Surprise me"],
+            ["custom", "📍 Customize"],
+          ] as const
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            aria-pressed={mode === id}
+            onClick={() => props.onModeChange(id)}
+            className={`rounded-lg px-3 py-2 transition ${mode === id ? "bg-white text-green-900 shadow" : "text-zinc-500"}`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       {/* Park */}
       <div>
         <label htmlFor="park" className={fieldLabel}>
@@ -108,8 +138,10 @@ export default function WalkForm(props: Props) {
         <p className="mt-1 text-xs text-zinc-500">…or tap a green dot on the map.</p>
       </div>
 
+      {custom && props.customSection}
+
       {/* Length */}
-      <div>
+      <div hidden={custom}>
         <div className="mb-1.5 flex items-center justify-between">
           <label htmlFor="length" className={`${fieldLabel} mb-0`}>
             Walk length
@@ -155,7 +187,7 @@ export default function WalkForm(props: Props) {
       </div>
 
       {/* Mood */}
-      <fieldset>
+      <fieldset hidden={custom}>
         <legend className={fieldLabel}>Mood</legend>
         <div className="grid grid-cols-2 gap-2">
           {MOODS.map((m) => {
@@ -188,10 +220,10 @@ export default function WalkForm(props: Props) {
 
       <button
         type="submit"
-        disabled={props.loading}
-        className="rounded-xl bg-green-700 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-green-800 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
+        disabled={props.loading || (custom && !props.canSubmit)}
+        className="rounded-xl bg-green-700 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-green-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {props.loading ? "Finding a loop…" : "Generate walk"}
+        {props.loading ? "Finding a loop…" : custom ? "Build my walk" : "Generate walk"}
       </button>
     </form>
   );

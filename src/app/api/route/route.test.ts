@@ -1,6 +1,7 @@
 // Simulates Google failures to check the user sees a friendly message for each.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { defaultEntrance, getPark } from "@/data/parks";
+import { getSights } from "@/data/sights";
 import { POST } from "./route";
 
 const park = getPark("riverside-park")!;
@@ -61,5 +62,36 @@ describe("POST /api/route: Google failures", () => {
     const res = await post(body());
     expect(res.status).toBe(504);
     expect((await res.json()).error).toMatch(/too long/);
+  });
+});
+
+describe("POST /api/route: Customize mode", () => {
+  const sightIds = getSights(park.id).map((s) => s.placeId);
+  const custom = (extra: object) => ({ mode: "custom", parkId: park.id, entranceId: defaultEntrance(park).id, includeNames: false, ...extra });
+
+  it.each([
+    ["no picks", { placeIds: [] }, /at least one/],
+    ["a sight from another park", { placeIds: [getSights("central-park")[0].placeId] }, /aren't in this park/],
+    ["duplicate picks", { placeIds: [sightIds[0], sightIds[0]] }, /aren't in this park/],
+    ["too many picks", { placeIds: sightIds.slice(0, 11) }, /up to 10/],
+    ["10 picks plus food", { placeIds: sightIds.slice(0, 10), food: "coffee" }, /up to 9 sights with a food stop/],
+    ["unknown food", { placeIds: [sightIds[0]], food: "pizza" }, /Unknown food/],
+  ])("rejects %s without calling Google", async (_, extra, message) => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const res = await post(custom(extra));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toMatch(message);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("builds the picks into one loop with a single Routes call", async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ routes: [{ distanceMeters: 1800, duration: "1500s", polyline: { encodedPolyline: "abc" } }] }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const res = await post(custom({ placeIds: sightIds.slice(0, 3) }));
+    expect(res.status).toBe(200);
+    const walk = await res.json();
+    expect(walk.custom).toBe(true);
+    expect(walk.stops.map((s: { id: string }) => s.id).sort()).toEqual(sightIds.slice(0, 3).sort());
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

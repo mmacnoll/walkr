@@ -1,5 +1,7 @@
 import { getPark } from "@/data/parks";
-import { generateWalk } from "@/lib/generateWalk";
+import { getSights } from "@/data/sights";
+import { maxPicks } from "@/lib/customWalk";
+import { generateCustomWalk, generateWalk } from "@/lib/generateWalk";
 import { getPlaceSummary, searchFood } from "@/lib/places";
 import { computeWalkingLoop } from "@/lib/routes";
 import { errorResponse } from "@/lib/apiErrors";
@@ -8,7 +10,11 @@ import { MAX_TARGET_METERS, MIN_TARGET_METERS } from "@/lib/walk";
 
 const MOODS: Mood[] = ["scenic", "quiet", "coffee", "lunch"];
 
-/** POST /api/route  { parkId, entranceId, mood, distanceMeters, seed?, avoid?, includeNames? } */
+/**
+ * POST /api/route
+ *   Surprise me: { parkId, entranceId, mood, distanceMeters, seed?, avoid?, includeNames? }
+ *   Customize:   { mode: "custom", parkId, entranceId, placeIds: string[], food?: "coffee" | "lunch" }
+ */
 export async function POST(request: Request) {
   let body: Record<string, unknown>;
   try {
@@ -22,6 +28,27 @@ export async function POST(request: Request) {
   if (!park) return Response.json({ error: "Unknown park." }, { status: 400 });
   const entrance = park.entrances.find((e) => e.id === body.entranceId);
   if (!entrance) return Response.json({ error: "Unknown entrance for this park." }, { status: 400 });
+  const deps = { computeRoute: computeWalkingLoop, searchFood, getPlaceSummary };
+
+  if (body.mode === "custom") {
+    const food = body.food === "coffee" || body.food === "lunch" ? body.food : undefined;
+    if (body.food !== undefined && body.food !== null && !food) return Response.json({ error: "Unknown food stop." }, { status: 400 });
+    const known = new Set(getSights(park.id).map((s) => s.placeId));
+    const ids = Array.isArray(body.placeIds) ? body.placeIds : [];
+    const placeIds = [...new Set(ids.filter((x): x is string => typeof x === "string"))];
+    if (!placeIds.length) return Response.json({ error: "Pick at least one sight." }, { status: 400 });
+    if (placeIds.length !== ids.length || placeIds.some((id) => !known.has(id)))
+      return Response.json({ error: "Some picked sights aren't in this park." }, { status: 400 });
+    if (placeIds.length > maxPicks(!!food))
+      return Response.json({ error: `Pick up to ${maxPicks(!!food)} sights${food ? " with a food stop" : ""}.` }, { status: 400 });
+    try {
+      const walk = await generateCustomWalk({ park, entrance, placeIds, food, includeNames: body.includeNames !== false }, deps);
+      return Response.json(walk, { headers: { "Cache-Control": "no-store" } });
+    } catch (err) {
+      return errorResponse(err);
+    }
+  }
+
   const mood = MOODS.find((m) => m === body.mood);
   if (!mood) return Response.json({ error: "Unknown mood." }, { status: 400 });
   const target = Number(body.distanceMeters);
@@ -33,7 +60,7 @@ export async function POST(request: Request) {
   try {
     const walk = await generateWalk(
       { park, entrance, mood, targetMeters: target, seed, avoid, includeNames: body.includeNames !== false },
-      { computeRoute: computeWalkingLoop, searchFood, getPlaceSummary },
+      deps,
     );
     return Response.json(walk, { headers: { "Cache-Control": "no-store" } });
   } catch (err) {

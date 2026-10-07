@@ -2,11 +2,11 @@
 
 import { AdvancedMarker, AdvancedMarkerAnchorPoint, APILoadingStatus, APIProvider, InfoWindow, Map, useApiLoadingStatus, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
-import type { Entrance, Park, Sight } from "@/lib/types";
+import type { Entrance, LatLng, Park, Sight } from "@/lib/types";
 import type { PhotoRef, WalkResult } from "@/lib/walk";
 import PlacePhoto from "./PlacePhoto";
 import ParkBoundary from "./ParkBoundary";
-import { stopBadge } from "./ResultsPanel";
+import { stopBadges } from "./ResultsPanel";
 import RouteLine from "./RouteLine";
 
 // Browser key: restricted to Maps JavaScript API + our domains, so it's safe to expose.
@@ -26,10 +26,19 @@ type Props = {
   focusOnWalk?: boolean;
   selectedStopId?: string | null;
   onSelectStop?: (id: string | null) => void;
+  /** Customize mode: picking sights is on. */
+  picking?: boolean;
+  /** Customize mode: picked sights in walking order (shown as numbered pins + a dashed preview). */
+  picks?: { placeId: string; location: LatLng }[];
+  /** Customize mode: no room for more picks. */
+  picksFull?: boolean;
+  onTogglePick?: (sight: Sight, name?: string) => void;
 };
 
 export default function ParkMap(props: Props) {
   const { park, sights, selectedEntranceId, onSelectEntrance, bottomPadding = 0, walk, focusOnWalk, selectedStopId, onSelectStop } = props;
+  const { picking = false, picks = [], picksFull = false, onTogglePick } = props;
+  const pickOrder = new globalThis.Map(picks.map((p, i) => [p.placeId, i + 1]));
   const [openSight, setOpenSight] = useState<Sight | null>(null);
 
   if (!API_KEY) {
@@ -62,6 +71,9 @@ export default function ParkMap(props: Props) {
         }}
       >
         <ParkBoundary park={park} bottomPadding={bottomPadding} fit={!walk} />
+        {picking && picks.length > 0 && !walk && (
+          <PreviewLine path={[selectedEntrance(park, selectedEntranceId), ...picks.map((p) => p.location), selectedEntrance(park, selectedEntranceId)]} />
+        )}
         {walk && <RouteLine encodedPolyline={walk.encodedPolyline} bottomPadding={bottomPadding} />}
 
         {showPoints && (
@@ -70,6 +82,7 @@ export default function ParkMap(props: Props) {
             entrances={park.entrances}
             selectedEntranceId={selectedEntranceId}
             openSightId={openSight?.placeId}
+            pickOrder={pickOrder}
             onSelectSight={setOpenSight}
             onSelectEntrance={onSelectEntrance}
           />
@@ -99,7 +112,7 @@ export default function ParkMap(props: Props) {
                       food ? "bg-amber-500" : "bg-blue-600"
                     } ${selected ? "h-9 w-9 text-sm" : "h-7 w-7 text-xs"}`}
                   >
-                    {stopBadge(stop, i)}
+                    {stopBadges(walk.stops)[i]}
                   </div>
                 </AdvancedMarker>
               );
@@ -120,7 +133,17 @@ export default function ParkMap(props: Props) {
           </>
         )}
 
-        {showPoints && openSight && <SightInfo sight={openSight} onClose={() => setOpenSight(null)} />}
+        {showPoints && openSight && (
+          <SightInfo
+            sight={openSight}
+            onClose={() => setOpenSight(null)}
+            pick={
+              picking && onTogglePick
+                ? { picked: pickOrder.has(openSight.placeId), full: picksFull, onToggle: (name) => onTogglePick(openSight, name) }
+                : undefined
+            }
+          />
+        )}
       </Map>
     </APIProvider>
   );
@@ -135,10 +158,12 @@ function PointMarkers(props: {
   entrances: Entrance[];
   selectedEntranceId?: string;
   openSightId?: string;
+  /** Customize mode: placeId → its number in the walk. */
+  pickOrder: Map<string, number>;
   onSelectSight: (s: Sight) => void;
   onSelectEntrance?: (e: Entrance) => void;
 }) {
-  const { sights, entrances, selectedEntranceId, openSightId, onSelectSight, onSelectEntrance } = props;
+  const { sights, entrances, selectedEntranceId, openSightId, pickOrder, onSelectSight, onSelectEntrance } = props;
   const zoom = useZoom();
   const level = dotLevel(zoom);
   const sightDot = ["h-2.5 w-2.5 border", "h-3.5 w-3.5 border-2", "h-[18px] w-[18px] border-2"][level];
@@ -147,6 +172,23 @@ function PointMarkers(props: {
     <>
       {sights.map((s) => {
         const open = s.placeId === openSightId;
+        const number = pickOrder.get(s.placeId);
+        if (number)
+          return (
+            <AdvancedMarker
+              key={s.placeId}
+              position={s.location}
+              anchorPoint={AdvancedMarkerAnchorPoint.CENTER}
+              zIndex={20}
+              onClick={() => onSelectSight(s)}
+            >
+              <div className="flex h-11 w-11 items-center justify-center">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-blue-600 text-xs font-bold text-white shadow-md">
+                  {number}
+                </div>
+              </div>
+            </AdvancedMarker>
+          );
         return (
           <AdvancedMarker
             key={s.placeId}
@@ -189,6 +231,27 @@ function PointMarkers(props: {
       })}
     </>
   );
+}
+
+function selectedEntrance(park: Park, id?: string): LatLng {
+  return (park.entrances.find((e) => e.id === id) ?? park.entrances.find((e) => e.isDefault) ?? park.entrances[0]).location;
+}
+
+/** Customize mode: dashed straight lines showing the order of the picks (not the real path yet). */
+function PreviewLine({ path }: { path: LatLng[] }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!map) return;
+    const line = new google.maps.Polyline({
+      map,
+      path,
+      strokeOpacity: 0,
+      clickable: false,
+      icons: [{ icon: { path: "M 0,-1 0,1", strokeOpacity: 0.8, strokeColor: "#2563eb", scale: 3 }, offset: "0", repeat: "12px" }],
+    });
+    return () => line.setMap(null);
+  }, [map, path]);
+  return null;
 }
 
 /** 0 = zoomed out (whole big park), 1 = in between, 2 = zoomed in (street level). */
@@ -250,7 +313,9 @@ function PanTo({ position }: { position: { lat: number; lng: number } }) {
 type SightDetails = { placeId: string; name?: string; type?: string; photo?: PhotoRef; error?: string };
 
 /** Popup with the sight's name, looked up live from Google (names can't be stored). */
-function SightInfo({ sight, onClose }: { sight: Sight; onClose: () => void }) {
+type PickControl = { picked: boolean; full: boolean; onToggle: (name?: string) => void };
+
+function SightInfo({ sight, onClose, pick }: { sight: Sight; onClose: () => void; pick?: PickControl }) {
   const [details, setDetails] = useState<SightDetails | null>(null);
 
   useEffect(() => {
@@ -275,6 +340,18 @@ function SightInfo({ sight, onClose }: { sight: Sight; onClose: () => void }) {
           {sight.inPark ? "" : " · just outside the park"}
         </p>
         {current?.name && <PlacePhoto photo={current.photo} alt={current.name} />}
+        {pick && (
+          <button
+            type="button"
+            disabled={!pick.picked && pick.full}
+            onClick={() => pick.onToggle(current?.name)}
+            className={`mt-2 w-full rounded-lg px-3 py-2 text-sm font-semibold transition disabled:opacity-50 ${
+              pick.picked ? "border border-zinc-300 bg-white text-zinc-800 hover:bg-zinc-50" : "bg-green-700 text-white hover:bg-green-800"
+            }`}
+          >
+            {pick.picked ? "Remove from walk" : pick.full ? "Walk is full" : "+ Add to walk"}
+          </button>
+        )}
       </div>
     </InfoWindow>
   );

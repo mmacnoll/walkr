@@ -30,6 +30,15 @@ export type WalkRequest = {
   distanceMeters: number;
 };
 
+/** What Customize mode sends to the route generator. */
+export type CustomWalkRequest = {
+  mode: "custom";
+  parkId: string;
+  entranceId: string;
+  placeIds: string[];
+  food?: "coffee" | "lunch";
+};
+
 export function minutesToMiles(minutes: number): number {
   return minutes / MINUTES_PER_MILE;
 }
@@ -87,6 +96,8 @@ export type WalkResult = {
   targetMeters: number;
   /** Within ±15% of the requested length. */
   withinTarget: boolean;
+  /** Built in Customize mode from the walker's own picks. */
+  custom?: boolean;
   /** Friendly explanation when something didn't go perfectly. */
   note?: string;
   /** How each planning round went (for testing and tuning). */
