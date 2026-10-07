@@ -14,7 +14,7 @@
 Phase 1 saved as **v1.0.0** (tag + GitHub release, 2026-10-07).
 
 **Phase 2: usability and Customize mode**
-- [ ] M9. Sliding panel
+- [x] M9. Sliding panel
 - [ ] M10. Bigger sight dots + photos
 - [ ] M11. Customize mode
 - [ ] M12. Security headers + ship v2.0

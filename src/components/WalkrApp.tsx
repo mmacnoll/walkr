@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, type PointerEvent, useEffect, useRef, useState } from "react";
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
 import { fetchWalk, WalkError } from "@/lib/fetchWalk";
+import { clampHeight, settle, type Snap, type SnapHeights, snapHeights, toggle } from "@/lib/sheet";
 import type { Mood } from "@/lib/types";
 import {
   DEFAULT_MINUTES,
@@ -30,30 +31,66 @@ export default function WalkrApp() {
   const [minutes, setMinutes] = useState(DEFAULT_MINUTES);
   const [unit, setUnit] = useState<LengthUnit>("min");
   const [mood, setMood] = useState<Mood>("scenic");
-  const [collapsed, setCollapsed] = useState(false); // phone bottom sheet only
+  const [snap, setSnap] = useState<Snap>("full"); // phone bottom sheet only
+  const collapsed = snap === "peek";
   const [error, setError] = useState<{ message: string; retry?: () => void } | null>(null);
   const [walk, setWalk] = useState<WalkResult | null>(null);
   const [view, setView] = useState<View>("form");
   const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // On phones the sheet covers the bottom of the map; tell the map so the park isn't hidden under it.
-  const sheetRef = useRef<HTMLElement>(null);
-  const [mapBottomPadding, setMapBottomPadding] = useState(0);
+  // Phone bottom sheet: rests at peek / half / full and follows the finger while dragged.
+  // (null heights = desktop, where it's a sidebar instead.)
+  const headerRef = useRef<HTMLButtonElement>(null);
+  const [heights, setHeights] = useState<SnapHeights | null>(null);
+  const [dragHeight, setDragHeight] = useState<number | null>(null);
+  const drag = useRef<{ startY: number; startHeight: number; height: number; lastY: number; lastT: number; velocity: number; moved: boolean } | null>(null);
+  const suppressClick = useRef(false);
   useEffect(() => {
-    const sheet = sheetRef.current;
-    if (!sheet) return;
     const desktop = window.matchMedia("(min-width: 768px)");
-    const update = () => setMapBottomPadding(desktop.matches ? 0 : sheet.offsetHeight);
-    const observer = new ResizeObserver(update);
-    observer.observe(sheet);
-    desktop.addEventListener("change", update);
+    const update = () =>
+      setHeights(desktop.matches ? null : snapHeights(window.innerHeight, headerRef.current?.offsetHeight ?? 64));
     update();
+    window.addEventListener("resize", update);
+    desktop.addEventListener("change", update);
     return () => {
-      observer.disconnect();
+      window.removeEventListener("resize", update);
       desktop.removeEventListener("change", update);
     };
   }, []);
+  // The map only hears about the height once the sheet settles (re-fitting on every frame would jump).
+  const mapBottomPadding = heights ? heights[snap] : 0;
+  const sheetHeight = heights ? (dragHeight ?? heights[snap]) : undefined;
+
+  function onSheetPointerDown(e: PointerEvent<HTMLButtonElement>) {
+    if (!heights) return;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId); // keep getting moves if the finger leaves the header
+    } catch {}
+    drag.current = { startY: e.clientY, startHeight: heights[snap], height: heights[snap], lastY: e.clientY, lastT: e.timeStamp, velocity: 0, moved: false };
+  }
+  function onSheetPointerMove(e: PointerEvent<HTMLButtonElement>) {
+    const d = drag.current;
+    if (!d || !heights) return;
+    if (!d.moved && Math.abs(e.clientY - d.startY) < 6) return; // still a tap
+    d.moved = true;
+    const dt = e.timeStamp - d.lastT;
+    if (dt > 0) d.velocity = (d.lastY - e.clientY) / dt; // up = positive
+    d.lastY = e.clientY;
+    d.lastT = e.timeStamp;
+    d.height = clampHeight(d.startHeight + (d.startY - e.clientY), heights);
+    setDragHeight(d.height);
+  }
+  function onSheetPointerUp(e: PointerEvent<HTMLButtonElement>) {
+    const d = drag.current;
+    drag.current = null;
+    if (!d?.moved || !heights) return;
+    // A pause before lifting the finger isn't a flick.
+    const velocity = e.timeStamp - d.lastT > 100 ? 0 : d.velocity;
+    setSnap(settle(d.height, velocity, snap, heights));
+    setDragHeight(null);
+    suppressClick.current = true; // the browser still fires a click after a drag
+  }
 
   function changePark(id: string) {
     const next = parks.find((p) => p.id === id) ?? parks[0];
@@ -77,7 +114,7 @@ export default function WalkrApp() {
       setWalk(result);
       setSelectedStopId(null);
       setView("results");
-      setCollapsed(false);
+      setSnap("half"); // route on the map above, stops below
     } catch (err) {
       const e = err instanceof WalkError ? err : new WalkError("Something went wrong. Please try again.", true);
       setError({ message: e.message, retry: e.retryable ? () => generate(options) : undefined });
@@ -88,7 +125,7 @@ export default function WalkrApp() {
 
   function selectStop(id: string | null) {
     setSelectedStopId(id);
-    if (id) setCollapsed(true); // phones: get the sheet out of the way so the stop is visible
+    if (id) setSnap("peek"); // phones: get the sheet out of the way so the stop is visible
   }
 
   const moodInfo = MOODS.find((m) => m.id === mood);
@@ -101,16 +138,30 @@ export default function WalkrApp() {
     <div className="relative flex h-full w-full flex-col md:flex-row">
       {/* Form / results: bottom sheet on phones, sidebar on wider screens */}
       <aside
-        ref={sheetRef}
-        className="absolute inset-x-0 bottom-0 z-10 max-h-[78dvh] overflow-y-auto rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-[0_-6px_24px_rgba(0,0,0,0.15)] md:static md:order-first md:h-full md:max-h-none md:w-[380px] md:shrink-0 md:rounded-none md:border-r md:border-zinc-200 md:shadow-none"
+        style={sheetHeight === undefined ? undefined : ({ "--sheet-h": `${sheetHeight}px` } as CSSProperties)}
+        className={`absolute inset-x-0 bottom-0 z-10 h-[var(--sheet-h)] overflow-y-auto overscroll-contain rounded-t-2xl ${dragHeight === null ? "transition-[height] duration-300 ease-out motion-reduce:transition-none" : ""} bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-[0_-6px_24px_rgba(0,0,0,0.15)] md:static md:order-first md:h-full md:max-h-none md:w-[380px] md:shrink-0 md:rounded-none md:border-r md:border-zinc-200 md:shadow-none md:transition-none`}
       >
-        {/* Sheet header: tap to collapse/expand on phones */}
+        {/* Sheet header: drag to resize, or tap to open/close (phones) */}
         <button
+          ref={headerRef}
           type="button"
-          onClick={() => setCollapsed((c) => !c)}
+          onPointerDown={onSheetPointerDown}
+          onPointerMove={onSheetPointerMove}
+          onPointerUp={onSheetPointerUp}
+          onPointerCancel={() => {
+            drag.current = null;
+            setDragHeight(null);
+          }}
+          onClick={() => {
+            if (suppressClick.current) {
+              suppressClick.current = false;
+              return;
+            }
+            setSnap(toggle(snap));
+          }}
           aria-expanded={!collapsed}
           aria-controls="sheet-body"
-          className="sticky top-0 z-10 flex w-full flex-col items-center gap-2 bg-white px-4 pb-3 pt-2 md:pointer-events-none md:pt-5"
+          className="sticky top-0 z-10 flex w-full touch-none cursor-grab flex-col items-center gap-2 bg-white px-4 pb-3 pt-2 select-none active:cursor-grabbing md:pointer-events-none md:pt-5"
         >
           <span aria-hidden className="h-1.5 w-10 rounded-full bg-zinc-300 md:hidden" />
           <span className="flex w-full items-center justify-between">
@@ -122,7 +173,7 @@ export default function WalkrApp() {
           </span>
         </button>
 
-        <div id="sheet-body" className={`px-4 pb-5 ${collapsed ? "hidden md:block" : ""}`}>
+        <div id="sheet-body" className="px-4 pb-5" inert={collapsed && heights !== null}>
           {showResults ? (
             <ResultsPanel
               walk={walk}
