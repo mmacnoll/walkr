@@ -49,6 +49,23 @@ export default function WalkrApp() {
   const pickLimit = maxPicks(food !== "none");
   const picking = mode === "custom" && view === "form";
 
+  // "Clear all" with a few seconds to undo, in case it was tapped by accident.
+  const [cleared, setCleared] = useState<Pick[] | null>(null);
+  useEffect(() => {
+    if (!cleared) return;
+    const t = setTimeout(() => setCleared(null), 6000);
+    return () => clearTimeout(t);
+  }, [cleared]);
+  function clearPicks() {
+    if (!picks.length) return;
+    setCleared(picks);
+    setPicks([]);
+  }
+  function undoClear() {
+    if (cleared) setPicks(cleared);
+    setCleared(null);
+  }
+
   function togglePick(sight: { placeId: string; location: Pick["location"] }, name?: string) {
     setPicks((current) =>
       current.some((p) => p.placeId === sight.placeId)
@@ -118,6 +135,7 @@ export default function WalkrApp() {
     setEntranceId(defaultEntrance(next).id); // a new park starts at its default entrance
     setWalk(null);
     setPicks([]); // picks belong to one park
+    setCleared(null); // ...so does their Undo
   }
 
   async function generate(options: { avoid?: string[] } = {}) {
@@ -232,7 +250,7 @@ export default function WalkrApp() {
                   foodAllowed={picks.length <= maxPicks(true)}
                   onFoodChange={setFood}
                   onRemove={(id) => setPicks((current) => current.filter((p) => p.placeId !== id))}
-                  onClear={() => setPicks([])}
+                  onClear={clearPicks}
                 />
               }
               park={park}
@@ -316,6 +334,27 @@ export default function WalkrApp() {
             </a>
           </div>
         </div>
+
+        {/* Customize: always-reachable Clear all, plus a short-lived Undo */}
+        {picking && picks.length > 0 && (
+          <button
+            type="button"
+            onClick={clearPicks}
+            className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white px-3 py-2 text-sm font-semibold text-zinc-800 shadow-md transition hover:bg-zinc-50 active:scale-95"
+          >
+            <span aria-hidden>✕</span> Clear all ({picks.length})
+          </button>
+        )}
+        {cleared && picking && !picks.length && (
+          <div role="status" className="absolute inset-x-0 top-16 flex justify-center px-3">
+            <div className="flex items-center gap-3 rounded-full bg-zinc-900 px-4 py-2 text-sm text-white shadow-lg">
+              Cleared {cleared.length} sight{cleared.length === 1 ? "" : "s"}
+              <button type="button" onClick={undoClear} className="font-semibold text-green-300 hover:text-green-200">
+                Undo
+              </button>
+            </div>
+          </div>
+        )}
 
         {loading && (
           <div className="pointer-events-none absolute inset-x-0 top-16 flex justify-center" role="status" aria-live="polite">

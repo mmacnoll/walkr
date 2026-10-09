@@ -53,8 +53,12 @@ export default function CustomPicker({ picks, estimate, max, food, foodAllowed, 
         <div>
           <div className="mb-1.5 flex items-center justify-between">
             <span className={`${fieldLabel} mb-0`}>Your sights (best order)</span>
-            <button type="button" onClick={onClear} className="text-xs font-medium text-zinc-500 underline-offset-2 hover:underline">
-              Clear all
+            <button
+              type="button"
+              onClick={onClear}
+              className="rounded-full border border-zinc-300 px-3 py-1 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-50"
+            >
+              ✕ Clear all
             </button>
           </div>
           <ol className="flex flex-col">
