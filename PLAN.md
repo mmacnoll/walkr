@@ -21,7 +21,19 @@ Phase 1 saved as **v1.0.0** (tag + GitHub release, 2026-10-07).
 
 Phase 2 saved as **v2.0.0** (tag + GitHub release, 2026-10-07).
 
-**Phase 3:** to be chosen (see the ranking below).
+Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
+
+**Phase 3: more ways to shape a walk, plus sharing (chosen 2026-10-09)**
+- [ ] M13. Mood + refreshment
+- [ ] M14. Extra stops: restroom, water, playground, dog run
+- [ ] M15. Route preferences: well lit, waterfront
+- [ ] M16. Shareable links
+- [ ] M17. AI walk description
+- [ ] M18. Save favorite walks
+- [ ] M19. "Good for" tags
+- [ ] M20. Design polish + Add to Home Screen + ship v3.0
+
+**Phase 4:** see the list below.
 
 ## Context
 This is a class project with two graded phases. The app makes a **loop walking route** in an NYC park. The user picks a park, an entrance, a walk length and a mood, and the app draws the loop on a map with its stops listed. Phase 1 is a working proof of concept, live on Vercel and usable on a phone. Phase 2 adds polish and stretch features.
@@ -170,28 +182,70 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 
 ---
 
-## Phase 3: Polish and stretch (ranked by impact ÷ effort)
+## Phase 3: More ways to shape a walk, plus sharing (your choices, 2026-10-09)
 
-| Rank | Feature | Impact | Effort | Notes |
-|---|---|---|---|---|
-| 1 | **Shareable links** | High | Low | Put the park, entrance, length, mood and stop IDs in the URL so the route can be rebuilt. Easy to show off in class. |
-| 2 | **AI route description** | High | Low | One server call to Claude (`claude-haiku-4-5`) for a short, fun blurb. Needs an Anthropic key. |
-| 3 | **Design polish + PWA** | High | Medium | Branding, animations, dark mode, "Add to Home Screen". |
-| 4 | **Analytics** | Medium (great for the presentation) | Low | Vercel Analytics plus custom events for park and mood. |
-| 5 | **Weather + golden hour** | Medium | Low–Med | Open-Meteo is free with no key and includes sunset times. |
-| 6 | **Save favorites (localStorage)** | Medium | Low | Supabase with sign-in is a separate, harder step later. |
-| 7 | **"Good for" tags** | Medium | Medium | Date / family / solo change how stops are scored. Fits easily into the M5 logic. |
-| 8 | **More parks + "near me"** | Medium | Medium | Mostly data work (e.g. Fort Tryon, Hudson River Park, Domino Park), plus a location prompt. |
-| 9 | **Live GPS mode** | Medium | Medium–High | Show the blue dot on the route. Needs HTTPS (Vercel has it) and a lot of phone testing. |
-| 10 | **Accessibility / terrain** | Medium | High | The Elevation API helps with hills, but stroller-friendly path data is limited. |
+### M13. Mood + refreshment — *Medium*
+- **Mood** (Scenic, Quiet) and **refreshment** (None, ☕ Coffee, 🥪 Lunch, 🍰 Sweet treat) become two separate choices, so "Quiet + Coffee" is possible. One refreshment per walk.
+- **Sweet treat** finds a well-rated bakery, ice cream or dessert shop near the route, the same way cafés are found today.
+- **Customize mode** uses the same refreshment picker.
+- The API takes `mood` + `refreshment`; old links that send `mood: "coffee"` keep working.
+- **Test:** unit tests, then re-run the walk test script across all parks with each refreshment.
 
-Suggested Phase 3 set: ranks 1–5. We'll decide together once Phase 2 is live. (Photos moved up into Phase 2, M10.)
+### M14. Extra stops: restroom, water, playground, dog run — *Medium*
+- **"Add stops" toggles:** 🚻 Restroom, 💧 Water fountain, 🛝 Playground, 🐕 Dog run. More than one is allowed, within the 10-stop limit.
+- **Data:** NYC Parks open data (restrooms, drinking fountains, playgrounds, dog runs), collected once and stored in the repo like the park outlines. Unlike Google data, it may be kept. I'll check each dataset's coverage before building.
+- **Placement:** each stop goes where it adds the least walking. A note appears when none is nearby.
+- Works in both Surprise me and Customize.
+
+### M15. Route preferences: well lit, waterfront — *Medium–High*
+- **💡 Well lit:** prefers sights and turning points on OpenStreetMap paths tagged lit. In Central Park, 1,647 path segments are tagged lit and 162 unlit; the rest aren't tagged. The result shows "≈ X% on lit paths".
+- **Honest limits:** Google picks the exact path between stops, so lighting can't be guaranteed, and the app reminds walkers of park closing hours (e.g. Central Park is closed 1–6 AM).
+- **🌊 Waterfront:** prefers stops near the water's edge (OpenStreetMap water outlines) and shows "≈ X% along the water". Most useful for Riverside, Brooklyn Bridge Park, the Battery and the Promenade.
+- Both work by scoring candidate stops, plus measuring the finished route against the map data.
+- **Test:** compare % lit and % waterfront with each preference on and off, across all parks.
+
+### M16. Shareable links — *Low–Medium*
+- **Share button:** copies a link that rebuilds the same walk for whoever opens it: park, entrance, stops in order, refreshment and preferences. Uses the phone's share sheet where available.
+- Stop IDs are in the link, so it rebuilds the walk without re-planning (one Routes call).
+
+### M17. AI walk description — *Low–Medium*
+- **A short, fun write-up of each walk,** a few sentences mentioning the stops in order, from Claude Haiku 4.5 on the server.
+- **Needs:** an Anthropic API key from you, stored on Vercel like the Google keys, plus a spending limit set in the Anthropic console.
+- **Fallback:** if it fails, the walk shows without a write-up.
+
+### M18. Save favorite walks — *Low*
+- **⭐ Save** keeps a walk on this phone, using browser storage and the M16 link format. A "Saved walks" list opens or deletes them. No accounts.
+
+### M19. "Good for" tags — *Medium*
+- **Date, family or solo**, each nudging which stops are picked:
+  - **Date:** views and fountains, with a sweet treat suggested.
+  - **Family:** playgrounds and restrooms, building on M14.
+  - **Solo:** quieter, well-lit paths.
+- Defined once we see how M13–M15 feel.
+
+### M20. Design polish + Add to Home Screen + ship v3.0 — *Medium*
+- **Look:** branding (logo and colors), smoother animations and dark mode.
+- **Add to Home Screen:** install Walkr like an app (PWA manifest and icons).
+- Then a phone test, tag and release **v3.0.0**.
 
 ---
 
+## Phase 4: Later ideas
+| Feature | Notes |
+|---|---|
+| **Analytics** | Vercel Analytics plus custom events for park and mood; great for the presentation. |
+| **Weather + golden hour** | Open-Meteo is free with no key and includes sunset times. |
+| **Pace** | Stroll, normal or brisk, adjusting time estimates. |
+| **More parks + "near me"** | E.g. Fort Tryon, Hudson River Park, Domino Park, plus a location prompt. |
+| **Live GPS mode** | Your blue dot on the route while walking. |
+| **Accessibility / step-free / terrain** | Avoid or warn about stairs (OpenStreetMap), plus hills (Elevation API). |
+| **Shade** | Tree cover; data inside parks is limited. |
+| **Skip cafés inside shops** | E.g. the café in Barnes & Noble that Coffee picked at Union Square. |
+| **Full Content-Security-Policy** | Script-level policy; Google Maps needs many allowances. |
+
 ## How we'll work
 - One milestone at a time. After each one: what changed, how to test with `npm run dev`, a commit with a clear message, and `PLAN.md` ticked.
-- Anything that can't be done well in Phase 1 moves to Phase 2.
+- Anything that can't be done well in its phase moves to the next one.
 - You do the Google Cloud, GitHub and Vercel account clicks. I give exact steps and run the CLI commands.
 
 ## Verification (overall)
