@@ -1,6 +1,6 @@
 # Walkr
 
-**Loop walks through New York City parks.** Pick a park, a starting entrance, how long you want to walk and a mood. Walkr draws a loop that starts and ends at your entrance, passes interesting stops along the way and lists them in order.
+**Loop walks through New York City parks.** Pick a park, a starting entrance, how long you want to walk, a mood and an optional refreshment stop. Walkr draws a loop that starts and ends at your entrance, passes interesting stops along the way and lists them in order.
 
 Live app: **https://walkr-gamma.vercel.app**
 
@@ -8,12 +8,11 @@ Live app: **https://walkr-gamma.vercel.app**
 - **12 NYC parks:** Central Park, Riverside, Morningside, Prospect, Madison Square, Union Square, Washington Square, the High Line, the Battery, Brooklyn Heights Promenade, Brooklyn Bridge Park and Walt Whitman Park.
 - **Real entrances** from OpenStreetMap, with a sensible default for each park.
 - **Length in minutes or miles** (about 20 minutes per mile).
-- **Four moods:**
+- **Two moods:**
   - **Scenic:** landmarks, views, fountains and sculptures.
   - **Quiet:** gardens and calmer corners, away from busy plazas.
-  - **Coffee Stop:** a well-rated café on the way, found live.
-  - **Lunch Spot:** a well-rated restaurant on the way, found live.
-- **Customize mode:** pick your own sights on the map. Walkr puts them in the shortest loop, shows a live time estimate as you pick, and can add a café or lunch stop.
+- **Plus an optional refreshment:** ☕ coffee, 🥪 lunch or 🍰 a sweet treat (bakery, ice cream or dessert), found live, well rated and open. Combine it with either mood, e.g. Quiet + Coffee.
+- **Customize mode:** pick your own sights on the map. Walkr puts them in the shortest loop, shows a live time estimate as you pick, and can add a coffee, lunch or sweet-treat stop.
 - **Photos:** tap any sight or stop to see a Google photo of it.
 - **Numbered stops** on the map and in a list. Tap one to see where it is.
 - **Try another:** builds a different loop with the same settings.

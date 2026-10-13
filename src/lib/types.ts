@@ -1,6 +1,10 @@
 export type LatLng = { lat: number; lng: number };
 
-export type Mood = "scenic" | "quiet" | "coffee" | "lunch";
+/** The feel of the walk: which sights are favored. */
+export type Mood = "scenic" | "quiet";
+
+/** One optional food/drink stop per walk, found live near the route. */
+export type Refreshment = "coffee" | "lunch" | "treat";
 
 /**
  * large  = the loop stays inside the park boundary.
@@ -22,7 +26,8 @@ export type Landmark = {
   id: string;
   name: string;
   location: LatLng;
-  moods: Mood[];
+  /** Hand-picked tags; coffee/lunch mark landmarks that are themselves a café or restaurant. */
+  moods: (Mood | Refreshment)[];
 };
 
 export type Park = {

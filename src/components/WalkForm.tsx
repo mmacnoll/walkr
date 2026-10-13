@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { parks } from "@/data/parks";
 import type { Mood, Park } from "@/lib/types";
+import RefreshmentPicker, { type RefreshmentChoice } from "./RefreshmentPicker";
 import {
   describeLength,
   LENGTH_LIMITS,
@@ -32,6 +33,8 @@ type Props = {
   onMinutesChange: (minutes: number) => void;
   onUnitChange: (unit: LengthUnit) => void;
   onMoodChange: (mood: Mood) => void;
+  refreshment: RefreshmentChoice;
+  onRefreshmentChange: (value: RefreshmentChoice) => void;
   onSubmit: () => void;
   loading?: boolean;
 };
@@ -217,6 +220,8 @@ export default function WalkForm(props: Props) {
         </div>
         <p className="mt-1.5 text-xs text-zinc-500">{MOODS.find((m) => m.id === mood)?.description}</p>
       </fieldset>
+
+      {!custom && <RefreshmentPicker value={props.refreshment} onChange={props.onRefreshmentChange} />}
 
       <button
         type="submit"

@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDuration, formatMiles, googleMapsDirectionsUrl, type WalkResult, type WalkStop } from "@/lib/walk";
+import { formatDuration, formatMiles, googleMapsDirectionsUrl, isRefreshment, REFRESHMENTS, type WalkResult, type WalkStop } from "@/lib/walk";
 
 type Props = {
   walk: WalkResult;
@@ -15,7 +15,7 @@ type Props = {
 /** Badge for each stop: food gets an icon; sights are numbered 1, 2, 3… skipping food stops. */
 export function stopBadges(stops: WalkStop[]): string[] {
   let n = 0;
-  return stops.map((s) => (s.kind === "coffee" ? "☕" : s.kind === "lunch" ? "🥪" : String(++n)));
+  return stops.map((s) => (isRefreshment(s.kind) ? REFRESHMENTS.find((r) => r.id === s.kind)!.emoji : String(++n)));
 }
 
 export default function ResultsPanel({ walk, selectedStopId, loading, onSelectStop, onTryAnother, onEdit }: Props) {
@@ -54,7 +54,7 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
                 selectedStopId === stop.id ? "bg-blue-50" : ""
               }`}
             >
-              <Badge text={badges[i]} className={stop.kind === "coffee" || stop.kind === "lunch" ? "bg-amber-500" : "bg-blue-600"} />
+              <Badge text={badges[i]} className={isRefreshment(stop.kind) ? "bg-amber-500" : "bg-blue-600"} />
               <span className="min-w-0">
                 <span className="block font-medium leading-5 text-zinc-900">{stop.name}</span>
                 {stop.detail && <span className="block text-xs text-zinc-500">{stop.detail}</span>}

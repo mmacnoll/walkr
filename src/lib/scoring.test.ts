@@ -11,8 +11,8 @@ describe("scoreSight", () => {
     expect(scoreSight({ moods: ["scenic"], inPark: true }, "scenic")).toBeGreaterThan(scoreSight({ moods: ["scenic"], inPark: false }, "scenic"));
   });
 
-  it("values any sight on coffee and lunch walks", () => {
-    expect(scoreSight({ moods: ["quiet"], inPark: true }, "coffee")).toBeGreaterThan(0.8);
+  it("prefers quiet sights on quiet walks", () => {
+    expect(scoreSight({ moods: ["quiet"], inPark: true }, "quiet")).toBeGreaterThan(scoreSight({ moods: ["scenic"], inPark: true }, "quiet"));
   });
 });
 

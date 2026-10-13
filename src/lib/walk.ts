@@ -1,4 +1,4 @@
-import type { LatLng, Mood } from "./types";
+import type { LatLng, Mood, Refreshment } from "./types";
 
 /** Average walking pace used to convert minutes ↔ miles: 3 mph = 20 minutes per mile. */
 export const MINUTES_PER_MILE = 20;
@@ -17,15 +17,29 @@ export const DEFAULT_MINUTES = 30;
 export const MOODS: { id: Mood; label: string; emoji: string; description: string }[] = [
   { id: "scenic", label: "Scenic", emoji: "🌅", description: "Landmarks, views, bridges and water" },
   { id: "quiet", label: "Quiet", emoji: "🌿", description: "Gardens, meadows and calmer paths" },
-  { id: "coffee", label: "Coffee Stop", emoji: "☕", description: "A café on or near the way" },
-  { id: "lunch", label: "Lunch Spot", emoji: "🥪", description: "A place to eat, roughly mid-walk" },
 ];
+
+export const REFRESHMENTS: { id: Refreshment; label: string; emoji: string; noun: string }[] = [
+  { id: "coffee", label: "Coffee", emoji: "☕", noun: "café" },
+  { id: "lunch", label: "Lunch", emoji: "🥪", noun: "lunch spot" },
+  { id: "treat", label: "Sweet treat", emoji: "🍰", noun: "sweet treat spot" },
+];
+
+export function isRefreshment(kind: unknown): kind is Refreshment {
+  return kind === "coffee" || kind === "lunch" || kind === "treat";
+}
+
+/** "café", "lunch spot", "sweet treat spot" */
+export function refreshmentNoun(r: Refreshment): string {
+  return REFRESHMENTS.find((x) => x.id === r)!.noun;
+}
 
 /** What the form sends to the route generator (M5). */
 export type WalkRequest = {
   parkId: string;
   entranceId: string;
   mood: Mood;
+  refreshment?: Refreshment;
   /** Target loop length. The generator aims for ±15%. */
   distanceMeters: number;
 };
@@ -36,7 +50,7 @@ export type CustomWalkRequest = {
   parkId: string;
   entranceId: string;
   placeIds: string[];
-  food?: "coffee" | "lunch";
+  refreshment?: Refreshment;
 };
 
 export function minutesToMiles(minutes: number): number {
@@ -68,7 +82,7 @@ export type WalkStop = {
   id: string;
   name: string;
   location: LatLng;
-  kind: "sight" | "landmark" | "coffee" | "lunch";
+  kind: "sight" | "landmark" | Refreshment;
   placeId?: string;
   /** e.g. "Sculpture", "Coffee shop · 4.6★" */
   detail?: string;

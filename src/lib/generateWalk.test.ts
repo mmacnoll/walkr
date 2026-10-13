@@ -44,11 +44,12 @@ describe("generateWalk", () => {
     expect(walk.stops[0].name).toBe("A sight");
   });
 
-  it("includes a café on coffee walks", async () => {
+  it("includes a café on a Quiet + Coffee walk", async () => {
     const near = { lat: 40.7925, lng: -73.978 }; // inside Riverside Park
     foodSpots.set("cafe1", near);
     const deps = fakeDeps(1.3, [{ placeId: "cafe1", name: "Good Coffee", location: near, rating: 4.6, ratingCount: 300, openNow: true, type: "Coffee shop" }]);
-    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "coffee", targetMeters: 3000, seed: 3 }, deps);
+    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "quiet", refreshment: "coffee", targetMeters: 3000, seed: 3 }, deps);
+    expect(deps.searchFood).toHaveBeenCalledWith("coffee", expect.anything(), expect.any(Number));
     const cafe = walk.stops.find((s) => s.kind === "coffee");
     expect(cafe?.name).toBe("Good Coffee");
     expect(cafe?.detail).toBe("Coffee shop · 4.6★");
@@ -56,7 +57,7 @@ describe("generateWalk", () => {
 
   it("explains when no café is found", async () => {
     const deps = fakeDeps(1.3, []);
-    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "lunch", targetMeters: 2400, seed: 3 }, deps);
+    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "scenic", refreshment: "lunch", targetMeters: 2400, seed: 3 }, deps);
     expect(walk.note).toMatch(/lunch spot/);
     expect(walk.stops.some((s) => s.kind === "lunch")).toBe(false);
   });
@@ -66,9 +67,24 @@ describe("generateWalk", () => {
     deps.searchFood = vi.fn(async () => {
       throw new Error("quota");
     });
-    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "coffee", targetMeters: 2400, seed: 3 }, deps);
+    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "scenic", refreshment: "coffee", targetMeters: 2400, seed: 3 }, deps);
     expect(walk.stops.length).toBeGreaterThan(0);
     expect(walk.note).toMatch(/Couldn't look up cafés right now/);
+  });
+
+  it("adds a sweet treat stop with its own badge kind", async () => {
+    const near = { lat: 40.7925, lng: -73.978 };
+    foodSpots.set("treat1", near);
+    const deps = fakeDeps(1.3, [{ placeId: "treat1", name: "Ice Cream Spot", location: near, rating: 4.7, ratingCount: 500, openNow: true, type: "Ice cream shop" }]);
+    const walk = await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "scenic", refreshment: "treat", targetMeters: 3000, seed: 3 }, deps);
+    expect(deps.searchFood).toHaveBeenCalledWith("treat", expect.anything(), expect.any(Number));
+    expect(walk.stops.find((s) => s.kind === "treat")?.name).toBe("Ice Cream Spot");
+  });
+
+  it("makes no food search without a refreshment", async () => {
+    const deps = fakeDeps(1.3);
+    await generateWalk({ park: riverside, entrance: defaultEntrance(riverside), mood: "quiet", targetMeters: 2400, seed: 3 }, deps);
+    expect(deps.searchFood).not.toHaveBeenCalled();
   });
 
   it("says so when it can't hit the length", async () => {

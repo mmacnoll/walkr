@@ -1,6 +1,6 @@
 // Server-side Google Places helpers. Uses the server key, which never reaches the browser.
 import { signPhotoName } from "./photoToken";
-import type { LatLng } from "./types";
+import type { LatLng, Refreshment } from "./types";
 import type { PhotoRef } from "./walk";
 
 const PLACES_URL = "https://places.googleapis.com/v1/places";
@@ -63,13 +63,15 @@ export type FoodPlace = {
   photo?: PhotoRef;
 };
 
-const FOOD_TYPES = {
+const FOOD_TYPES: Record<Refreshment, string[]> = {
   coffee: ["cafe", "coffee_shop"],
   lunch: ["sandwich_shop", "deli", "bakery", "pizza_restaurant", "restaurant", "cafe"],
+  treat: ["bakery", "ice_cream_shop", "dessert_shop", "dessert_restaurant", "donut_shop", "chocolate_shop", "cake_shop", "pastry_shop", "confectionery"],
 };
+const FALLBACK_NAME: Record<Refreshment, string> = { coffee: "Café", lunch: "Lunch spot", treat: "Sweet treat" };
 
-/** Live search for cafés or casual lunch places near a point. */
-export async function searchFood(kind: "coffee" | "lunch", center: LatLng, radiusMeters: number): Promise<FoodPlace[]> {
+/** Live search for cafés, casual lunch places or sweet-treat shops near a point. */
+export async function searchFood(kind: Refreshment, center: LatLng, radiusMeters: number): Promise<FoodPlace[]> {
   const res = await fetch(`${PLACES_URL}:searchNearby`, {
     method: "POST",
     headers: {
@@ -105,7 +107,7 @@ export async function searchFood(kind: "coffee" | "lunch", center: LatLng, radiu
     .filter((p) => !p.businessStatus || p.businessStatus === "OPERATIONAL")
     .map((p) => ({
       placeId: p.id,
-      name: p.displayName?.text ?? "Café",
+      name: p.displayName?.text ?? FALLBACK_NAME[kind],
       location: { lat: p.location.latitude, lng: p.location.longitude },
       rating: p.rating ?? 0,
       ratingCount: p.userRatingCount ?? 0,

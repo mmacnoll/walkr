@@ -74,8 +74,9 @@ describe("POST /api/route: Customize mode", () => {
     ["a sight from another park", { placeIds: [getSights("central-park")[0].placeId] }, /aren't in this park/],
     ["duplicate picks", { placeIds: [sightIds[0], sightIds[0]] }, /aren't in this park/],
     ["too many picks", { placeIds: sightIds.slice(0, 11) }, /up to 10/],
-    ["10 picks plus food", { placeIds: sightIds.slice(0, 10), food: "coffee" }, /up to 9 sights with a food stop/],
-    ["unknown food", { placeIds: [sightIds[0]], food: "pizza" }, /Unknown food/],
+    ["10 picks plus a refreshment", { placeIds: sightIds.slice(0, 10), refreshment: "treat" }, /up to 9 sights with a food stop/],
+    ["10 picks plus food (older request)", { placeIds: sightIds.slice(0, 10), food: "coffee" }, /up to 9 sights with a food stop/],
+    ["unknown refreshment", { placeIds: [sightIds[0]], refreshment: "pizza" }, /Unknown refreshment/],
   ])("rejects %s without calling Google", async (_, extra, message) => {
     const fetchSpy = vi.spyOn(globalThis, "fetch");
     const res = await post(custom(extra));
@@ -93,5 +94,49 @@ describe("POST /api/route: Customize mode", () => {
     expect(walk.custom).toBe(true);
     expect(walk.stops.map((s: { id: string }) => s.id).sort()).toEqual(sightIds.slice(0, 3).sort());
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("POST /api/route: mood + refreshment", () => {
+  it.each([
+    ["an unknown refreshment", { refreshment: "pizza" }, /Unknown refreshment/],
+    ["an unknown mood", { mood: "spooky", refreshment: "coffee" }, /Unknown mood/],
+  ])("rejects %s without calling Google", async (_, extra, message) => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const res = await post(body(extra));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toMatch(message);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["Quiet + Coffee", { mood: "quiet", refreshment: "coffee" }, "coffee"],
+    ["Scenic + Sweet treat", { mood: "scenic", refreshment: "treat" }, "treat"],
+    ["an older request with mood \"lunch\"", { mood: "lunch" }, "lunch"],
+  ])("searches for the right refreshment: %s", async (_, extra, kind) => {
+    const calls: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string, init?: RequestInit) => {
+        if (String(url).includes("searchNearby")) {
+          calls.push(JSON.parse(String(init?.body)).includedTypes.join(","));
+          return new Response(JSON.stringify({ places: [] }), { status: 200 });
+        }
+        return new Response(JSON.stringify({ routes: [{ distanceMeters: 2400, duration: "1800s", polyline: { encodedPolyline: "abc" } }] }), { status: 200 });
+      }),
+    );
+    const res = await post(body(extra));
+    expect(res.status).toBe(200);
+    expect(calls.length).toBeGreaterThan(0);
+    const expected = { coffee: "coffee_shop", lunch: "sandwich_shop", treat: "ice_cream_shop" }[kind]!;
+    expect(calls[0]).toContain(expected);
+  });
+
+  it("makes no food search with no refreshment", async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ routes: [{ distanceMeters: 2400, duration: "1800s", polyline: { encodedPolyline: "abc" } }] }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const res = await post(body({ mood: "quiet", refreshment: "none" }));
+    expect(res.status).toBe(200);
+    expect(fetchMock.mock.calls.some((call) => String((call as unknown[])[0]).includes("searchNearby"))).toBe(false);
   });
 });

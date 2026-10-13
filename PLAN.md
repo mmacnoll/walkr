@@ -24,7 +24,7 @@ Phase 2 saved as **v2.0.0** (tag + GitHub release, 2026-10-07).
 Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 
 **Phase 3: more ways to shape a walk, plus sharing (chosen 2026-10-09)**
-- [ ] M13. Mood + refreshment
+- [x] M13. Mood + refreshment
 - [ ] M14. Extra stops: restroom, water, playground, dog run
 - [ ] M15. Route preferences: well lit, waterfront
 - [ ] M16. Shareable links

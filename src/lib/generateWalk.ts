@@ -7,12 +7,12 @@ import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, insertCheap
 import type { FoodPlace, PlaceSummary } from "./places";
 import type { RouteWaypoint, WalkingRoute } from "./routes";
 import { scoreFood, scoreLandmark, scoreSight } from "./scoring";
-import type { Entrance, LatLng, Mood, Park } from "./types";
-import { LENGTH_TOLERANCE, type WalkResult, type WalkStop } from "./walk";
+import type { Entrance, LatLng, Mood, Park, Refreshment } from "./types";
+import { isRefreshment, LENGTH_TOLERANCE, refreshmentNoun, type WalkResult, type WalkStop } from "./walk";
 
 export type WalkDeps = {
   computeRoute: (start: LatLng, stops: RouteWaypoint[]) => Promise<WalkingRoute>;
-  searchFood: (kind: "coffee" | "lunch", center: LatLng, radiusMeters: number) => Promise<FoodPlace[]>;
+  searchFood: (kind: Refreshment, center: LatLng, radiusMeters: number) => Promise<FoodPlace[]>;
   getPlaceSummary: (placeId: string) => Promise<PlaceSummary>;
 };
 
@@ -20,6 +20,8 @@ export type WalkOptions = {
   park: Park;
   entrance: Entrance;
   mood: Mood;
+  /** Optional coffee / lunch / sweet-treat stop. */
+  refreshment?: Refreshment;
   targetMeters: number;
   seed: number;
   /** Stop ids from the previous walk ("Try another"). */
@@ -47,7 +49,7 @@ function sightCandidates(park: Park, mood: Mood): Candidate[] {
 async function findFoodStop(
   deps: WalkDeps,
   park: Park,
-  kind: "coffee" | "lunch",
+  kind: Refreshment,
   near: LatLng,
   start: LatLng,
 ): Promise<{ candidate: Candidate; place: FoodPlace } | null> {
@@ -72,7 +74,7 @@ async function findFoodStop(
 }
 
 export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<WalkResult> {
-  const { park, entrance, mood, targetMeters } = opts;
+  const { park, entrance, mood, refreshment, targetMeters } = opts;
   const startedAt = Date.now();
   const budget = opts.timeBudgetMs ?? DEFAULT_TIME_BUDGET_MS;
   const start = entrance.location;
@@ -86,10 +88,10 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
 
   // Coffee / lunch: find one good, open place near the far end of the loop.
   let food: Awaited<ReturnType<typeof findFoodStop>> = null;
-  if (mood === "coffee" || mood === "lunch") {
-    const what = mood === "coffee" ? "café" : "lunch spot";
+  if (refreshment) {
+    const what = refreshmentNoun(refreshment);
     try {
-      food = await findFoodStop(deps, park, mood, firstPlan?.turnaround.location ?? park.center, start);
+      food = await findFoodStop(deps, park, refreshment, firstPlan?.turnaround.location ?? park.center, start);
       if (!food) notes.push(`Couldn't find a well-rated ${what} open near this route, so here's the walk without one.`);
     } catch (err) {
       // Don't fail the whole walk if the café search is down or over its daily limit.
@@ -152,7 +154,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
 async function nameStops(stops: Candidate[], foodPlace: FoodPlace | undefined, deps: WalkDeps, includeNames = true): Promise<WalkStop[]> {
   return Promise.all(
     stops.map(async (s): Promise<WalkStop> => {
-      if ((s.kind === "coffee" || s.kind === "lunch") && foodPlace) {
+      if (isRefreshment(s.kind) && foodPlace) {
         const p = foodPlace;
         const detail = [p.type, p.rating ? `${p.rating.toFixed(1)}★` : null].filter(Boolean).join(" · ");
         return { id: s.id, name: p.name, location: s.location, kind: s.kind, placeId: s.placeId, detail, photo: p.photo };
@@ -174,13 +176,13 @@ export type CustomWalkOptions = {
   entrance: Entrance;
   /** Sights the walker picked (already checked to belong to this park). */
   placeIds: string[];
-  food?: "coffee" | "lunch";
+  refreshment?: Refreshment;
   includeNames?: boolean;
 };
 
 /** Customize mode: the walker's picks in the shortest loop order (+ optional food stop), one Routes call. */
 export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps): Promise<WalkResult> {
-  const { park, entrance, food: foodKind } = opts;
+  const { park, entrance, refreshment: foodKind } = opts;
   const start = entrance.location;
   const sights = new Map(getSights(park.id).map((s) => [s.placeId, s]));
   const picks: Candidate[] = opts.placeIds.flatMap((id) => {
@@ -193,7 +195,7 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
 
   let food: Awaited<ReturnType<typeof findFoodStop>> = null;
   if (foodKind) {
-    const what = foodKind === "coffee" ? "café" : "lunch spot";
+    const what = refreshmentNoun(foodKind);
     // Look near the stop farthest from the start (roughly the middle of the walk).
     const far = stops.reduce((a, b) => (distanceMeters(start, b.location) > distanceMeters(start, a.location) ? b : a));
     try {

@@ -6,9 +6,7 @@ import type { Landmark, Mood, Sight } from "./types";
 export function scoreSight(sight: Pick<Sight, "moods" | "inPark">, mood: Mood): number {
   let score: number;
   if (mood === "scenic") score = sight.moods.includes("scenic") ? 1 : 0.35;
-  else if (mood === "quiet") score = sight.moods.includes("quiet") ? 1 : 0.3;
-  // Coffee/lunch walks: any sight is nice along the way; scenic ones slightly more.
-  else score = sight.moods.includes("scenic") ? 0.8 : 0.7;
+  else score = sight.moods.includes("quiet") ? 1 : 0.3;
   return score + (sight.inPark ? 0.25 : 0);
 }
 
@@ -18,7 +16,7 @@ export function scoreLandmark(landmark: Pick<Landmark, "moods">, mood: Mood): nu
 }
 
 /**
- * Cafés / lunch places: well-rated, plenty of reviews, open now, and close to where we want
+ * Cafés / lunch places / sweet-treat shops: well-rated, plenty of reviews, open now, and close to where we want
  * the stop (`distanceMeters` from the ideal spot). Returns -Infinity for places to skip.
  */
 export function scoreFood(place: Pick<FoodPlace, "rating" | "ratingCount" | "openNow">, distanceMeters: number): number {

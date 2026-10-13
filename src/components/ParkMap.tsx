@@ -3,7 +3,7 @@
 import { AdvancedMarker, AdvancedMarkerAnchorPoint, APILoadingStatus, APIProvider, InfoWindow, Map, useApiLoadingStatus, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import type { Entrance, LatLng, Park, Sight } from "@/lib/types";
-import type { PhotoRef, WalkResult } from "@/lib/walk";
+import { isRefreshment, type PhotoRef, type WalkResult } from "@/lib/walk";
 import PlacePhoto from "./PlacePhoto";
 import ParkBoundary from "./ParkBoundary";
 import { stopBadges } from "./ResultsPanel";
@@ -97,7 +97,7 @@ export default function ParkMap(props: Props) {
               </div>
             </AdvancedMarker>
             {walk.stops.map((stop, i) => {
-              const food = stop.kind === "coffee" || stop.kind === "lunch";
+              const food = isRefreshment(stop.kind);
               const selected = stop.id === selectedStopId;
               return (
                 <AdvancedMarker

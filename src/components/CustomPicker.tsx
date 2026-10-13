@@ -3,9 +3,10 @@
 import type { CustomEstimate } from "@/lib/customWalk";
 import type { LatLng } from "@/lib/types";
 import { formatMiles } from "@/lib/walk";
+import RefreshmentPicker, { type RefreshmentChoice } from "./RefreshmentPicker";
 
 export type Pick = { placeId: string; location: LatLng; name?: string };
-export type FoodChoice = "none" | "coffee" | "lunch";
+export type FoodChoice = RefreshmentChoice;
 
 type Props = {
   /** Picks in walking order (best loop). */
@@ -43,7 +44,7 @@ export default function CustomPicker({ picks, estimate, max, food, foodAllowed, 
         )}
         {picks.length > 0 && (
           <p className="mt-0.5 text-[11px] text-green-800">
-            Estimate{food !== "none" ? ", including a short food detour" : ""}. You&apos;ll get Google&apos;s exact time when you build it.
+            Estimate{food !== "none" ? ", including a short refreshment detour" : ""}. You&apos;ll get Google&apos;s exact time when you build it.
           </p>
         )}
       </div>
@@ -81,35 +82,7 @@ export default function CustomPicker({ picks, estimate, max, food, foodAllowed, 
         </div>
       )}
 
-      {/* Optional food stop */}
-      <fieldset>
-        <legend className={fieldLabel}>Food stop</legend>
-        <div role="group" className="grid grid-cols-3 gap-2">
-          {(
-            [
-              ["none", "None", ""],
-              ["coffee", "Coffee", "☕"],
-              ["lunch", "Lunch", "🥪"],
-            ] as const
-          ).map(([id, label, emoji]) => (
-            <button
-              key={id}
-              type="button"
-              aria-pressed={food === id}
-              disabled={id !== "none" && !foodAllowed}
-              onClick={() => onFoodChange(id)}
-              className={`rounded-xl border px-2 py-2.5 text-sm font-medium transition disabled:opacity-40 ${
-                food === id ? "border-green-700 bg-green-50 text-green-900 ring-2 ring-green-700/20" : "border-zinc-200 bg-white text-zinc-700"
-              }`}
-            >
-              {emoji && <span aria-hidden>{emoji} </span>}
-              {label}
-            </button>
-          ))}
-        </div>
-        {!foodAllowed && <p className="mt-1.5 text-xs text-zinc-500">Remove a sight to make room for a food stop.</p>}
-        {food !== "none" && <p className="mt-1.5 text-xs text-zinc-500">We&apos;ll add a well-rated {food === "coffee" ? "café" : "lunch spot"} near your route.</p>}
-      </fieldset>
+      <RefreshmentPicker value={food} onChange={onFoodChange} allowed={foodAllowed} />
     </div>
   );
 }

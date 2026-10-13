@@ -15,6 +15,7 @@ import {
   type LengthUnit,
   MOODS,
   minutesToMeters,
+  REFRESHMENTS,
   type WalkRequest,
   type WalkResult,
 } from "@/lib/walk";
@@ -146,12 +147,13 @@ export default function WalkrApp() {
             parkId: park.id,
             entranceId: entrance.id,
             placeIds: orderedPicks.map((p) => p.placeId),
-            food: food === "none" ? undefined : food,
+            refreshment: food === "none" ? undefined : food,
           }
         : ({
             parkId: park.id,
             entranceId: entrance.id,
             mood,
+            refreshment: food === "none" ? undefined : food,
             distanceMeters: minutesToMeters(minutes),
             avoid: options.avoid,
           } satisfies WalkRequest & { avoid?: string[] });
@@ -177,12 +179,13 @@ export default function WalkrApp() {
   }
 
   const moodInfo = MOODS.find((m) => m.id === mood);
+  const refreshmentInfo = REFRESHMENTS.find((r) => r.id === food);
   const showResults = view === "results" && walk;
   const summary = showResults
     ? `${formatMiles(walk.distanceMeters)} · ${formatDuration(walk.durationSeconds)} · ${walk.stops.length} stops`
     : mode === "custom"
       ? `${park.name} · ${picks.length} sight${picks.length === 1 ? "" : "s"}${picks.length ? ` · ≈ ${Math.round(estimate.minutes)} min` : ""}`
-      : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}`;
+      : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}${refreshmentInfo ? ` + ${refreshmentInfo.emoji}` : ""}`;
 
   return (
     <div className="relative flex h-full w-full flex-col md:flex-row">
@@ -263,6 +266,8 @@ export default function WalkrApp() {
               onMinutesChange={setMinutes}
               onUnitChange={setUnit}
               onMoodChange={setMood}
+              refreshment={food}
+              onRefreshmentChange={setFood}
               onSubmit={() => generate()}
               loading={loading}
             />

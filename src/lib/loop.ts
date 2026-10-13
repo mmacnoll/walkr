@@ -10,7 +10,7 @@
 import { bearingDegrees, distanceMeters } from "./geo";
 import type { LatLng } from "./types";
 
-export type StopKind = "sight" | "landmark" | "coffee" | "lunch";
+export type StopKind = "sight" | "landmark" | "coffee" | "lunch" | "treat";
 
 export type Candidate = {
   id: string;
