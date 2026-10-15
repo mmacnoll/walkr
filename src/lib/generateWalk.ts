@@ -135,7 +135,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
     const full = circle ? [] : withExtras(park, start, stops, extras).stops;
     const waypoints: RouteWaypoint[] = circle
       ? circle.map((location) => ({ location }))
-      : full.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location }));
+      : full.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location }));
     const straight = loopStraightMeters(start, circle ? circle.map((location) => ({ location })) : full);
 
     const route = await deps.computeRoute(start, waypoints);
@@ -237,7 +237,7 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
   const added = withExtras(park, start, stops, opts.extras ?? []);
   stops = added.stops;
   notes.push(...added.notes);
-  const route = await deps.computeRoute(start, stops.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location })));
+  const route = await deps.computeRoute(start, stops.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location })));
   const namedStops = await nameStops(stops, food?.place, deps, opts.includeNames);
   return {
     parkId: park.id,

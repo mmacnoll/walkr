@@ -3,7 +3,8 @@ import type { LatLng } from "./types";
 
 const ROUTES_URL = "https://routes.googleapis.com/directions/v2:computeRoutes";
 
-export type RouteWaypoint = { placeId: string } | { location: LatLng };
+/** A stop by Google place ID (with its stored position as a fallback), or by position only. */
+export type RouteWaypoint = { placeId: string; location?: LatLng } | { location: LatLng };
 
 export type WalkingRoute = {
   distanceMeters: number;
@@ -24,8 +25,23 @@ function toApiWaypoint(w: RouteWaypoint) {
     : { location: { latLng: { latitude: w.location.lat, longitude: w.location.lng } } };
 }
 
-/** Walking route from `start`, through `stops` in order, back to `start`. */
+/**
+ * Walking route from `start`, through `stops` in order, back to `start`.
+ * Google sometimes retires a place ID we have stored; if it rejects one, we retry once using the
+ * stops' stored positions instead, so the walk still works.
+ */
 export async function computeWalkingLoop(start: LatLng, stops: RouteWaypoint[]): Promise<WalkingRoute> {
+  try {
+    return await requestLoop(start, stops);
+  } catch (err) {
+    const retired = err instanceof RoutesError && /place id/i.test(err.message);
+    if (!retired || !stops.some((s) => "placeId" in s && s.location)) throw err;
+    console.warn("Routes: a stored place ID was rejected, retrying with positions:", err.message);
+    return requestLoop(start, stops.map((s) => (s.location ? { location: s.location } : s)));
+  }
+}
+
+async function requestLoop(start: LatLng, stops: RouteWaypoint[]): Promise<WalkingRoute> {
   const key = process.env.GOOGLE_MAPS_SERVER_KEY;
   if (!key) throw new Error("GOOGLE_MAPS_SERVER_KEY is not set");
 
