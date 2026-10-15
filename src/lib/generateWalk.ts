@@ -47,7 +47,12 @@ function withExtras(park: Park, start: LatLng, stops: Candidate[], extras: Extra
   const result = addExtraStops(park.id, start, stops, extras);
   // Extra places come back without a planner score; they're required, so the score doesn't matter.
   const full = result.stops.map((s): Candidate => ("score" in s ? s : { ...s, score: 0 }));
-  const notes = result.missing.map((k) => `There's no ${EXTRA_STOPS.find((x) => x.id === k)!.noun} in or right next to ${park.name}, so the walk skips it.`);
+  const notes: string[] = [];
+  if (result.missing.length) {
+    const nouns = result.missing.map((k) => EXTRA_STOPS.find((x) => x.id === k)!.noun);
+    const list = nouns.length > 1 ? `${nouns.slice(0, -1).join(", ")} or ${nouns.at(-1)}` : nouns[0];
+    notes.push(`There's no ${list} in or right next to ${park.name}, so the walk skips ${nouns.length > 1 ? "them" : "it"}.`);
+  }
   if (extras.includes("water") && !result.missing.includes("water") && fountainsMayBeOff())
     notes.push("NYC Parks turns most drinking fountains off from about November to April, so it may not be running.");
   return { stops: full, notes };

@@ -64,14 +64,14 @@ async function osm() {
   const lats = parks.flatMap((p) => p.boundary.flat().map((x) => x.lat)), lngs = parks.flatMap((p) => p.boundary.flat().map((x) => x.lng));
   const bbox = `${Math.min(...lats) - 0.01},${Math.min(...lngs) - 0.01},${Math.max(...lats) + 0.01},${Math.max(...lngs) + 0.01}`;
   const q = `[out:json][timeout:120];(nwr["leisure"="playground"](${bbox});nwr["leisure"="dog_park"](${bbox}););out center tags;`;
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 24; i++) {
     const res = await fetch(OVERPASS[i % OVERPASS.length], {
       method: "POST",
       headers: { "User-Agent": "walkr-class-project/0.1", "Content-Type": "application/x-www-form-urlencoded" },
       body: "data=" + encodeURIComponent(q),
     }).catch(() => null);
     if (res?.ok) return (await res.json()).elements.map((e) => ({ tags: e.tags ?? {}, location: { lat: e.lat ?? e.center.lat, lng: e.lon ?? e.center.lon } }));
-    await new Promise((r) => setTimeout(r, 3000));
+    await new Promise((r) => setTimeout(r, 5000));
   }
   throw new Error("OpenStreetMap (Overpass) didn't answer");
 }
@@ -89,7 +89,7 @@ const all = {
   restroom: restroomRows
     .filter((r) => r.latitude && /^operational$/i.test(r.status ?? ""))
     .map((r) => ({
-      name: r.facility_name ? `Restroom at ${title(r.facility_name)}` : "Public restroom",
+      name: !r.facility_name ? "Public restroom" : /restroom|comfort station|toilet|bathroom/i.test(r.facility_name) ? title(r.facility_name) : `Restroom at ${title(r.facility_name)}`,
       detail: /yes/i.test(r.changing_stations ?? "") ? "Restroom · baby changing station" : "Restroom",
       location: { lat: +r.latitude, lng: +r.longitude },
       source: "nyc",

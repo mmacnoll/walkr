@@ -5,7 +5,8 @@ import { EXTRA_STOPS } from "@/lib/walk";
 
 type Props = {
   value: ExtraStop[];
-  onChange: (value: ExtraStop[]) => void;
+  /** Turn one kind on or off. */
+  onToggle: (kind: ExtraStop) => void;
   /** Kinds that exist in or right next to this park. */
   available: Set<ExtraStop>;
   /** False when the walk has no room for another stop (Customize mode with many sights). */
@@ -15,7 +16,7 @@ type Props = {
 const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
 
 /** Optional practical stops: any combination of restroom, water, playground, dog run. */
-export default function ExtraStopsPicker({ value, onChange, available, roomForMore = true }: Props) {
+export default function ExtraStopsPicker({ value, onToggle, available, roomForMore = true }: Props) {
   const missingHere = EXTRA_STOPS.filter((x) => !available.has(x.id));
   return (
     <fieldset>
@@ -30,7 +31,7 @@ export default function ExtraStopsPicker({ value, onChange, available, roomForMo
               type="button"
               aria-pressed={on}
               disabled={disabled}
-              onClick={() => onChange(on ? value.filter((v) => v !== x.id) : [...value, x.id])}
+              onClick={() => onToggle(x.id)}
               className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition disabled:opacity-40 ${
                 on ? "border-sky-600 bg-sky-50 text-sky-900 ring-2 ring-sky-600/20" : "border-zinc-200 bg-white text-zinc-700"
               }`}

@@ -38,7 +38,7 @@ type Props = {
   refreshment: RefreshmentChoice;
   onRefreshmentChange: (value: RefreshmentChoice) => void;
   extras: ExtraStop[];
-  onExtrasChange: (value: ExtraStop[]) => void;
+  onToggleExtra: (kind: ExtraStop) => void;
   availableExtras: Set<ExtraStop>;
   onSubmit: () => void;
   loading?: boolean;
@@ -227,7 +227,7 @@ export default function WalkForm(props: Props) {
       </fieldset>
 
       {!custom && <RefreshmentPicker value={props.refreshment} onChange={props.onRefreshmentChange} />}
-      {!custom && <ExtraStopsPicker value={props.extras} onChange={props.onExtrasChange} available={props.availableExtras} />}
+      {!custom && <ExtraStopsPicker value={props.extras} onToggle={props.onToggleExtra} available={props.availableExtras} />}
 
       <button
         type="submit"

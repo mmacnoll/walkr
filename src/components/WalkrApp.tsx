@@ -78,6 +78,10 @@ export default function WalkrApp() {
     setCleared(null);
   }
 
+  function toggleExtra(kind: ExtraStop) {
+    setExtras((current) => (current.includes(kind) ? current.filter((k) => k !== kind) : [...current, kind]));
+  }
+
   function togglePick(sight: { placeId: string; location: Pick["location"] }, name?: string) {
     setPicks((current) =>
       current.some((p) => p.placeId === sight.placeId)
@@ -266,7 +270,7 @@ export default function WalkrApp() {
                   food={food}
                   foodAllowed={picks.length <= maxPicks(true, activeExtras.length)}
                   extras={activeExtras}
-                  onExtrasChange={setExtras}
+                  onToggleExtra={toggleExtra}
                   availableExtras={available}
                   roomForMoreExtras={picks.length < pickLimit}
                   onFoodChange={setFood}
@@ -287,7 +291,7 @@ export default function WalkrApp() {
               refreshment={food}
               onRefreshmentChange={setFood}
               extras={activeExtras}
-              onExtrasChange={setExtras}
+              onToggleExtra={toggleExtra}
               availableExtras={available}
               onSubmit={() => generate()}
               loading={loading}

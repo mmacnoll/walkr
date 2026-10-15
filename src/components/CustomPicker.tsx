@@ -19,7 +19,7 @@ type Props = {
   /** False when there are already too many sights to also fit a food stop. */
   foodAllowed: boolean;
   extras: ExtraStop[];
-  onExtrasChange: (value: ExtraStop[]) => void;
+  onToggleExtra: (kind: ExtraStop) => void;
   availableExtras: Set<ExtraStop>;
   /** False when another stop wouldn't fit Google's 10-stop limit. */
   roomForMoreExtras: boolean;
@@ -91,7 +91,7 @@ export default function CustomPicker(props: Props) {
       )}
 
       <RefreshmentPicker value={food} onChange={onFoodChange} allowed={foodAllowed} />
-      <ExtraStopsPicker value={props.extras} onChange={props.onExtrasChange} available={props.availableExtras} roomForMore={props.roomForMoreExtras} />
+      <ExtraStopsPicker value={props.extras} onToggle={props.onToggleExtra} available={props.availableExtras} roomForMore={props.roomForMoreExtras} />
     </div>
   );
 }
