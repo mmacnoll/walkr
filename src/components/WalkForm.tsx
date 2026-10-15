@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 import { parks } from "@/data/parks";
 import type { Mood, Park } from "@/lib/types";
 import type { ExtraStop } from "@/lib/types";
+import type { Preference } from "@/lib/walk";
 import ExtraStopsPicker from "./ExtraStopsPicker";
+import PreferencesPicker from "./PreferencesPicker";
 import RefreshmentPicker, { type RefreshmentChoice } from "./RefreshmentPicker";
 import {
   describeLength,
@@ -40,6 +42,10 @@ type Props = {
   extras: ExtraStop[];
   onToggleExtra: (kind: ExtraStop) => void;
   availableExtras: Set<ExtraStop>;
+  prefs: Preference[];
+  onTogglePref: (pref: Preference) => void;
+  hasWaterfront: boolean;
+  lightingCoverage: number;
   onSubmit: () => void;
   loading?: boolean;
 };
@@ -228,6 +234,9 @@ export default function WalkForm(props: Props) {
 
       {!custom && <RefreshmentPicker value={props.refreshment} onChange={props.onRefreshmentChange} />}
       {!custom && <ExtraStopsPicker value={props.extras} onToggle={props.onToggleExtra} available={props.availableExtras} />}
+      {!custom && (
+        <PreferencesPicker value={props.prefs} onToggle={props.onTogglePref} hasWaterfront={props.hasWaterfront} lightingCoverage={props.lightingCoverage} />
+      )}
 
       <button
         type="submit"

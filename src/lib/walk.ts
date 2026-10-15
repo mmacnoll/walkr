@@ -32,6 +32,9 @@ export const EXTRA_STOPS: { id: ExtraStop; label: string; emoji: string; noun: s
   { id: "dogrun", label: "Dog run", emoji: "🐕", noun: "dog run" },
 ];
 
+/** Route preferences (see src/lib/pathPrefs.ts). */
+export type Preference = "lit" | "water";
+
 export function isExtraStop(kind: unknown): kind is ExtraStop {
   return EXTRA_STOPS.some((x) => x.id === kind);
 }
@@ -62,6 +65,7 @@ export type WalkRequest = {
   mood: Mood;
   refreshment?: Refreshment;
   extras?: ExtraStop[];
+  prefs?: Preference[];
   /** Target loop length. The generator aims for ±15%. */
   distanceMeters: number;
 };
@@ -74,6 +78,7 @@ export type CustomWalkRequest = {
   placeIds: string[];
   refreshment?: Refreshment;
   extras?: ExtraStop[];
+  prefs?: Preference[];
 };
 
 export function minutesToMiles(minutes: number): number {
@@ -135,6 +140,10 @@ export type WalkResult = {
   withinTarget: boolean;
   /** Built in Customize mode from the walker's own picks. */
   custom?: boolean;
+  /** With "well lit" / "waterfront" on: how much of the route is lit / along the water (%). */
+  pathStats?: { litPct: number; unlitPct: number; waterPct: number };
+  /** The preferences this walk was built / measured with. */
+  prefs?: Preference[];
   /** Friendly explanation when something didn't go perfectly. */
   note?: string;
   /** How each planning round went (for testing and tuning). */
