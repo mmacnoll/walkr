@@ -24,7 +24,7 @@ Live app: **https://walkr-gamma.vercel.app**
 1. Each park has a list of sights, collected from Google Places ahead of time.
 2. When you ask for a walk, the server picks sights that match your mood and fit your length, and orders them into a loop around your entrance.
 3. Google's Routes API turns that loop into real walking paths. If the walk comes out too long or too short, Walkr adjusts the loop and tries again, up to 4 times.
-4. For Coffee and Lunch, it searches live for a well-rated place near the loop and adds it as a stop.
+4. For a refreshment (coffee, lunch or a sweet treat), it searches live for a well-rated, open place near the loop and adds it as a stop. Extra stops (restroom, water, playground, dog run) come from stored NYC Parks and OpenStreetMap data.
 
 Google API keys stay on the server, except the map display key, which is locked to this site.
 
