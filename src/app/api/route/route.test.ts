@@ -143,17 +143,3 @@ describe("POST /api/route: mood + refreshment", () => {
     expect(fetchMock.mock.calls.some((call) => String((call as unknown[])[0]).includes("searchNearby"))).toBe(false);
   });
 });
-
-describe("POST /api/route: preferences", () => {
-  it.each([
-    ["an unknown preference", { prefs: ["sunny"] }],
-    ["a duplicate preference", { prefs: ["lit", "lit"] }],
-    ["preferences that aren't a list", { prefs: "lit" }],
-  ])("rejects %s without calling Google", async (_, extra) => {
-    const fetchSpy = vi.spyOn(globalThis, "fetch");
-    const res = await post(body(extra));
-    expect(res.status).toBe(400);
-    expect((await res.json()).error).toMatch(/Unknown preferences/);
-    expect(fetchSpy).not.toHaveBeenCalled();
-  });
-});

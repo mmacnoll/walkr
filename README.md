@@ -13,7 +13,6 @@ Live app: **https://walkr-gamma.vercel.app**
   - **Quiet:** gardens and calmer corners, away from busy plazas.
 - **Plus an optional refreshment:** ☕ coffee, 🥪 lunch or 🍰 a sweet treat (bakery, ice cream or dessert), found live, well rated and open. Combine it with either mood, e.g. Quiet + Coffee.
 - **Extra stops:** add a 🚻 restroom, 💧 drinking fountain, 🛝 playground and/or 🐕 dog run. Walkr picks the one of each that adds the least walking, from NYC Parks open data and OpenStreetMap.
-- **Prefer well lit or waterfront:** Walkr leans the walk onto paths mapped as lit, or along rivers, the harbor and lakes, and shows how it did (e.g. "💡 84% on lit paths"). Lighting comes from OpenStreetMap, so it isn't guaranteed.
 - **Customize mode:** pick your own sights on the map. Walkr puts them in the shortest loop, shows a live time estimate as you pick, and can add a coffee, lunch or sweet-treat stop.
 - **Photos:** tap any sight or stop to see a Google photo of it.
 - **Numbered stops** on the map and in a list. Tap one to see where it is.
@@ -58,7 +57,6 @@ You need Node 24 and a Google Cloud project with billing turned on.
 | `npm run refresh:sights` | Re-collects park sights from Google Places, about 400–500 searches. **Run at least every 30 days:** Google's terms only allow storing place locations for 30 days, and a test will remind you. |
 | `node scripts/custom-matrix.mjs` | With the dev server running, builds sample Customize walks in every park and checks the live estimate against Google's real times. |
 | `node scripts/amenities-build.mjs` | Re-collects restrooms, drinking fountains, playgrounds and dog runs from NYC Parks open data and OpenStreetMap. |
-| `node scripts/pathinfo-build.mjs` | Re-collects lit / unlit paths and shorelines from OpenStreetMap for the Well lit and Waterfront preferences. |
 | `npm run refresh:osm` | Re-collects park outlines and entrances from OpenStreetMap. |
 
 ## Data and attribution

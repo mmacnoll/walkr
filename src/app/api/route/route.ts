@@ -5,7 +5,6 @@ import { generateCustomWalk, generateWalk } from "@/lib/generateWalk";
 import { getPlaceSummary, searchFood } from "@/lib/places";
 import { computeWalkingLoop } from "@/lib/routes";
 import { errorResponse } from "@/lib/apiErrors";
-import type { Preference } from "@/lib/pathPrefs";
 import type { ExtraStop, Mood, Refreshment } from "@/lib/types";
 import { isExtraStop, isRefreshment, MAX_TARGET_METERS, MIN_TARGET_METERS } from "@/lib/walk";
 
@@ -15,14 +14,6 @@ const MOODS: Mood[] = ["scenic", "quiet"];
 function parseRefreshment(value: unknown): Refreshment | undefined | "invalid" {
   if (value === undefined || value === null || value === "none") return undefined;
   return isRefreshment(value) ? value : "invalid";
-}
-
-/** Optional preferences: any of "lit" / "water" (absent = none). */
-function parsePrefs(value: unknown): Preference[] | "invalid" {
-  if (value === undefined || value === null) return [];
-  const ok = (p: unknown): p is Preference => p === "lit" || p === "water";
-  if (!Array.isArray(value) || !value.every(ok) || new Set(value).size !== value.length) return "invalid";
-  return value;
 }
 
 /** Optional extra stops: a list of distinct known kinds (absent = none). */
@@ -37,7 +28,6 @@ function parseExtras(value: unknown): ExtraStop[] | "invalid" {
  *   Surprise me: { parkId, entranceId, mood, refreshment?, distanceMeters, seed?, avoid?, includeNames? }
  *   Customize:   { mode: "custom", parkId, entranceId, placeIds: string[], refreshment?, extras? }
  *   extras: any of "restroom" | "water" | "playground" | "dogrun".
- *   prefs:  any of "lit" | "water" (both modes; Customize only measures and reports them).
  *   refreshment: "coffee" | "lunch" | "treat". Older requests (mood "coffee"/"lunch", or `food`) still work.
  */
 export async function POST(request: Request) {
@@ -56,8 +46,6 @@ export async function POST(request: Request) {
   const deps = { computeRoute: computeWalkingLoop, searchFood, getPlaceSummary };
   const extras = parseExtras(body.extras);
   if (extras === "invalid") return Response.json({ error: "Unknown extra stops." }, { status: 400 });
-  const prefs = parsePrefs(body.prefs);
-  if (prefs === "invalid") return Response.json({ error: "Unknown preferences." }, { status: 400 });
 
   if (body.mode === "custom") {
     const food = parseRefreshment(body.refreshment ?? body.food);
@@ -72,7 +60,7 @@ export async function POST(request: Request) {
     if (placeIds.length > limit)
       return Response.json({ error: `Pick up to ${limit} sights${food || extras.length ? " with the stops you've added" : ""}.` }, { status: 400 });
     try {
-      const walk = await generateCustomWalk({ park, entrance, placeIds, refreshment: food, extras, prefs, includeNames: body.includeNames !== false }, deps);
+      const walk = await generateCustomWalk({ park, entrance, placeIds, refreshment: food, extras, includeNames: body.includeNames !== false }, deps);
       return Response.json(walk, { headers: { "Cache-Control": "no-store" } });
     } catch (err) {
       return errorResponse(err);
@@ -93,7 +81,7 @@ export async function POST(request: Request) {
 
   try {
     const walk = await generateWalk(
-      { park, entrance, mood, refreshment, extras, prefs, targetMeters: target, seed, avoid, includeNames: body.includeNames !== false },
+      { park, entrance, mood, refreshment, extras, targetMeters: target, seed, avoid, includeNames: body.includeNames !== false },
       deps,
     );
     return Response.json(walk, { headers: { "Cache-Control": "no-store" } });

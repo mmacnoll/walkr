@@ -25,8 +25,8 @@ Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 
 **Phase 3: more ways to shape a walk, plus sharing (chosen 2026-10-09)**
 - [x] M13. Mood + refreshment
-- [x] M14. Extra stops: restroom, water, playground, dog run (on branch `phase-3`, not yet live)
-- [x] M15. Route preferences: well lit, waterfront (on branch `phase-3`, not yet live)
+- [x] M14. Extra stops: restroom, water, playground, dog run (on branch `m14-extra-stops`, not yet merged)
+- [ ] M15. Route preferences: well lit, waterfront
 - [ ] M16. Shareable links
 - [ ] M17. AI walk description
 - [ ] M18. Save favorite walks

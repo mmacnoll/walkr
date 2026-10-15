@@ -40,17 +40,6 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
         Time is Google&apos;s estimate at an easy pace.
       </p>
 
-      {walk.pathStats && walk.prefs?.length ? (
-        <div className="-mt-1 flex flex-wrap justify-center gap-2 text-xs font-medium">
-          {walk.prefs.includes("lit") && (
-            <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-indigo-900">💡 {walk.pathStats.litPct}% on lit paths</span>
-          )}
-          {walk.prefs.includes("water") && (
-            <span className="rounded-full bg-sky-50 px-2.5 py-1 text-sky-900">🌊 {walk.pathStats.waterPct}% along the water</span>
-          )}
-        </div>
-      ) : null}
-
       {walk.note && <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">{walk.note}</p>}
 
       {/* Stop list: start → stops → back to start */}

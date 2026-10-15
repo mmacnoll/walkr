@@ -4,9 +4,7 @@ import type { CustomEstimate } from "@/lib/customWalk";
 import type { LatLng } from "@/lib/types";
 import { formatMiles } from "@/lib/walk";
 import type { ExtraStop } from "@/lib/types";
-import type { Preference } from "@/lib/walk";
 import ExtraStopsPicker from "./ExtraStopsPicker";
-import PreferencesPicker from "./PreferencesPicker";
 import RefreshmentPicker, { type RefreshmentChoice } from "./RefreshmentPicker";
 
 export type Pick = { placeId: string; location: LatLng; name?: string };
@@ -25,10 +23,6 @@ type Props = {
   availableExtras: Set<ExtraStop>;
   /** False when another stop wouldn't fit Google's 10-stop limit. */
   roomForMoreExtras: boolean;
-  prefs: Preference[];
-  onTogglePref: (pref: Preference) => void;
-  hasWaterfront: boolean;
-  lightingCoverage: number;
   onFoodChange: (food: FoodChoice) => void;
   onRemove: (placeId: string) => void;
   onClear: () => void;
@@ -98,13 +92,6 @@ export default function CustomPicker(props: Props) {
 
       <RefreshmentPicker value={food} onChange={onFoodChange} allowed={foodAllowed} />
       <ExtraStopsPicker value={props.extras} onToggle={props.onToggleExtra} available={props.availableExtras} roomForMore={props.roomForMoreExtras} />
-      <PreferencesPicker
-        value={props.prefs}
-        onToggle={props.onTogglePref}
-        hasWaterfront={props.hasWaterfront}
-        lightingCoverage={props.lightingCoverage}
-        measureOnly
-      />
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { CUSTOM_DETOUR, orderLoop } from "./customWalk";
 import { addExtraStops, fountainsMayBeOff, MAX_ROUTE_STOPS } from "./extraStops";
 import { distanceMeters, isWithinRingsBuffer } from "./geo";
 import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, insertCheapest, loopStraightMeters, MAX_SIGHT_STOPS, planLoop, seededRandom } from "./loop";
-import { hasWaterfront, measureRoute, type PathStats, type Preference, preferenceBonus, preferenceScore } from "./pathPrefs";
 import type { FoodPlace, PlaceSummary } from "./places";
 import type { RouteWaypoint, WalkingRoute } from "./routes";
 import { scoreFood, scoreLandmark, scoreSight } from "./scoring";
@@ -26,8 +25,6 @@ export type WalkOptions = {
   refreshment?: Refreshment;
   /** Optional restroom / water / playground / dog run stops. */
   extras?: ExtraStop[];
-  /** Optional "well lit" / "waterfront" preferences. */
-  prefs?: Preference[];
   targetMeters: number;
   seed: number;
   /** Stop ids from the previous walk ("Try another"). */
@@ -39,8 +36,6 @@ export type WalkOptions = {
 };
 
 const MAX_ROUTE_ATTEMPTS = 4;
-/** With a preference on, also try this many other loops and keep the best fit. */
-const PREFERENCE_ALTERNATIVES = 2;
 const DEFAULT_TIME_BUDGET_MS = 10_000;
 const FOOD_EDGE_BUFFER_M = { large: 250, small: 600, linear: 600 }; // "about 2 blocks" for big parks
 
@@ -108,13 +103,10 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
   const start = entrance.location;
   const rng = seededRandom(opts.seed);
   const avoid = new Set(opts.avoid ?? []);
-  const prefs = (opts.prefs ?? []).filter((p) => p !== "water" || hasWaterfront(park.id));
-  const plainCandidates = sightCandidates(park, mood);
-  // Sights on lit paths / near the water get a small bonus, so the planner leans that way.
-  const candidates = prefs.length ? plainCandidates.map((c) => ({ ...c, score: c.score + preferenceBonus(park.id, c.location, prefs) })) : plainCandidates;
+  const candidates = sightCandidates(park, mood);
   const notes: string[] = [];
 
-  const detour = DEFAULT_DETOUR;
+  let detour = DEFAULT_DETOUR;
   const firstPlan = planLoop({ start, targetMeters, candidates, detour, rng, avoid, maxStops: maxSights });
 
   // Coffee / lunch: find one good, open place near the far end of the loop.
@@ -131,68 +123,41 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
     }
   }
 
+  // Plan once, then measure with the Routes API and fine-tune: each round makes one small change
+  // (drop / add / swap a stop) using the winding factor measured for this exact loop.
+  let best: { route: WalkingRoute; stops: Candidate[] } | null = null;
   const attempts: NonNullable<WalkResult["attempts"]> = [];
   // Extra stops add walking, so plan the sights for a little less than the full length.
   const extraMeters = (core: Candidate[]) => loopStraightMeters(start, withExtras(park, start, core, extras).stops) - loopStraightMeters(start, core);
-  const coreTarget = (core: Candidate[], d: number) => Math.max(targetMeters * 0.4, targetMeters - extraMeters(core) * d);
-  const off = (route: WalkingRoute) => Math.abs(route.distanceMeters - targetMeters);
+  const coreTarget = (core: Candidate[]) => Math.max(targetMeters * 0.4, targetMeters - extraMeters(core) * detour);
+  const firstTarget = firstPlan ? coreTarget(firstPlan.stops) : targetMeters;
+  const plan = planLoop({ start, targetMeters: firstTarget, candidates, detour, rng: seededRandom(opts.seed), avoid, required: food?.candidate, maxStops: maxSights });
+  let stops = plan?.stops ?? [];
+  if (plan) notes.push(...withExtras(park, start, stops, extras).notes);
+  let circle = plan ? null : fallbackCircle(start, park.center, targetMeters, detour);
+  for (let attempt = 0; attempt < MAX_ROUTE_ATTEMPTS; attempt++) {
+    if (attempt > 0 && Date.now() - startedAt > budget) break; // out of time: keep the closest loop so far
+    const full = circle ? [] : withExtras(park, start, stops, extras).stops;
+    const waypoints: RouteWaypoint[] = circle
+      ? circle.map((location) => ({ location }))
+      : full.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location }));
+    const straight = loopStraightMeters(start, circle ? circle.map((location) => ({ location })) : full);
 
-  // Plan once, then measure with the Routes API and fine-tune: each round makes one small change
-  // (drop / add / swap a stop) using the winding factor measured for this exact loop.
-  async function buildLoop(seed: number, maxAttempts: number, startDetour: number, pool: Candidate[] = candidates) {
-    let detour = startDetour;
-    let best: { route: WalkingRoute; stops: Candidate[] } | null = null;
-    const firstTarget = firstPlan ? coreTarget(firstPlan.stops, detour) : targetMeters;
-    const plan = planLoop({ start, targetMeters: firstTarget, candidates: pool, detour, rng: seededRandom(seed), avoid, required: food?.candidate, maxStops: maxSights });
-    let stops = plan?.stops ?? [];
-    let circle = plan ? null : fallbackCircle(start, park.center, targetMeters, detour);
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      if (attempt > 0 && Date.now() - startedAt > budget) break; // out of time: keep the closest loop so far
-      const full = circle ? [] : withExtras(park, start, stops, extras).stops;
-      const waypoints: RouteWaypoint[] = circle
-        ? circle.map((location) => ({ location }))
-        : full.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location }));
-      const straight = loopStraightMeters(start, circle ? circle.map((location) => ({ location })) : full);
+    const route = await deps.computeRoute(start, waypoints);
+    attempts.push({ detour: Number(detour.toFixed(2)), estimatedMeters: Math.round(straight * detour), actualMeters: route.distanceMeters, stops: full.length || stops.length });
+    if (!best || Math.abs(route.distanceMeters - targetMeters) < Math.abs(best.route.distanceMeters - targetMeters)) best = { route, stops: circle ? stops : full };
+    if (Math.abs(route.distanceMeters - targetMeters) <= targetMeters * LENGTH_TOLERANCE) break;
 
-      const route = await deps.computeRoute(start, waypoints);
-      attempts.push({ detour: Number(detour.toFixed(2)), estimatedMeters: Math.round(straight * detour), actualMeters: route.distanceMeters, stops: full.length || stops.length });
-      if (!best || off(route) < off(best.route)) best = { route, stops: circle ? stops : full };
-      if (off(route) <= targetMeters * LENGTH_TOLERANCE) break;
-
-      detour = Math.min(3, Math.max(1, route.distanceMeters / Math.max(straight, 1)));
-      if (circle) {
-        circle = fallbackCircle(start, park.center, targetMeters, detour);
-        continue;
-      }
-      const next = adjustLoop({ start, stops, candidates: pool, targetMeters: coreTarget(stops, detour), detour, requiredId: food?.candidate.id, maxStops: maxSights + (food ? 1 : 0) });
-      if (next === stops) break; // no change would get closer
-      stops = next;
+    detour = Math.min(3, Math.max(1, route.distanceMeters / Math.max(straight, 1)));
+    if (circle) {
+      circle = fallbackCircle(start, park.center, targetMeters, detour);
+      continue;
     }
-    return { best, detour, planned: plan?.stops };
-  }
-
-  const main = await buildLoop(opts.seed, MAX_ROUTE_ATTEMPTS, DEFAULT_DETOUR);
-  let best = main.best;
-  if (main.planned) notes.push(...withExtras(park, start, main.planned, extras).notes);
-
-  // Well lit / waterfront: try a couple of other loops and keep the one that best fits the
-  // preference while still matching the length (a few extra Routes calls, only when asked).
-  let stats = best && prefs.length ? measureRoute(park.id, best.route.encodedPolyline) : null;
-  for (let alt = 1; alt <= PREFERENCE_ALTERNATIVES && best && prefs.length && candidates.length; alt++) {
-    if (Date.now() - startedAt > budget) break;
-    // The first alternative is exactly the walk you would get without a preference (same seed, no nudge),
-    // so turning a preference on can never make the result worse.
-    const other = (alt === 1 ? await buildLoop(opts.seed, 2, DEFAULT_DETOUR, plainCandidates) : await buildLoop(opts.seed + alt * 7919, 2, main.detour)).best;
-    if (!other) continue;
-    const otherStats = measureRoute(park.id, other.route.encodedPolyline);
-    const fits = (r: WalkingRoute) => off(r) <= targetMeters * LENGTH_TOLERANCE;
-    const better =
-      (fits(other.route) && !fits(best.route)) ||
-      (fits(other.route) === fits(best.route) && preferenceScore(otherStats, prefs) > preferenceScore(stats, prefs) + 3);
-    if (better) [best, stats] = [other, otherStats];
+    const next = adjustLoop({ start, stops, candidates, targetMeters: coreTarget(stops), detour, requiredId: food?.candidate.id, maxStops: maxSights + (food ? 1 : 0) });
+    if (next === stops) break; // no change would get closer
+    stops = next;
   }
   if (!best) throw new Error("No route attempts were made");
-  notes.push(...preferenceNotes(park.id, prefs, stats));
   if (!candidates.length) notes.push("We couldn't find sights for this park, so this is a simple loop.");
 
   const withinTarget = Math.abs(best.route.distanceMeters - targetMeters) <= targetMeters * LENGTH_TOLERANCE;
@@ -210,21 +175,8 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
     targetMeters,
     withinTarget,
     note: notes.length ? notes.join(" ") : undefined,
-    pathStats: stats ?? undefined,
-    prefs: prefs.length ? prefs : undefined,
     attempts,
   };
-}
-
-/** Honest notes about what the lit / waterfront numbers mean. */
-function preferenceNotes(parkId: string, prefs: Preference[], stats: PathStats | null): string[] {
-  const notes: string[] = [];
-  if (prefs.includes("lit"))
-    notes.push(
-      `Lighting comes from OpenStreetMap's volunteer map${stats ? ` (${stats.litPct}% of this walk is on paths marked lit)` : ""}, so it isn't guaranteed. Most NYC parks close at 1 AM, and some smaller ones at dusk.`,
-    );
-  if (prefs.includes("water") && !hasWaterfront(parkId)) notes.push("This park isn't next to the water, so the waterfront preference was skipped.");
-  return notes;
 }
 
 /** Names (and photos) for the final stops, looked up live: Google's terms don't let us store names. */
@@ -256,8 +208,6 @@ export type CustomWalkOptions = {
   placeIds: string[];
   refreshment?: Refreshment;
   extras?: ExtraStop[];
-  /** Customize: the walker chose the stops, so preferences are only measured and reported. */
-  prefs?: Preference[];
   includeNames?: boolean;
 };
 
@@ -294,7 +244,6 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
   notes.push(...added.notes);
   const route = await deps.computeRoute(start, stops.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location })));
   const namedStops = await nameStops(stops, food?.place, deps, opts.includeNames);
-  if (opts.prefs?.length) notes.push(...preferenceNotes(park.id, opts.prefs, measureRoute(park.id, route.encodedPolyline)));
   return {
     parkId: park.id,
     start: { name: entrance.name, location: start },
@@ -305,8 +254,6 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
     targetMeters: route.distanceMeters,
     withinTarget: true,
     custom: true,
-    pathStats: opts.prefs?.length ? (measureRoute(park.id, route.encodedPolyline) ?? undefined) : undefined,
-    prefs: opts.prefs?.length ? opts.prefs : undefined,
     note: notes.length ? notes.join(" ") : undefined,
     attempts: [{ detour: Number((route.distanceMeters / Math.max(1, loopStraightMeters(start, stops))).toFixed(2)), estimatedMeters: Math.round(loopStraightMeters(start, stops) * CUSTOM_DETOUR), actualMeters: route.distanceMeters, stops: stops.length }],
   };
