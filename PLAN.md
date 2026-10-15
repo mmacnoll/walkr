@@ -26,7 +26,7 @@ Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 **Phase 3: more ways to shape a walk, plus sharing (chosen 2026-10-09)**
 - [x] M13. Mood + refreshment
 - [x] M14. Extra stops: restroom, water, playground, dog run (on branch `m14-extra-stops`, not yet merged)
-- [ ] M15. Route preferences: well lit, waterfront
+- [~] M15. Route preferences: well lit, waterfront (built, then reverted on 2026-10-15: results weren't good enough for the complexity; moved to Phase 4)
 - [ ] M16. Shareable links
 - [ ] M17. AI walk description
 - [ ] M18. Save favorite walks
@@ -235,6 +235,7 @@ This caps each request at about 1 Places call and 1–4 Routes calls, so costs s
 |---|---|
 | **Analytics** | Vercel Analytics plus custom events for park and mood; great for the presentation. |
 | **Weather + golden hour** | Open-Meteo is free with no key and includes sunset times. |
+| **Well lit / waterfront (retry)** | Tried in M15 and reverted. Lessons: OpenStreetMap lighting tags cover only 8–50% of paths near our parks; nudging sight choice moved "% lit" up in 9/12 parks but unevenly, and cost 3–8 Routes calls per walk. A better retry would steer the path itself (custom waypoints along lit paths) rather than the sights. |
 | **Pace** | Stroll, normal or brisk, adjusting time estimates. |
 | **More parks + "near me"** | E.g. Fort Tryon, Hudson River Park, Domino Park, plus a location prompt. |
 | **Live GPS mode** | Your blue dot on the route while walking. |
