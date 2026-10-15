@@ -6,6 +6,17 @@ export type Mood = "scenic" | "quiet";
 /** One optional food/drink stop per walk, found live near the route. */
 export type Refreshment = "coffee" | "lunch" | "treat";
 
+/** Optional practical stops, from NYC Parks open data + OpenStreetMap (src/data/amenities.json). */
+export type ExtraStop = "restroom" | "water" | "playground" | "dogrun";
+
+export type Amenity = {
+  id: string;
+  name: string;
+  /** e.g. "Restroom · baby changing station" */
+  detail: string;
+  location: LatLng;
+};
+
 /**
  * large  = the loop stays inside the park boundary.
  * small  = short walks stay inside; longer walks may use nearby streets (the "walk zone").

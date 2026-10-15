@@ -74,8 +74,11 @@ describe("POST /api/route: Customize mode", () => {
     ["a sight from another park", { placeIds: [getSights("central-park")[0].placeId] }, /aren't in this park/],
     ["duplicate picks", { placeIds: [sightIds[0], sightIds[0]] }, /aren't in this park/],
     ["too many picks", { placeIds: sightIds.slice(0, 11) }, /up to 10/],
-    ["10 picks plus a refreshment", { placeIds: sightIds.slice(0, 10), refreshment: "treat" }, /up to 9 sights with a food stop/],
-    ["10 picks plus food (older request)", { placeIds: sightIds.slice(0, 10), food: "coffee" }, /up to 9 sights with a food stop/],
+    ["10 picks plus a refreshment", { placeIds: sightIds.slice(0, 10), refreshment: "treat" }, /up to 9 sights with the stops you've added/],
+    ["10 picks plus food (older request)", { placeIds: sightIds.slice(0, 10), food: "coffee" }, /up to 9 sights/],
+    ["8 picks plus coffee and 2 extras", { placeIds: sightIds.slice(0, 8), refreshment: "coffee", extras: ["restroom", "water"] }, /up to 7 sights/],
+    ["unknown extra stop", { placeIds: [sightIds[0]], extras: ["hot tub"] }, /Unknown extra stops/],
+    ["duplicate extra stops", { placeIds: [sightIds[0]], extras: ["water", "water"] }, /Unknown extra stops/],
     ["unknown refreshment", { placeIds: [sightIds[0]], refreshment: "pizza" }, /Unknown refreshment/],
   ])("rejects %s without calling Google", async (_, extra, message) => {
     const fetchSpy = vi.spyOn(globalThis, "fetch");

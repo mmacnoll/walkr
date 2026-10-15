@@ -3,6 +3,8 @@
 import type { CustomEstimate } from "@/lib/customWalk";
 import type { LatLng } from "@/lib/types";
 import { formatMiles } from "@/lib/walk";
+import type { ExtraStop } from "@/lib/types";
+import ExtraStopsPicker from "./ExtraStopsPicker";
 import RefreshmentPicker, { type RefreshmentChoice } from "./RefreshmentPicker";
 
 export type Pick = { placeId: string; location: LatLng; name?: string };
@@ -16,6 +18,11 @@ type Props = {
   food: FoodChoice;
   /** False when there are already too many sights to also fit a food stop. */
   foodAllowed: boolean;
+  extras: ExtraStop[];
+  onExtrasChange: (value: ExtraStop[]) => void;
+  availableExtras: Set<ExtraStop>;
+  /** False when another stop wouldn't fit Google's 10-stop limit. */
+  roomForMoreExtras: boolean;
   onFoodChange: (food: FoodChoice) => void;
   onRemove: (placeId: string) => void;
   onClear: () => void;
@@ -23,7 +30,8 @@ type Props = {
 
 const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
 
-export default function CustomPicker({ picks, estimate, max, food, foodAllowed, onFoodChange, onRemove, onClear }: Props) {
+export default function CustomPicker(props: Props) {
+  const { picks, estimate, max, food, foodAllowed, onFoodChange, onRemove, onClear } = props;
   const minutes = Math.round(estimate.minutes);
   return (
     <div className="flex flex-col gap-5">
@@ -44,7 +52,7 @@ export default function CustomPicker({ picks, estimate, max, food, foodAllowed, 
         )}
         {picks.length > 0 && (
           <p className="mt-0.5 text-[11px] text-green-800">
-            Estimate{food !== "none" ? ", including a short refreshment detour" : ""}. You&apos;ll get Google&apos;s exact time when you build it.
+            Estimate{food !== "none" ? ", including a short refreshment detour" : ""}{props.extras.some((x) => props.availableExtras.has(x)) ? " and your added stops" : ""}. You&apos;ll get Google&apos;s exact time when you build it.
           </p>
         )}
       </div>
@@ -83,6 +91,7 @@ export default function CustomPicker({ picks, estimate, max, food, foodAllowed, 
       )}
 
       <RefreshmentPicker value={food} onChange={onFoodChange} allowed={foodAllowed} />
+      <ExtraStopsPicker value={props.extras} onChange={props.onExtrasChange} available={props.availableExtras} roomForMore={props.roomForMoreExtras} />
     </div>
   );
 }

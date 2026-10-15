@@ -3,7 +3,7 @@
 import { AdvancedMarker, AdvancedMarkerAnchorPoint, APILoadingStatus, APIProvider, InfoWindow, Map, useApiLoadingStatus, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import type { Entrance, LatLng, Park, Sight } from "@/lib/types";
-import { isRefreshment, type PhotoRef, type WalkResult } from "@/lib/walk";
+import { type PhotoRef, stopColor, stopEmoji, type WalkResult } from "@/lib/walk";
 import PlacePhoto from "./PlacePhoto";
 import ParkBoundary from "./ParkBoundary";
 import { stopBadges } from "./ResultsPanel";
@@ -30,6 +30,8 @@ type Props = {
   picking?: boolean;
   /** Customize mode: picked sights in walking order (shown as numbered pins + a dashed preview). */
   picks?: { placeId: string; location: LatLng }[];
+  /** Customize mode: picks plus the extra stops that will be added, in walking order (for the preview). */
+  previewStops?: { id?: string; placeId?: string; kind?: string; location: LatLng }[];
   /** Customize mode: no room for more picks. */
   picksFull?: boolean;
   onTogglePick?: (sight: Sight, name?: string) => void;
@@ -38,6 +40,7 @@ type Props = {
 export default function ParkMap(props: Props) {
   const { park, sights, selectedEntranceId, onSelectEntrance, bottomPadding = 0, walk, focusOnWalk, selectedStopId, onSelectStop } = props;
   const { picking = false, picks = [], picksFull = false, onTogglePick } = props;
+  const previewStops: NonNullable<Props["previewStops"]> = props.previewStops ?? picks;
   const pickOrder = new globalThis.Map(picks.map((p, i) => [p.placeId, i + 1]));
   const [openSight, setOpenSight] = useState<Sight | null>(null);
 
@@ -72,8 +75,17 @@ export default function ParkMap(props: Props) {
       >
         <ParkBoundary park={park} bottomPadding={bottomPadding} fit={!walk} />
         {picking && picks.length > 0 && !walk && (
-          <PreviewLine path={[selectedEntrance(park, selectedEntranceId), ...picks.map((p) => p.location), selectedEntrance(park, selectedEntranceId)]} />
+          <PreviewLine path={[selectedEntrance(park, selectedEntranceId), ...previewStops.map((p) => p.location), selectedEntrance(park, selectedEntranceId)]} />
         )}
+        {picking &&
+          !walk &&
+          previewStops
+            .filter((s) => s.kind && stopEmoji(s.kind))
+            .map((s) => (
+              <AdvancedMarker key={s.id} position={s.location} anchorPoint={AdvancedMarkerAnchorPoint.CENTER} zIndex={15}>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-sky-600 text-sm shadow-md">{stopEmoji(s.kind!)}</div>
+              </AdvancedMarker>
+            ))}
         {walk && <RouteLine encodedPolyline={walk.encodedPolyline} bottomPadding={bottomPadding} />}
 
         {showPoints && (
@@ -97,7 +109,6 @@ export default function ParkMap(props: Props) {
               </div>
             </AdvancedMarker>
             {walk.stops.map((stop, i) => {
-              const food = isRefreshment(stop.kind);
               const selected = stop.id === selectedStopId;
               return (
                 <AdvancedMarker
@@ -109,7 +120,7 @@ export default function ParkMap(props: Props) {
                 >
                   <div
                     className={`flex items-center justify-center rounded-full border-2 border-white font-bold text-white shadow-md transition-transform ${
-                      food ? "bg-amber-500" : "bg-blue-600"
+                      stopColor(stop.kind)
                     } ${selected ? "h-9 w-9 text-sm" : "h-7 w-7 text-xs"}`}
                   >
                     {stopBadges(walk.stops)[i]}

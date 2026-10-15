@@ -4,15 +4,17 @@ import { type CSSProperties, type PointerEvent, useEffect, useMemo, useRef, useS
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
 import { estimateCustomWalk, maxPicks, orderLoop } from "@/lib/customWalk";
+import { addExtraStops, availableExtras } from "@/lib/extraStops";
 import { fetchWalk, WalkError } from "@/lib/fetchWalk";
 import { clampHeight, settle, type Snap, type SnapHeights, snapHeights, toggle } from "@/lib/sheet";
-import type { Mood } from "@/lib/types";
+import type { ExtraStop, Mood } from "@/lib/types";
 import {
   DEFAULT_MINUTES,
   describeLength,
   formatDuration,
   formatMiles,
   type LengthUnit,
+  EXTRA_STOPS,
   MOODS,
   minutesToMeters,
   REFRESHMENTS,
@@ -45,9 +47,18 @@ export default function WalkrApp() {
   const [mode, setMode] = useState<Mode>("surprise");
   const [picks, setPicks] = useState<Pick[]>([]);
   const [food, setFood] = useState<FoodChoice>("none");
+  const [extras, setExtras] = useState<ExtraStop[]>([]);
+  const available = useMemo(() => availableExtras(park.id), [park.id]);
+  const activeExtras = extras.filter((x) => available.has(x));
   const orderedPicks = useMemo(() => orderLoop(entrance.location, picks), [entrance.location, picks]);
-  const estimate = estimateCustomWalk(entrance.location, orderedPicks, food !== "none");
-  const pickLimit = maxPicks(food !== "none");
+  // Customize: the same extra stops the server will add (nearest fit), for the tracker and map preview.
+  const preview = useMemo(
+    () => (orderedPicks.length ? addExtraStops(park.id, entrance.location, orderedPicks, activeExtras).stops : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- activeExtras is derived from extras + available
+    [park.id, entrance.location, orderedPicks, extras, available],
+  );
+  const estimate = estimateCustomWalk(entrance.location, preview, food !== "none");
+  const pickLimit = maxPicks(food !== "none", activeExtras.length);
   const picking = mode === "custom" && view === "form";
 
   // "Clear all" with a few seconds to undo, in case it was tapped by accident.
@@ -148,12 +159,14 @@ export default function WalkrApp() {
             entranceId: entrance.id,
             placeIds: orderedPicks.map((p) => p.placeId),
             refreshment: food === "none" ? undefined : food,
+            extras: activeExtras,
           }
         : ({
             parkId: park.id,
             entranceId: entrance.id,
             mood,
             refreshment: food === "none" ? undefined : food,
+            extras: activeExtras,
             distanceMeters: minutesToMeters(minutes),
             avoid: options.avoid,
           } satisfies WalkRequest & { avoid?: string[] });
@@ -180,12 +193,13 @@ export default function WalkrApp() {
 
   const moodInfo = MOODS.find((m) => m.id === mood);
   const refreshmentInfo = REFRESHMENTS.find((r) => r.id === food);
+  const extraEmojis = EXTRA_STOPS.filter((x) => activeExtras.includes(x.id)).map((x) => x.emoji).join("");
   const showResults = view === "results" && walk;
   const summary = showResults
     ? `${formatMiles(walk.distanceMeters)} · ${formatDuration(walk.durationSeconds)} · ${walk.stops.length} stops`
     : mode === "custom"
       ? `${park.name} · ${picks.length} sight${picks.length === 1 ? "" : "s"}${picks.length ? ` · ≈ ${Math.round(estimate.minutes)} min` : ""}`
-      : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}${refreshmentInfo ? ` + ${refreshmentInfo.emoji}` : ""}`;
+      : `${park.name} · ${describeLength(minutes)} · ${moodInfo?.emoji} ${moodInfo?.label}${refreshmentInfo ? ` + ${refreshmentInfo.emoji}` : ""}${extraEmojis ? ` + ${extraEmojis}` : ""}`;
 
   return (
     <div className="relative flex h-full w-full flex-col md:flex-row">
@@ -250,7 +264,11 @@ export default function WalkrApp() {
                   estimate={estimate}
                   max={pickLimit}
                   food={food}
-                  foodAllowed={picks.length <= maxPicks(true)}
+                  foodAllowed={picks.length <= maxPicks(true, activeExtras.length)}
+                  extras={activeExtras}
+                  onExtrasChange={setExtras}
+                  availableExtras={available}
+                  roomForMoreExtras={picks.length < pickLimit}
                   onFoodChange={setFood}
                   onRemove={(id) => setPicks((current) => current.filter((p) => p.placeId !== id))}
                   onClear={clearPicks}
@@ -268,6 +286,9 @@ export default function WalkrApp() {
               onMoodChange={setMood}
               refreshment={food}
               onRefreshmentChange={setFood}
+              extras={activeExtras}
+              onExtrasChange={setExtras}
+              availableExtras={available}
               onSubmit={() => generate()}
               loading={loading}
             />
@@ -286,6 +307,7 @@ export default function WalkrApp() {
           walk={walk?.parkId === park.id && !picking ? walk : null}
           picking={picking}
           picks={orderedPicks}
+          previewStops={preview}
           picksFull={picks.length >= pickLimit}
           onTogglePick={togglePick}
           focusOnWalk={view === "results"}
@@ -309,6 +331,12 @@ export default function WalkrApp() {
                 <i className="inline-block h-2 w-2 rounded-full bg-amber-500" />
                 Food
               </span>
+              {walk?.stops.some((s) => EXTRA_STOPS.some((x) => x.id === s.kind)) && (
+                <span className="ml-2 inline-flex items-center gap-1">
+                  <i className="inline-block h-2 w-2 rounded-full bg-sky-600" />
+                  Extra
+                </span>
+              )}
             </>
           ) : (
             <>

@@ -95,3 +95,40 @@ describe("generateWalk", () => {
     expect(walk.note).toMatch(/closest we could get/);
   });
 });
+
+describe("generateWalk: extra stops", () => {
+  it("adds a restroom and a playground, still lands near the length, and stays within 10 stops", async () => {
+    const deps = fakeDeps(1.3);
+    const walk = await generateWalk(
+      { park: riverside, entrance: defaultEntrance(riverside), mood: "scenic", refreshment: "coffee", extras: ["restroom", "water", "playground", "dogrun"], targetMeters: 4800, seed: 5 },
+      deps,
+    );
+    const kinds = walk.stops.map((s) => s.kind);
+    for (const k of ["restroom", "water", "playground", "dogrun"]) expect(kinds).toContain(k);
+    expect(walk.stops.length).toBeLessThanOrEqual(10);
+    expect(walk.withinTarget).toBe(true);
+    // Every Routes call stayed in the cheaper tier.
+    for (const call of vi.mocked(deps.computeRoute).mock.calls) expect(call[1].length).toBeLessThanOrEqual(10);
+    const restroom = walk.stops.find((s) => s.kind === "restroom")!;
+    expect(restroom.name).toMatch(/^Restroom/);
+  });
+
+  it("explains a kind that isn't available in the park", async () => {
+    const central = getPark("central-park")!;
+    const walk = await generateWalk({ park: central, entrance: defaultEntrance(central), mood: "quiet", extras: ["dogrun"], targetMeters: 2400, seed: 1 }, fakeDeps(1.3));
+    expect(walk.stops.some((s) => s.kind === "dogrun")).toBe(false);
+    expect(walk.note).toMatch(/no dog run in or right next to Central Park/);
+  });
+});
+
+describe("generateCustomWalk: extra stops", () => {
+  it("adds extras to the walker's picks with one Routes call", async () => {
+    const { generateCustomWalk } = await import("./generateWalk");
+    const sights = (await import("@/data/sights")).getSights(riverside.id).slice(0, 3).map((s) => s.placeId);
+    const deps = fakeDeps(1.3);
+    const walk = await generateCustomWalk({ park: riverside, entrance: defaultEntrance(riverside), placeIds: sights, extras: ["restroom"], includeNames: false }, deps);
+    expect(deps.calls).toBe(1);
+    expect(walk.stops.filter((s) => s.kind === "sight")).toHaveLength(3);
+    expect(walk.stops.some((s) => s.kind === "restroom")).toBe(true);
+  });
+});

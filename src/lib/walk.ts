@@ -1,4 +1,4 @@
-import type { LatLng, Mood, Refreshment } from "./types";
+import type { ExtraStop, LatLng, Mood, Refreshment } from "./types";
 
 /** Average walking pace used to convert minutes ↔ miles: 3 mph = 20 minutes per mile. */
 export const MINUTES_PER_MILE = 20;
@@ -25,6 +25,27 @@ export const REFRESHMENTS: { id: Refreshment; label: string; emoji: string; noun
   { id: "treat", label: "Sweet treat", emoji: "🍰", noun: "sweet treat spot" },
 ];
 
+export const EXTRA_STOPS: { id: ExtraStop; label: string; emoji: string; noun: string }[] = [
+  { id: "restroom", label: "Restroom", emoji: "🚻", noun: "restroom" },
+  { id: "water", label: "Water", emoji: "💧", noun: "drinking fountain" },
+  { id: "playground", label: "Playground", emoji: "🛝", noun: "playground" },
+  { id: "dogrun", label: "Dog run", emoji: "🐕", noun: "dog run" },
+];
+
+export function isExtraStop(kind: unknown): kind is ExtraStop {
+  return EXTRA_STOPS.some((x) => x.id === kind);
+}
+
+/** Badge color for a stop: amber for refreshments, sky for extra stops, blue for sights. */
+export function stopColor(kind: string): string {
+  return isRefreshment(kind) ? "bg-amber-500" : isExtraStop(kind) ? "bg-sky-600" : "bg-blue-600";
+}
+
+/** Badge for a non-sight stop (refreshment or extra), or undefined for sights. */
+export function stopEmoji(kind: string): string | undefined {
+  return REFRESHMENTS.find((r) => r.id === kind)?.emoji ?? EXTRA_STOPS.find((x) => x.id === kind)?.emoji;
+}
+
 export function isRefreshment(kind: unknown): kind is Refreshment {
   return kind === "coffee" || kind === "lunch" || kind === "treat";
 }
@@ -40,6 +61,7 @@ export type WalkRequest = {
   entranceId: string;
   mood: Mood;
   refreshment?: Refreshment;
+  extras?: ExtraStop[];
   /** Target loop length. The generator aims for ±15%. */
   distanceMeters: number;
 };
@@ -51,6 +73,7 @@ export type CustomWalkRequest = {
   entranceId: string;
   placeIds: string[];
   refreshment?: Refreshment;
+  extras?: ExtraStop[];
 };
 
 export function minutesToMiles(minutes: number): number {
@@ -82,7 +105,7 @@ export type WalkStop = {
   id: string;
   name: string;
   location: LatLng;
-  kind: "sight" | "landmark" | Refreshment;
+  kind: "sight" | "landmark" | Refreshment | ExtraStop;
   placeId?: string;
   /** e.g. "Sculpture", "Coffee shop · 4.6★" */
   detail?: string;

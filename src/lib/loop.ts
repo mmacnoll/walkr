@@ -10,7 +10,7 @@
 import { bearingDegrees, distanceMeters } from "./geo";
 import type { LatLng } from "./types";
 
-export type StopKind = "sight" | "landmark" | "coffee" | "lunch" | "treat";
+export type StopKind = "sight" | "landmark" | "coffee" | "lunch" | "treat" | "restroom" | "water" | "playground" | "dogrun";
 
 export type Candidate = {
   id: string;
@@ -20,6 +20,8 @@ export type Candidate = {
   kind: StopKind;
   placeId?: string;
   name?: string;
+  /** e.g. "Restroom · baby changing station" (extra stops) */
+  detail?: string;
 };
 
 export type PlanInput = {
@@ -34,6 +36,8 @@ export type PlanInput = {
   required?: Candidate;
   /** Stops from the previous loop ("Try another"): still allowed, but less attractive. */
   avoid?: Set<string>;
+  /** Most sights to use (fewer when extra stops need room in Google's 10-stop tier). */
+  maxStops?: number;
 };
 
 export type Plan = {
@@ -165,7 +169,7 @@ export function planLoop(rawInput: PlanInput): Plan | null {
     .slice(0, 6)
     .map((x) => x.c);
 
-  const stopCount = targetStopCount(targetMeters);
+  const stopCount = Math.min(targetStopCount(targetMeters), input.maxStops ?? MAX_SIGHT_STOPS);
   let best: { plan: Plan; value: number } | null = null;
   for (const t of turnarounds) {
     const plan = buildAround(input, t, stopCount);
@@ -222,8 +226,11 @@ export function adjustLoop(opts: {
   targetMeters: number;
   detour: number;
   requiredId?: string;
+  /** Most stops allowed in the loop (default: MAX_SIGHT_STOPS sights + a food stop). */
+  maxStops?: number;
 }): Candidate[] {
   const { start, stops, candidates, targetMeters, detour, requiredId } = opts;
+  const maxStops = opts.maxStops ?? MAX_SIGHT_STOPS + 1;
   const estimate = (list: Candidate[]) => loopStraightMeters(start, list) * detour;
   const value = (list: Candidate[]) => {
     const error = Math.abs(estimate(list) - targetMeters) / targetMeters;
@@ -253,7 +260,7 @@ export function adjustLoop(opts: {
   // Drop one stop.
   if (stops.length > 1) for (const s of optional) consider(stops.filter((x) => x.id !== s.id));
   // Add one stop (if room).
-  if (stops.length < MAX_SIGHT_STOPS + 1) for (const c of extras) consider(insertCheapest(start, stops, c));
+  if (stops.length < maxStops) for (const c of extras) consider(insertCheapest(start, stops, c));
   // Swap one stop for another.
   for (const s of optional)
     for (const c of extras) {

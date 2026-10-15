@@ -7,9 +7,9 @@ import { METERS_PER_MILE } from "./walk";
 
 /** Google's cheaper Routes tier allows 10 stops in between start and finish. */
 export const MAX_CUSTOM_STOPS = 10;
-/** Room for one café or lunch stop if asked. */
-export function maxPicks(withFood: boolean): number {
-  return withFood ? MAX_CUSTOM_STOPS - 1 : MAX_CUSTOM_STOPS;
+/** Sights the walker can pick, leaving room for a refreshment and any extra stops. */
+export function maxPicks(withFood: boolean, extraCount = 0): number {
+  return MAX_CUSTOM_STOPS - (withFood ? 1 : 0) - extraCount;
 }
 
 /**

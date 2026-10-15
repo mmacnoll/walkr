@@ -2,13 +2,14 @@
 // The Google calls are passed in (`deps`) so this can be tested without the network.
 import { getSights } from "@/data/sights";
 import { CUSTOM_DETOUR, orderLoop } from "./customWalk";
+import { addExtraStops, fountainsMayBeOff, MAX_ROUTE_STOPS } from "./extraStops";
 import { distanceMeters, isWithinRingsBuffer } from "./geo";
-import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, insertCheapest, loopStraightMeters, planLoop, seededRandom } from "./loop";
+import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, insertCheapest, loopStraightMeters, MAX_SIGHT_STOPS, planLoop, seededRandom } from "./loop";
 import type { FoodPlace, PlaceSummary } from "./places";
 import type { RouteWaypoint, WalkingRoute } from "./routes";
 import { scoreFood, scoreLandmark, scoreSight } from "./scoring";
-import type { Entrance, LatLng, Mood, Park, Refreshment } from "./types";
-import { isRefreshment, LENGTH_TOLERANCE, refreshmentNoun, type WalkResult, type WalkStop } from "./walk";
+import type { Entrance, ExtraStop, LatLng, Mood, Park, Refreshment } from "./types";
+import { EXTRA_STOPS, isExtraStop, isRefreshment, LENGTH_TOLERANCE, refreshmentNoun, type WalkResult, type WalkStop } from "./walk";
 
 export type WalkDeps = {
   computeRoute: (start: LatLng, stops: RouteWaypoint[]) => Promise<WalkingRoute>;
@@ -22,6 +23,8 @@ export type WalkOptions = {
   mood: Mood;
   /** Optional coffee / lunch / sweet-treat stop. */
   refreshment?: Refreshment;
+  /** Optional restroom / water / playground / dog run stops. */
+  extras?: ExtraStop[];
   targetMeters: number;
   seed: number;
   /** Stop ids from the previous walk ("Try another"). */
@@ -37,6 +40,18 @@ const DEFAULT_TIME_BUDGET_MS = 10_000;
 const FOOD_EDGE_BUFFER_M = { large: 250, small: 600, linear: 600 }; // "about 2 blocks" for big parks
 
 const miles = (m: number) => `${(m / 1609.344).toFixed(1)} mi`;
+
+/** Adds the requested extra stops to a loop (as planner candidates), plus notes about any that couldn't be added. */
+function withExtras(park: Park, start: LatLng, stops: Candidate[], extras: ExtraStop[]): { stops: Candidate[]; notes: string[] } {
+  if (!extras.length) return { stops, notes: [] };
+  const result = addExtraStops(park.id, start, stops, extras);
+  // Extra places come back without a planner score; they're required, so the score doesn't matter.
+  const full = result.stops.map((s): Candidate => ("score" in s ? s : { ...s, score: 0 }));
+  const notes = result.missing.map((k) => `There's no ${EXTRA_STOPS.find((x) => x.id === k)!.noun} in or right next to ${park.name}, so the walk skips it.`);
+  if (extras.includes("water") && !result.missing.includes("water") && fountainsMayBeOff())
+    notes.push("NYC Parks turns most drinking fountains off from about November to April, so it may not be running.");
+  return { stops: full, notes };
+}
 
 function sightCandidates(park: Park, mood: Mood): Candidate[] {
   const sights = getSights(park.id);
@@ -75,6 +90,9 @@ async function findFoodStop(
 
 export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<WalkResult> {
   const { park, entrance, mood, refreshment, targetMeters } = opts;
+  const extras = opts.extras ?? [];
+  // Google's cheaper tier: at most 10 stops in all, so extra stops take the place of sights.
+  const maxSights = Math.max(1, Math.min(MAX_SIGHT_STOPS, MAX_ROUTE_STOPS - (refreshment ? 1 : 0) - extras.length));
   const startedAt = Date.now();
   const budget = opts.timeBudgetMs ?? DEFAULT_TIME_BUDGET_MS;
   const start = entrance.location;
@@ -84,7 +102,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
   const notes: string[] = [];
 
   let detour = DEFAULT_DETOUR;
-  const firstPlan = planLoop({ start, targetMeters, candidates, detour, rng, avoid });
+  const firstPlan = planLoop({ start, targetMeters, candidates, detour, rng, avoid, maxStops: maxSights });
 
   // Coffee / lunch: find one good, open place near the far end of the loop.
   let food: Awaited<ReturnType<typeof findFoodStop>> = null;
@@ -104,19 +122,25 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
   // (drop / add / swap a stop) using the winding factor measured for this exact loop.
   let best: { route: WalkingRoute; stops: Candidate[] } | null = null;
   const attempts: NonNullable<WalkResult["attempts"]> = [];
-  const plan = planLoop({ start, targetMeters, candidates, detour, rng: seededRandom(opts.seed), avoid, required: food?.candidate });
+  // Extra stops add walking, so plan the sights for a little less than the full length.
+  const extraMeters = (core: Candidate[]) => loopStraightMeters(start, withExtras(park, start, core, extras).stops) - loopStraightMeters(start, core);
+  const coreTarget = (core: Candidate[]) => Math.max(targetMeters * 0.4, targetMeters - extraMeters(core) * detour);
+  const firstTarget = firstPlan ? coreTarget(firstPlan.stops) : targetMeters;
+  const plan = planLoop({ start, targetMeters: firstTarget, candidates, detour, rng: seededRandom(opts.seed), avoid, required: food?.candidate, maxStops: maxSights });
   let stops = plan?.stops ?? [];
+  if (plan) notes.push(...withExtras(park, start, stops, extras).notes);
   let circle = plan ? null : fallbackCircle(start, park.center, targetMeters, detour);
   for (let attempt = 0; attempt < MAX_ROUTE_ATTEMPTS; attempt++) {
     if (attempt > 0 && Date.now() - startedAt > budget) break; // out of time: keep the closest loop so far
+    const full = circle ? [] : withExtras(park, start, stops, extras).stops;
     const waypoints: RouteWaypoint[] = circle
       ? circle.map((location) => ({ location }))
-      : stops.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location }));
-    const straight = loopStraightMeters(start, circle ? circle.map((location) => ({ location })) : stops);
+      : full.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location }));
+    const straight = loopStraightMeters(start, circle ? circle.map((location) => ({ location })) : full);
 
     const route = await deps.computeRoute(start, waypoints);
-    attempts.push({ detour: Number(detour.toFixed(2)), estimatedMeters: Math.round(straight * detour), actualMeters: route.distanceMeters, stops: stops.length });
-    if (!best || Math.abs(route.distanceMeters - targetMeters) < Math.abs(best.route.distanceMeters - targetMeters)) best = { route, stops };
+    attempts.push({ detour: Number(detour.toFixed(2)), estimatedMeters: Math.round(straight * detour), actualMeters: route.distanceMeters, stops: full.length || stops.length });
+    if (!best || Math.abs(route.distanceMeters - targetMeters) < Math.abs(best.route.distanceMeters - targetMeters)) best = { route, stops: circle ? stops : full };
     if (Math.abs(route.distanceMeters - targetMeters) <= targetMeters * LENGTH_TOLERANCE) break;
 
     detour = Math.min(3, Math.max(1, route.distanceMeters / Math.max(straight, 1)));
@@ -124,7 +148,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
       circle = fallbackCircle(start, park.center, targetMeters, detour);
       continue;
     }
-    const next = adjustLoop({ start, stops, candidates, targetMeters, detour, requiredId: food?.candidate.id });
+    const next = adjustLoop({ start, stops, candidates, targetMeters: coreTarget(stops), detour, requiredId: food?.candidate.id, maxStops: maxSights + (food ? 1 : 0) });
     if (next === stops) break; // no change would get closer
     stops = next;
   }
@@ -160,6 +184,7 @@ async function nameStops(stops: Candidate[], foodPlace: FoodPlace | undefined, d
         return { id: s.id, name: p.name, location: s.location, kind: s.kind, placeId: s.placeId, detail, photo: p.photo };
       }
       if (s.kind === "landmark") return { id: s.id, name: s.name ?? "Landmark", location: s.location, kind: s.kind };
+      if (isExtraStop(s.kind)) return { id: s.id, name: s.name ?? s.kind, detail: s.detail, location: s.location, kind: s.kind };
       if (!includeNames || !s.placeId) return { id: s.id, name: "Sight", location: s.location, kind: s.kind, placeId: s.placeId };
       try {
         const summary = await deps.getPlaceSummary(s.placeId);
@@ -177,6 +202,7 @@ export type CustomWalkOptions = {
   /** Sights the walker picked (already checked to belong to this park). */
   placeIds: string[];
   refreshment?: Refreshment;
+  extras?: ExtraStop[];
   includeNames?: boolean;
 };
 
@@ -208,7 +234,10 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
     }
   }
 
-  const route = await deps.computeRoute(start, stops.map((s) => ({ placeId: s.placeId! })));
+  const added = withExtras(park, start, stops, opts.extras ?? []);
+  stops = added.stops;
+  notes.push(...added.notes);
+  const route = await deps.computeRoute(start, stops.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location })));
   const namedStops = await nameStops(stops, food?.place, deps, opts.includeNames);
   return {
     parkId: park.id,
