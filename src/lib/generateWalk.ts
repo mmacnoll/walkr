@@ -111,7 +111,7 @@ export async function generateWalk(opts: WalkOptions, deps: WalkDeps): Promise<W
     if (attempt > 0 && Date.now() - startedAt > budget) break; // out of time: keep the closest loop so far
     const waypoints: RouteWaypoint[] = circle
       ? circle.map((location) => ({ location }))
-      : stops.map((s) => (s.placeId ? { placeId: s.placeId } : { location: s.location }));
+      : stops.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location }));
     const straight = loopStraightMeters(start, circle ? circle.map((location) => ({ location })) : stops);
 
     const route = await deps.computeRoute(start, waypoints);
@@ -208,7 +208,7 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
     }
   }
 
-  const route = await deps.computeRoute(start, stops.map((s) => ({ placeId: s.placeId! })));
+  const route = await deps.computeRoute(start, stops.map((s) => ({ placeId: s.placeId!, location: s.location })));
   const namedStops = await nameStops(stops, food?.place, deps, opts.includeNames);
   return {
     parkId: park.id,

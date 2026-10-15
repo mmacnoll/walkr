@@ -12,7 +12,7 @@ function fakeDeps(winding: number, food: Awaited<ReturnType<WalkDeps["searchFood
     computeRoute: vi.fn(async (start: LatLng, stops: RouteWaypoint[]) => {
       deps.calls++;
       // placeId waypoints: look up their coordinates from the sights file via the test helper
-      const pts = stops.map((s) => ("location" in s ? s.location : locate(s.placeId)));
+      const pts = stops.map((s) => ("placeId" in s ? locate(s.placeId) : s.location));
       const d = loopStraightMeters(start, pts.map((location) => ({ location }))) * winding;
       return { distanceMeters: Math.round(d), durationSeconds: Math.round(d / 1.34), encodedPolyline: "abc" };
     }),
