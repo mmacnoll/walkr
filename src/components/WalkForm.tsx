@@ -25,6 +25,9 @@ type Props = {
   customSection?: ReactNode;
   /** Customize mode: false until at least one sight is picked. */
   canSubmit?: boolean;
+  /** Number of walks saved on this device; shows a "Saved walks" link when > 0. */
+  savedCount?: number;
+  onShowSaved?: () => void;
   park: Park;
   entranceId: string;
   minutes: number;
@@ -89,6 +92,16 @@ export default function WalkForm(props: Props) {
           </button>
         ))}
       </div>
+
+      {!!props.savedCount && (
+        <button
+          type="button"
+          onClick={props.onShowSaved}
+          className="-mt-2 self-start rounded-full bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-900 hover:bg-amber-100"
+        >
+          ⭐ Saved walks ({props.savedCount})
+        </button>
+      )}
 
       {/* Park */}
       <div>

@@ -29,7 +29,7 @@ Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 - [~] M15. Route preferences: well lit, waterfront (built, then reverted on 2026-10-15: results weren't good enough for the complexity; moved to Phase 4)
 - [x] M16. Shareable links (released in v2.1.0)
 - [-] M17. AI walk description (skipped, 2026-10-16)
-- [ ] M18. Save favorite walks
+- [x] M18. Save favorite walks (on branch `phase-3`, not yet live)
 - [ ] M19. "Good for" tags
 - [ ] M20. Design polish + Add to Home Screen + ship v3.0
 

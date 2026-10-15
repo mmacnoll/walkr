@@ -1,11 +1,12 @@
 "use client";
 
-import { type CSSProperties, type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, type PointerEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { defaultEntrance, parks } from "@/data/parks";
 import { getSights } from "@/data/sights";
 import { estimateCustomWalk, maxPicks, orderLoop } from "@/lib/customWalk";
 import { addExtraStops, availableExtras } from "@/lib/extraStops";
 import { fetchWalk, WalkError } from "@/lib/fetchWalk";
+import { removeSaved, savedServerSnapshot, savedSnapshot, saveWalk, subscribeSaved } from "@/lib/savedWalks";
 import { clampHeight, settle, type Snap, type SnapHeights, snapHeights, toggle } from "@/lib/sheet";
 import type { ExtraStop, Mood } from "@/lib/types";
 import {
@@ -24,9 +25,10 @@ import {
 import ParkMap from "./ParkMap";
 import CustomPicker, { type FoodChoice, type Pick } from "./CustomPicker";
 import ResultsPanel from "./ResultsPanel";
+import SavedWalksPanel from "./SavedWalksPanel";
 import WalkForm, { type Mode } from "./WalkForm";
 
-type View = "form" | "results";
+type View = "form" | "results" | "saved";
 
 export default function WalkrApp() {
   const [parkId, setParkId] = useState(parks[0].id);
@@ -64,6 +66,14 @@ export default function WalkrApp() {
   // "Clear all" with a few seconds to undo, in case it was tapped by accident.
   const [cleared, setCleared] = useState<Pick[] | null>(null);
   const [shareStatus, setShareStatus] = useState<string | null>(null);
+  // Walks saved on this device (read after the page loads; the server can't see browser storage).
+  const saved = useSyncExternalStore(subscribeSaved, savedSnapshot, savedServerSnapshot);
+  const walkIsSaved = !!walk?.share && saved.some((w) => w.token === walk.share);
+  function toggleSave() {
+    if (!walk?.share) return;
+    if (walkIsSaved) removeSaved(walk.share);
+    else if (!saveWalk(walk, park.name)) setError({ message: "Couldn't save on this device (storage may be off or full)." });
+  }
   useEffect(() => {
     if (!cleared) return;
     const t = setTimeout(() => setCleared(null), 6000);
@@ -289,7 +299,7 @@ export default function WalkrApp() {
           <span aria-hidden className="h-1.5 w-10 rounded-full bg-zinc-300 md:hidden" />
           <span className="flex w-full items-center justify-between">
             <span className="text-left">
-              <span className="block text-lg font-bold text-green-800">{showResults ? `Your walk in ${park.name}` : "Walkr"}</span>
+              <span className="block text-lg font-bold text-green-800">{showResults ? `Your walk in ${park.name}` : view === "saved" ? "Saved walks" : "Walkr"}</span>
               <span className="block text-xs text-zinc-500">{collapsed || showResults ? summary : "Loop walks through NYC parks"}</span>
             </span>
             <span className="text-xs font-medium text-green-800 md:hidden">{collapsed ? "Show" : "Hide"}</span>
@@ -306,13 +316,27 @@ export default function WalkrApp() {
               onTryAnother={walk.custom ? undefined : () => generate({ avoid: walk.stops.map((s) => s.id) })}
               onShare={shareWalk}
               shareStatus={shareStatus}
+              onToggleSave={toggleSave}
+              saved={walkIsSaved}
               onEdit={() => {
                 setView("form");
                 setSelectedStopId(null);
               }}
             />
+          ) : view === "saved" ? (
+            <SavedWalksPanel
+              saved={saved}
+              loading={loading}
+              onOpen={(token) => void openShared(token)}
+              onDelete={(token) => {
+                removeSaved(token);
+              }}
+              onBack={() => setView("form")}
+            />
           ) : (
             <WalkForm
+              savedCount={saved.length}
+              onShowSaved={() => setView("saved")}
               mode={mode}
               onModeChange={setMode}
               canSubmit={orderedPicks.length > 0}

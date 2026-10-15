@@ -14,6 +14,9 @@ type Props = {
   onShare?: () => void;
   /** e.g. "Link copied" after sharing. */
   shareStatus?: string | null;
+  /** Save / un-save this walk on the device. */
+  onToggleSave?: () => void;
+  saved?: boolean;
 };
 
 /** Badge for each stop: food and extra stops get an icon; sights are numbered 1, 2, 3… skipping those. */
@@ -22,7 +25,8 @@ export function stopBadges(stops: WalkStop[]): string[] {
   return stops.map((s) => stopEmoji(s.kind) ?? String(++n));
 }
 
-export default function ResultsPanel({ walk, selectedStopId, loading, onSelectStop, onTryAnother, onEdit, onShare, shareStatus }: Props) {
+export default function ResultsPanel(props: Props) {
+  const { walk, selectedStopId, loading, onSelectStop, onTryAnother, onEdit, onShare, shareStatus, onToggleSave, saved } = props;
   const badges = stopBadges(walk.stops);
   return (
     <div className="flex flex-col gap-4">
@@ -88,14 +92,30 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
           {walk.shared ? "✎ Plan your own" : walk.custom ? "✎ Edit picks" : "✎ Edit walk"}
         </button>
       </div>
-      {onShare && walk.share && (
-        <button
-          type="button"
-          onClick={onShare}
-          className="rounded-xl border border-green-700 bg-white px-3 py-3 text-sm font-semibold text-green-800 transition hover:bg-green-50"
-        >
-          {shareStatus ?? "🔗 Share this walk"}
-        </button>
+      {walk.share && (onShare || onToggleSave) && (
+        <div className="grid grid-cols-2 gap-2">
+          {onToggleSave && (
+            <button
+              type="button"
+              onClick={onToggleSave}
+              aria-pressed={saved}
+              className={`rounded-xl border px-3 py-3 text-sm font-semibold transition ${
+                saved ? "border-amber-500 bg-amber-50 text-amber-900" : "border-green-700 bg-white text-green-800 hover:bg-green-50"
+              }`}
+            >
+              {saved ? "★ Saved" : "⭐ Save"}
+            </button>
+          )}
+          {onShare && (
+            <button
+              type="button"
+              onClick={onShare}
+              className="rounded-xl border border-green-700 bg-white px-3 py-3 text-sm font-semibold text-green-800 transition hover:bg-green-50"
+            >
+              {shareStatus ?? "🔗 Share"}
+            </button>
+          )}
+        </div>
       )}
       <a
         href={googleMapsDirectionsUrl(walk.start.location, walk.stops)}
