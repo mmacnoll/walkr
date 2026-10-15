@@ -10,6 +10,10 @@ type Props = {
   /** Not offered for Customize walks (the walker chose the stops). */
   onTryAnother?: () => void;
   onEdit: () => void;
+  /** Share a link to this walk (only for walks the server gave a share token). */
+  onShare?: () => void;
+  /** e.g. "Link copied" after sharing. */
+  shareStatus?: string | null;
 };
 
 /** Badge for each stop: food and extra stops get an icon; sights are numbered 1, 2, 3… skipping those. */
@@ -18,7 +22,7 @@ export function stopBadges(stops: WalkStop[]): string[] {
   return stops.map((s) => stopEmoji(s.kind) ?? String(++n));
 }
 
-export default function ResultsPanel({ walk, selectedStopId, loading, onSelectStop, onTryAnother, onEdit }: Props) {
+export default function ResultsPanel({ walk, selectedStopId, loading, onSelectStop, onTryAnother, onEdit, onShare, shareStatus }: Props) {
   const badges = stopBadges(walk.stops);
   return (
     <div className="flex flex-col gap-4">
@@ -81,9 +85,18 @@ export default function ResultsPanel({ walk, selectedStopId, loading, onSelectSt
           onClick={onEdit}
           className="rounded-xl border border-zinc-300 bg-white px-3 py-3 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50"
         >
-          {walk.custom ? "✎ Edit picks" : "✎ Edit walk"}
+          {walk.shared ? "✎ Plan your own" : walk.custom ? "✎ Edit picks" : "✎ Edit walk"}
         </button>
       </div>
+      {onShare && walk.share && (
+        <button
+          type="button"
+          onClick={onShare}
+          className="rounded-xl border border-green-700 bg-white px-3 py-3 text-sm font-semibold text-green-800 transition hover:bg-green-50"
+        >
+          {shareStatus ?? "🔗 Share this walk"}
+        </button>
+      )}
       <a
         href={googleMapsDirectionsUrl(walk.start.location, walk.stops)}
         target="_blank"

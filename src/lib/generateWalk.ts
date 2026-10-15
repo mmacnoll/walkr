@@ -1,5 +1,6 @@
 // Builds a walk: plan stops → (coffee/lunch: find a place) → measure with the Routes API → retry.
 // The Google calls are passed in (`deps`) so this can be tested without the network.
+import { getAmenities } from "@/data/amenities";
 import { getSights } from "@/data/sights";
 import { CUSTOM_DETOUR, orderLoop } from "./customWalk";
 import { addExtraStops, fountainsMayBeOff, MAX_ROUTE_STOPS } from "./extraStops";
@@ -7,6 +8,7 @@ import { distanceMeters, isWithinRingsBuffer } from "./geo";
 import { adjustLoop, type Candidate, DEFAULT_DETOUR, fallbackCircle, insertCheapest, loopStraightMeters, MAX_SIGHT_STOPS, planLoop, seededRandom } from "./loop";
 import type { FoodPlace, PlaceSummary } from "./places";
 import type { RouteWaypoint, WalkingRoute } from "./routes";
+import type { SharedStop } from "./shareToken";
 import { scoreFood, scoreLandmark, scoreSight } from "./scoring";
 import type { Entrance, ExtraStop, LatLng, Mood, Park, Refreshment } from "./types";
 import { EXTRA_STOPS, isExtraStop, isRefreshment, LENGTH_TOLERANCE, refreshmentNoun, type WalkResult, type WalkStop } from "./walk";
@@ -256,5 +258,46 @@ export async function generateCustomWalk(opts: CustomWalkOptions, deps: WalkDeps
     custom: true,
     note: notes.length ? notes.join(" ") : undefined,
     attempts: [{ detour: Number((route.distanceMeters / Math.max(1, loopStraightMeters(start, stops))).toFixed(2)), estimatedMeters: Math.round(loopStraightMeters(start, stops) * CUSTOM_DETOUR), actualMeters: route.distanceMeters, stops: stops.length }],
+  };
+}
+
+/**
+ * Shared link: rebuild exactly the walk that was shared (same stops, same order) with one Routes
+ * call. Names and photos are looked up live again; extra stops are matched to today's data.
+ */
+export async function generateSharedWalk(opts: { park: Park; entrance: Entrance; stops: SharedStop[] }, deps: WalkDeps): Promise<WalkResult> {
+  const { park, entrance } = opts;
+  const start = entrance.location;
+  const stops: Candidate[] = opts.stops.map((s, i) => {
+    const location = { lat: s.lat, lng: s.lng };
+    const id = s.id ?? `shared-${i}`;
+    if (s.kind === "landmark") {
+      const l = park.landmarks.find((x) => x.id === s.id);
+      return { id, location: l?.location ?? location, score: 0, kind: "landmark", name: l?.name ?? "Landmark" };
+    }
+    if (isExtraStop(s.kind)) {
+      // Today's place of that kind at (or very near) the shared spot, for its name.
+      const match = getAmenities(park.id, s.kind).find((a) => distanceMeters(a.location, location) < 40);
+      const label = EXTRA_STOPS.find((x) => x.id === s.kind)!;
+      return { id, location, score: 0, kind: s.kind, name: match?.name ?? label.label, detail: match?.detail ?? label.label };
+    }
+    return { id, placeId: s.id, location, score: 0, kind: s.kind };
+  });
+  const route = await deps.computeRoute(
+    start,
+    stops.map((s) => (s.placeId ? { placeId: s.placeId, location: s.location } : { location: s.location })),
+  );
+  const namedStops = await nameStops(stops, undefined, deps);
+  return {
+    parkId: park.id,
+    start: { name: entrance.name, location: start },
+    stops: namedStops,
+    encodedPolyline: route.encodedPolyline,
+    distanceMeters: route.distanceMeters,
+    durationSeconds: route.durationSeconds,
+    targetMeters: route.distanceMeters,
+    withinTarget: true,
+    custom: true,
+    shared: true,
   };
 }

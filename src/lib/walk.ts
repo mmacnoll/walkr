@@ -135,6 +135,10 @@ export type WalkResult = {
   withinTarget: boolean;
   /** Built in Customize mode from the walker's own picks. */
   custom?: boolean;
+  /** Rebuilt from a shared link. */
+  shared?: boolean;
+  /** Signed token for a link that rebuilds this exact walk (/?walk=<token>). */
+  share?: string;
   /** Friendly explanation when something didn't go perfectly. */
   note?: string;
   /** How each planning round went (for testing and tuning). */

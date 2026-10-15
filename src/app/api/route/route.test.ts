@@ -143,3 +143,42 @@ describe("POST /api/route: mood + refreshment", () => {
     expect(fetchMock.mock.calls.some((call) => String((call as unknown[])[0]).includes("searchNearby"))).toBe(false);
   });
 });
+
+describe("POST /api/route: shared links", () => {
+  const routeOk = () =>
+    vi.fn(async (url: string) =>
+      String(url).includes("computeRoutes")
+        ? new Response(JSON.stringify({ routes: [{ distanceMeters: 2400, duration: "1800s", polyline: { encodedPolyline: "abc" } }] }), { status: 200 })
+        : new Response(JSON.stringify({ displayName: { text: "A sight" } }), { status: 200 }),
+    );
+
+  it("every walk comes with a share token that rebuilds the same stops, in order, with one Routes call", async () => {
+    vi.stubGlobal("fetch", routeOk());
+    const first = await (await post(body())).json();
+    expect(typeof first.share).toBe("string");
+
+    const fetchMock = routeOk();
+    vi.stubGlobal("fetch", fetchMock);
+    const res = await post({ mode: "shared", token: first.share });
+    expect(res.status).toBe(200);
+    const again = await res.json();
+    expect(again.shared).toBe(true);
+    expect(again.stops.map((s: { kind: string; location: unknown }) => [s.kind, s.location])).toEqual(
+      first.stops.map((s: { kind: string; location: { lat: number; lng: number } }) => [s.kind, { lat: +s.location.lat.toFixed(5), lng: +s.location.lng.toFixed(5) }]),
+    );
+    const routeCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes("computeRoutes"));
+    expect(routeCalls).toHaveLength(1);
+  });
+
+  it.each([
+    ["a missing token", {}],
+    ["a made-up token", { token: "eyJ4IjoxfQ.forged" }],
+    ["junk", { token: "not a token" }],
+  ])("rejects %s without calling Google", async (_, extra) => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const res = await post({ mode: "shared", ...extra });
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toMatch(/link isn't valid/);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+});

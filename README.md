@@ -17,6 +17,7 @@ Live app: **https://walkr-gamma.vercel.app**
 - **Photos:** tap any sight or stop to see a Google photo of it.
 - **Numbered stops** on the map and in a list. Tap one to see where it is.
 - **Try another:** builds a different loop with the same settings.
+- **Share:** 🔗 sends a link that rebuilds the exact same walk (same stops, same order) for whoever opens it.
 - **Works on a phone**, with friendly messages when something goes wrong (offline, slow connection, daily limits).
 
 ## How it works

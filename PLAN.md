@@ -27,7 +27,7 @@ Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 - [x] M13. Mood + refreshment
 - [x] M14. Extra stops: restroom, water, playground, dog run (on branch `m14-extra-stops`, not yet merged)
 - [~] M15. Route preferences: well lit, waterfront (built, then reverted on 2026-10-15: results weren't good enough for the complexity; moved to Phase 4)
-- [ ] M16. Shareable links
+- [x] M16. Shareable links (on branch `phase-3`, not yet live)
 - [ ] M17. AI walk description
 - [ ] M18. Save favorite walks
 - [ ] M19. "Good for" tags

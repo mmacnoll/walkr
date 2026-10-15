@@ -63,6 +63,7 @@ export default function WalkrApp() {
 
   // "Clear all" with a few seconds to undo, in case it was tapped by accident.
   const [cleared, setCleared] = useState<Pick[] | null>(null);
+  const [shareStatus, setShareStatus] = useState<string | null>(null);
   useEffect(() => {
     if (!cleared) return;
     const t = setTimeout(() => setCleared(null), 6000);
@@ -178,6 +179,7 @@ export default function WalkrApp() {
     setError(null);
     try {
       const result: WalkResult = await fetchWalk(request);
+      if (new URLSearchParams(window.location.search).has("walk")) window.history.replaceState(null, "", "/"); // leaving a shared walk
       setWalk(result);
       setSelectedStopId(null);
       setView("results");
@@ -188,6 +190,56 @@ export default function WalkrApp() {
     } finally {
       setLoading(false);
     }
+  }
+
+  // Opening a shared link (/?walk=<token>): rebuild exactly that walk.
+  async function openShared(token: string) {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await fetchWalk({ mode: "shared", token });
+      const sharedPark = parks.find((p) => p.id === result.parkId) ?? parks[0];
+      const sharedEntrance =
+        sharedPark.entrances.find((e) => e.location.lat === result.start.location.lat && e.location.lng === result.start.location.lng) ?? defaultEntrance(sharedPark);
+      setParkId(sharedPark.id);
+      setEntranceId(sharedEntrance.id);
+      setWalk(result);
+      setSelectedStopId(null);
+      setView("results");
+      setSnap("half");
+    } catch (err) {
+      const e = err instanceof WalkError ? err : new WalkError("Couldn't open this walk link.", true);
+      setError({ message: e.message, retry: e.retryable ? () => openShared(token) : undefined });
+    } finally {
+      setLoading(false);
+    }
+  }
+  const openedShared = useRef(false); // React runs effects twice in development; open the link once
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get("walk");
+    if (!token || openedShared.current) return;
+    openedShared.current = true;
+    void openShared(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only on first load
+  }, []);
+
+  async function shareWalk() {
+    if (!walk?.share) return;
+    const url = `${window.location.origin}/?walk=${walk.share}`;
+    const text = `A ${formatMiles(walk.distanceMeters)} walk in ${park.name} (${formatDuration(walk.durationSeconds)})`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Walkr", text, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setShareStatus("✓ Link copied");
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return; // closed the share sheet
+      setShareStatus("Couldn't copy. Long-press to copy the address bar instead.");
+      window.history.replaceState(null, "", url);
+    }
+    setTimeout(() => setShareStatus(null), 3000);
   }
 
   function selectStop(id: string | null) {
@@ -252,6 +304,8 @@ export default function WalkrApp() {
               loading={loading}
               onSelectStop={selectStop}
               onTryAnother={walk.custom ? undefined : () => generate({ avoid: walk.stops.map((s) => s.id) })}
+              onShare={shareWalk}
+              shareStatus={shareStatus}
               onEdit={() => {
                 setView("form");
                 setSelectedStopId(null);

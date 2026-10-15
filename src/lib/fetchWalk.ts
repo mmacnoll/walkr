@@ -20,7 +20,7 @@ export const MESSAGES = {
 };
 
 export async function fetchWalk(
-  request: (WalkRequest & { avoid?: string[] }) | CustomWalkRequest,
+  request: (WalkRequest & { avoid?: string[] }) | CustomWalkRequest | { mode: "shared"; token: string },
   { fetchImpl = fetch, timeoutMs = CLIENT_TIMEOUT_MS, isOnline = () => typeof navigator === "undefined" || navigator.onLine !== false } = {},
 ): Promise<WalkResult> {
   if (!isOnline()) throw new WalkError(MESSAGES.offline, true);
