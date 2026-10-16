@@ -12,7 +12,7 @@ type Props = {
   allowed?: boolean;
 };
 
-const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
+const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted";
 const OPTIONS: { id: RefreshmentChoice; label: string; emoji: string }[] = [{ id: "none", label: "None", emoji: "" }, ...REFRESHMENTS];
 
 /** One optional refreshment stop per walk: None / Coffee / Lunch / Sweet treat. Used in both modes. */
@@ -31,7 +31,7 @@ export default function RefreshmentPicker({ value, onChange, allowed = true }: P
               disabled={o.id !== "none" && !allowed}
               onClick={() => onChange(o.id)}
               className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition disabled:opacity-40 ${
-                selected ? "border-green-700 bg-green-50 text-green-900 ring-2 ring-green-700/20" : "border-zinc-200 bg-white text-zinc-700"
+                selected ? "border-forest bg-sage text-forest ring-2 ring-forest/20" : "border-line bg-paper text-ink"
               }`}
             >
               {o.emoji && (
@@ -44,7 +44,7 @@ export default function RefreshmentPicker({ value, onChange, allowed = true }: P
           );
         })}
       </div>
-      <p className="mt-1.5 text-xs text-zinc-500">
+      <p className="mt-1.5 text-xs text-muted">
         {!allowed
           ? "Remove a sight to make room for a refreshment stop."
           : value === "none"

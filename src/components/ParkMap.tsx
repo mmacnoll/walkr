@@ -83,7 +83,7 @@ export default function ParkMap(props: Props) {
             .filter((s) => s.kind && stopEmoji(s.kind))
             .map((s) => (
               <AdvancedMarker key={s.id} position={s.location} anchorPoint={AdvancedMarkerAnchorPoint.CENTER} zIndex={15}>
-                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-sky-600 text-sm shadow-md">{stopEmoji(s.kind!)}</div>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-brook text-sm shadow-md">{stopEmoji(s.kind!)}</div>
               </AdvancedMarker>
             ))}
         {walk && <RouteLine encodedPolyline={walk.encodedPolyline} bottomPadding={bottomPadding} />}
@@ -104,7 +104,7 @@ export default function ParkMap(props: Props) {
         {walk && (
           <>
             <AdvancedMarker position={walk.start.location} title={`Start: ${walk.start.name}`} zIndex={10}>
-              <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-green-700 text-xs font-bold text-white shadow-md">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-zinc-800 text-xs font-bold text-white shadow-md">
                 ▶
               </div>
             </AdvancedMarker>
@@ -201,7 +201,7 @@ function PointMarkers(props: {
               onClick={() => onSelectSight(s)}
             >
               <div className="flex h-11 w-11 items-center justify-center">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-blue-600 text-xs font-bold text-white shadow-md">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-pine text-xs font-bold text-white shadow-md">
                   {number}
                 </div>
               </div>
@@ -242,7 +242,7 @@ function PointMarkers(props: {
             onClick={() => onSelectEntrance?.(e)}
           >
             <div className={`flex items-center justify-center ${tapArea}`}>
-              <div className={`${size} rounded-full border-2 border-white shadow-md ${selected ? "bg-green-800" : "bg-green-500"}`} />
+              <div className={`${size} rounded-full border-2 border-white shadow-md ${selected ? "bg-pine" : "bg-green-500"}`} />
             </div>
           </AdvancedMarker>
         );
@@ -364,7 +364,7 @@ function SightInfo({ sight, onClose, pick }: { sight: Sight; onClose: () => void
             disabled={!pick.picked && pick.full}
             onClick={() => pick.onToggle(current?.name)}
             className={`mt-2 w-full rounded-lg px-3 py-2 text-sm font-semibold transition disabled:opacity-50 ${
-              pick.picked ? "border border-zinc-300 bg-white text-zinc-800 hover:bg-zinc-50" : "bg-green-700 text-white hover:bg-green-800"
+              pick.picked ? "border border-zinc-300 bg-white text-zinc-800 hover:bg-zinc-50" : "bg-pine text-white hover:bg-pine-2"
             }`}
           >
             {pick.picked ? "Remove from walk" : pick.full ? "Walk is full" : "+ Add to walk"}

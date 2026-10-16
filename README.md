@@ -20,6 +20,7 @@ Live app: **https://walkr-gamma.vercel.app**
 - **Share:** 🔗 sends a link that rebuilds the exact same walk (same stops, same order) for whoever opens it.
 - **Save:** ⭐ keeps favorite walks on your device (no account needed). Open them any time from "Saved walks".
 - **Works on a phone**, with friendly messages when something goes wrong (offline, slow connection, daily limits).
+- **Install it like an app:** on iPhone, Share → Add to Home Screen; on Android, the browser menu → Install app. Follows your phone's light or dark mode.
 
 ## How it works
 1. Each park has a list of sights, collected from Google Places ahead of time.

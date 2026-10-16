@@ -272,7 +272,7 @@ export default function WalkrApp() {
       {/* Form / results: bottom sheet on phones, sidebar on wider screens */}
       <aside
         style={sheetHeight === undefined ? undefined : ({ "--sheet-h": `${sheetHeight}px` } as CSSProperties)}
-        className={`absolute inset-x-0 bottom-0 z-10 h-[var(--sheet-h)] overflow-y-auto overscroll-contain rounded-t-2xl ${dragHeight === null ? "transition-[height] duration-300 ease-out motion-reduce:transition-none" : ""} bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-[0_-6px_24px_rgba(0,0,0,0.15)] md:static md:order-first md:h-full md:max-h-none md:w-[380px] md:shrink-0 md:rounded-none md:border-r md:border-zinc-200 md:shadow-none md:transition-none`}
+        className={`absolute inset-x-0 bottom-0 z-10 h-[var(--sheet-h)] overflow-y-auto overscroll-contain rounded-t-2xl ${dragHeight === null ? "transition-[height] duration-300 ease-out motion-reduce:transition-none" : ""} bg-paper pb-[env(safe-area-inset-bottom)] text-ink shadow-[0_-6px_24px_rgba(0,0,0,0.15)] md:static md:order-first md:h-full md:max-h-none md:w-[380px] md:shrink-0 md:rounded-none md:border-r md:border-line md:shadow-none md:transition-none`}
       >
         {/* Sheet header: drag to resize, or tap to open/close (phones) */}
         <button
@@ -294,15 +294,15 @@ export default function WalkrApp() {
           }}
           aria-expanded={!collapsed}
           aria-controls="sheet-body"
-          className="sticky top-0 z-10 flex w-full touch-none cursor-grab flex-col items-center gap-2 bg-white px-4 pb-3 pt-2 select-none active:cursor-grabbing md:pointer-events-none md:pt-5"
+          className="sticky top-0 z-10 flex w-full touch-none cursor-grab flex-col items-center gap-2 bg-paper px-4 pb-3 pt-2 select-none active:cursor-grabbing md:pointer-events-none md:pt-5"
         >
-          <span aria-hidden className="h-1.5 w-10 rounded-full bg-zinc-300 md:hidden" />
+          <span aria-hidden className="h-1.5 w-10 rounded-full bg-line md:hidden" />
           <span className="flex w-full items-center justify-between">
             <span className="text-left">
-              <span className="block text-lg font-bold text-green-800">{showResults ? `Your walk in ${park.name}` : view === "saved" ? "Saved walks" : "Walkr"}</span>
-              <span className="block text-xs text-zinc-500">{collapsed || showResults ? summary : "Loop walks through NYC parks"}</span>
+              <span className="block font-display text-xl font-semibold text-forest">{showResults ? `Your walk in ${park.name}` : view === "saved" ? "Saved walks" : "Walkr"}</span>
+              <span className="block text-xs text-muted">{collapsed || showResults ? summary : "Loop walks through NYC parks"}</span>
             </span>
-            <span className="text-xs font-medium text-green-800 md:hidden">{collapsed ? "Show" : "Hide"}</span>
+            <span className="text-xs font-medium text-forest md:hidden">{collapsed ? "Show" : "Hide"}</span>
           </span>
         </button>
 
@@ -402,20 +402,20 @@ export default function WalkrApp() {
           {showResults ? (
             <>
               <span className="mr-2 inline-flex items-center gap-1">
-                <i className="inline-block h-2 w-2 rounded-full bg-green-700" />
+                <i className="inline-block h-2 w-2 rounded-full bg-zinc-800" />
                 Start
               </span>
               <span className="mr-2 inline-flex items-center gap-1">
-                <i className="inline-block h-2 w-2 rounded-full bg-blue-600" />
+                <i className="inline-block h-2 w-2 rounded-full bg-pine" />
                 Stop
               </span>
               <span className="inline-flex items-center gap-1">
-                <i className="inline-block h-2 w-2 rounded-full bg-amber-500" />
+                <i className="inline-block h-2 w-2 rounded-full bg-honey" />
                 Food
               </span>
               {walk?.stops.some((s) => EXTRA_STOPS.some((x) => x.id === s.kind)) && (
                 <span className="ml-2 inline-flex items-center gap-1">
-                  <i className="inline-block h-2 w-2 rounded-full bg-sky-600" />
+                  <i className="inline-block h-2 w-2 rounded-full bg-brook" />
                   Extra
                 </span>
               )}
@@ -436,7 +436,7 @@ export default function WalkrApp() {
               </span>
               {picking && (
                 <span className="ml-2 inline-flex items-center gap-1">
-                  <i className="inline-block h-2 w-2 rounded-full bg-blue-600" />
+                  <i className="inline-block h-2 w-2 rounded-full bg-pine" />
                   Picked
                 </span>
               )}
@@ -474,7 +474,7 @@ export default function WalkrApp() {
         {loading && (
           <div className="pointer-events-none absolute inset-x-0 top-16 flex justify-center" role="status" aria-live="polite">
             <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg">
-              <span aria-hidden className="h-4 w-4 animate-spin rounded-full border-2 border-green-700 border-t-transparent" />
+              <span aria-hidden className="h-4 w-4 animate-spin rounded-full border-2 border-pine border-t-transparent" />
               Finding a loop…
             </div>
           </div>

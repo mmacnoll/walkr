@@ -36,9 +36,9 @@ export function isExtraStop(kind: unknown): kind is ExtraStop {
   return EXTRA_STOPS.some((x) => x.id === kind);
 }
 
-/** Badge color for a stop: amber for refreshments, sky for extra stops, blue for sights. */
+/** Badge color for a stop (fixed palette): honey for refreshments, brook for extra stops, pine for sights. */
 export function stopColor(kind: string): string {
-  return isRefreshment(kind) ? "bg-amber-500" : isExtraStop(kind) ? "bg-sky-600" : "bg-blue-600";
+  return isRefreshment(kind) ? "bg-honey" : isExtraStop(kind) ? "bg-brook" : "bg-pine";
 }
 
 /** Badge for a non-sight stop (refreshment or extra), or undefined for sights. */

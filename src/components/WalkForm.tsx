@@ -47,7 +47,7 @@ type Props = {
   loading?: boolean;
 };
 
-const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
+const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted";
 
 export default function WalkForm(props: Props) {
   const { mode, park, entranceId, minutes, unit, mood } = props;
@@ -74,7 +74,7 @@ export default function WalkForm(props: Props) {
       }}
     >
       {/* Mode */}
-      <div role="group" aria-label="How to plan the walk" className="grid grid-cols-2 rounded-xl bg-zinc-100 p-1 text-sm font-semibold">
+      <div role="group" aria-label="How to plan the walk" className="grid grid-cols-2 rounded-xl bg-paper-2 p-1 text-sm font-semibold">
         {(
           [
             ["surprise", "🎲 Surprise me"],
@@ -86,7 +86,7 @@ export default function WalkForm(props: Props) {
             type="button"
             aria-pressed={mode === id}
             onClick={() => props.onModeChange(id)}
-            className={`rounded-lg px-3 py-2 transition ${mode === id ? "bg-white text-green-900 shadow" : "text-zinc-500"}`}
+            className={`rounded-lg px-3 py-2 transition ${mode === id ? "bg-paper text-forest shadow" : "text-muted"}`}
           >
             {label}
           </button>
@@ -97,7 +97,7 @@ export default function WalkForm(props: Props) {
         <button
           type="button"
           onClick={props.onShowSaved}
-          className="-mt-2 self-start rounded-full bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-900 hover:bg-amber-100"
+          className="-mt-2 self-start rounded-full bg-ochre/15 px-3 py-1.5 text-sm font-semibold text-ink hover:bg-ochre/25"
         >
           ⭐ Saved walks ({props.savedCount})
         </button>
@@ -112,7 +112,7 @@ export default function WalkForm(props: Props) {
           id="park"
           value={park.id}
           onChange={(e) => props.onParkChange(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-base text-zinc-900 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700/20"
+          className="w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
         >
           {(["Manhattan", "Brooklyn"] as const).map((borough) => (
             <optgroup key={borough} label={borough}>
@@ -137,7 +137,7 @@ export default function WalkForm(props: Props) {
           id="entrance"
           value={entranceId}
           onChange={(e) => props.onEntranceChange(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-base text-zinc-900 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700/20"
+          className="w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
         >
           <optgroup label="Popular">
             {popular.map((e) => (
@@ -156,7 +156,7 @@ export default function WalkForm(props: Props) {
             </optgroup>
           )}
         </select>
-        <p className="mt-1 text-xs text-zinc-500">…or tap a green dot on the map.</p>
+        <p className="mt-1 text-xs text-muted">…or tap a green dot on the map.</p>
       </div>
 
       {custom && props.customSection}
@@ -167,14 +167,14 @@ export default function WalkForm(props: Props) {
           <label htmlFor="length" className={`${fieldLabel} mb-0`}>
             Walk length
           </label>
-          <div role="group" aria-label="Length unit" className="flex rounded-full bg-zinc-100 p-0.5 text-xs font-medium">
+          <div role="group" aria-label="Length unit" className="flex rounded-full bg-paper-2 p-0.5 text-xs font-medium">
             {(["min", "mi"] as const).map((u) => (
               <button
                 key={u}
                 type="button"
                 aria-pressed={unit === u}
                 onClick={() => changeUnit(u)}
-                className={`rounded-full px-3 py-1 transition ${unit === u ? "bg-white text-zinc-900 shadow" : "text-zinc-500"}`}
+                className={`rounded-full px-3 py-1 transition ${unit === u ? "bg-paper text-ink shadow" : "text-muted"}`}
               >
                 {u === "min" ? "Minutes" : "Miles"}
               </button>
@@ -182,11 +182,11 @@ export default function WalkForm(props: Props) {
           </div>
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-semibold tabular-nums text-zinc-900">
+          <span className="text-2xl font-semibold tabular-nums text-ink">
             {unit === "min" ? Math.round(minutes) : sliderValue}
           </span>
-          <span className="text-sm text-zinc-500">{unit === "min" ? "minutes" : "miles"}</span>
-          <span className="ml-auto text-xs text-zinc-400">{describeLength(minutes)}</span>
+          <span className="text-sm text-muted">{unit === "min" ? "minutes" : "miles"}</span>
+          <span className="ml-auto text-xs text-muted">{describeLength(minutes)}</span>
         </div>
         <input
           id="length"
@@ -199,9 +199,9 @@ export default function WalkForm(props: Props) {
             const v = Number(e.target.value);
             props.onMinutesChange(unit === "min" ? v : milesToMinutes(v));
           }}
-          className="mt-2 h-8 w-full cursor-pointer accent-green-700"
+          className="mt-2 h-8 w-full cursor-pointer accent-forest"
         />
-        <div className="flex justify-between text-[11px] text-zinc-400">
+        <div className="flex justify-between text-[11px] text-muted">
           <span>{limits.min} {unit}</span>
           <span>{limits.max} {unit}</span>
         </div>
@@ -217,7 +217,7 @@ export default function WalkForm(props: Props) {
               <label
                 key={m.id}
                 className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-3 text-sm font-medium transition ${
-                  selected ? "border-green-700 bg-green-50 text-green-900 ring-2 ring-green-700/20" : "border-zinc-200 bg-white text-zinc-700"
+                  selected ? "border-forest bg-sage text-forest ring-2 ring-forest/20" : "border-line bg-paper text-ink"
                 }`}
               >
                 <input
@@ -236,7 +236,7 @@ export default function WalkForm(props: Props) {
             );
           })}
         </div>
-        <p className="mt-1.5 text-xs text-zinc-500">{MOODS.find((m) => m.id === mood)?.description}</p>
+        <p className="mt-1.5 text-xs text-muted">{MOODS.find((m) => m.id === mood)?.description}</p>
       </fieldset>
 
       {!custom && <RefreshmentPicker value={props.refreshment} onChange={props.onRefreshmentChange} />}
@@ -245,7 +245,7 @@ export default function WalkForm(props: Props) {
       <button
         type="submit"
         disabled={props.loading || (custom && !props.canSubmit)}
-        className="rounded-xl bg-green-700 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-green-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+        className="rounded-full bg-forest px-4 py-3.5 font-display text-lg font-medium text-on-forest shadow-sm transition hover:bg-forest-2 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {props.loading ? "Finding a loop…" : custom ? "Build my walk" : "Generate walk"}
       </button>

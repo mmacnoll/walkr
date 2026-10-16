@@ -11,9 +11,9 @@ export default function RouteLine({ encodedPolyline, bottomPadding = 0 }: { enco
   useEffect(() => {
     if (!map) return;
     const path = decode(encodedPolyline).map(([lat, lng]) => ({ lat, lng }));
-    // A white casing under a blue line keeps the route readable over busy map areas.
+    // A white casing under a forest-green line keeps the route readable over park greens and busy streets.
     const casing = new google.maps.Polyline({ map, path, strokeColor: "#ffffff", strokeOpacity: 0.9, strokeWeight: 8, zIndex: 1 });
-    const line = new google.maps.Polyline({ map, path, strokeColor: "#2563eb", strokeOpacity: 1, strokeWeight: 4.5, zIndex: 2 });
+    const line = new google.maps.Polyline({ map, path, strokeColor: "#1f4d2b", strokeOpacity: 1, strokeWeight: 4.5, zIndex: 2 });
 
     const bounds = new google.maps.LatLngBounds();
     path.forEach((p) => bounds.extend(p));

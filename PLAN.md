@@ -31,7 +31,7 @@ Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 - [-] M17. AI walk description (skipped, 2026-10-16)
 - [x] M18. Save favorite walks (on branch `phase-3`, not yet live)
 - [-] M19. "Good for" tags (skipped, 2026-10-16: too subjective)
-- [ ] M20. Design polish + Add to Home Screen + ship v3.0
+- [x] M20. Design polish + Add to Home Screen + ship v3.0 ("Park classic" design on branch `phase-3`; v3.0 release pending)
 
 **Phase 4:** see the list below.
 

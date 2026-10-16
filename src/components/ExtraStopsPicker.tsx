@@ -13,7 +13,7 @@ type Props = {
   roomForMore?: boolean;
 };
 
-const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500";
+const fieldLabel = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted";
 
 /** Optional practical stops: any combination of restroom, water, playground, dog run. */
 export default function ExtraStopsPicker({ value, onToggle, available, roomForMore = true }: Props) {
@@ -33,7 +33,7 @@ export default function ExtraStopsPicker({ value, onToggle, available, roomForMo
               disabled={disabled}
               onClick={() => onToggle(x.id)}
               className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition disabled:opacity-40 ${
-                on ? "border-sky-600 bg-sky-50 text-sky-900 ring-2 ring-sky-600/20" : "border-zinc-200 bg-white text-zinc-700"
+                on ? "border-forest bg-sage text-forest ring-2 ring-forest/20" : "border-line bg-paper text-ink"
               }`}
             >
               <span aria-hidden className="text-lg">
@@ -44,7 +44,7 @@ export default function ExtraStopsPicker({ value, onToggle, available, roomForMo
           );
         })}
       </div>
-      <p className="mt-1.5 text-xs text-zinc-500">
+      <p className="mt-1.5 text-xs text-muted">
         {!roomForMore && value.length < EXTRA_STOPS.length
           ? "Remove a sight to make room for more stops."
           : value.length
