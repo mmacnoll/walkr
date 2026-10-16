@@ -30,7 +30,7 @@ Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 - [x] M16. Shareable links (released in v2.1.0)
 - [-] M17. AI walk description (skipped, 2026-10-16)
 - [x] M18. Save favorite walks (on branch `phase-3`, not yet live)
-- [ ] M19. "Good for" tags
+- [-] M19. "Good for" tags (skipped, 2026-10-16: too subjective)
 - [ ] M20. Design polish + Add to Home Screen + ship v3.0
 
 **Phase 4:** see the list below.
