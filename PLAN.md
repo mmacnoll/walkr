@@ -23,15 +23,17 @@ Phase 2 saved as **v2.0.0** (tag + GitHub release, 2026-10-07).
 
 Small update saved as **v2.0.1**: an always-visible Clear all button, with Undo.
 
+Phase 3 released as **v3.0.0** (2026-10-16): saved walks, Park classic design, dark mode, app icon + Add to Home Screen, map boundary, Berry dots. (v2.1.0 earlier: extra stops + share links.)
+
 **Phase 3: more ways to shape a walk, plus sharing (chosen 2026-10-09)**
 - [x] M13. Mood + refreshment
 - [x] M14. Extra stops: restroom, water, playground, dog run (on branch `m14-extra-stops`, not yet merged)
 - [~] M15. Route preferences: well lit, waterfront (built, then reverted on 2026-10-15: results weren't good enough for the complexity; moved to Phase 4)
 - [x] M16. Shareable links (released in v2.1.0)
 - [-] M17. AI walk description (skipped, 2026-10-16)
-- [x] M18. Save favorite walks (on branch `phase-3`, not yet live)
+- [x] M18. Save favorite walks (released in v3.0.0)
 - [-] M19. "Good for" tags (skipped, 2026-10-16: too subjective)
-- [x] M20. Design polish + Add to Home Screen + ship v3.0 ("Park classic" design on branch `phase-3`; v3.0 release pending)
+- [x] M20. Design polish + Add to Home Screen + ship v3.0 ("Park classic" design; released in v3.0.0)
 
 **Phase 4:** see the list below.
 
