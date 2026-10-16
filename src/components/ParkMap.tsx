@@ -235,7 +235,7 @@ function PointMarkers(props: {
           >
             <div className={`flex items-center justify-center ${tapArea}`}>
               <div
-                className={`rounded-full border-white shadow-md ${s.moods.includes("scenic") ? "bg-violet-600" : "bg-teal-600"} ${
+                className={`rounded-full border-white shadow-md ${s.moods.includes("scenic") ? "bg-berry" : "bg-navy"} ${
                   s.inPark ? "" : "opacity-70"
                 } ${open ? "h-6 w-6 border-2" : sightDot}`}
               />
@@ -260,7 +260,7 @@ function PointMarkers(props: {
             onClick={() => onSelectEntrance?.(e)}
           >
             <div className={`flex items-center justify-center ${tapArea}`}>
-              <div className={`${size} rounded-full border-2 border-white shadow-md ${selected ? "bg-pine" : "bg-green-500"}`} />
+              <div className={`${size} rounded-full border-2 shadow-md ${selected ? "border-white bg-pine" : "border-pine bg-white"}`} />
             </div>
           </AdvancedMarker>
         );

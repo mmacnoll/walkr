@@ -48,6 +48,9 @@
   --color-pine-2: #2c6b3d;
   --color-honey: #c8873a;
   --color-brook: #3f6e8c;
+  /* Sight dots ("Berry"): raspberry = scenic, navy = quiet. Entrances are white with a pine ring. */
+  --color-berry: #d14d72;
+  --color-navy: #2f4b7c;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-fraunces);

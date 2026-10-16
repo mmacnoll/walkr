@@ -156,7 +156,7 @@ export default function WalkForm(props: Props) {
             </optgroup>
           )}
         </select>
-        <p className="mt-1 text-xs text-muted">…or tap a green dot on the map.</p>
+        <p className="mt-1 text-xs text-muted">…or tap a white entrance dot on the map.</p>
       </div>
 
       {custom && props.customSection}

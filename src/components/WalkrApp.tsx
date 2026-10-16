@@ -423,15 +423,15 @@ export default function WalkrApp() {
           ) : (
             <>
               <span className="mr-2 inline-flex items-center gap-1">
-                <i className="inline-block h-2 w-2 rounded-full bg-green-500" />
+                <i className="inline-block h-2 w-2 rounded-full border border-pine bg-white" />
                 Entrance
               </span>
               <span className="mr-2 inline-flex items-center gap-1">
-                <i className="inline-block h-2 w-2 rounded-full bg-violet-600" />
+                <i className="inline-block h-2 w-2 rounded-full bg-berry" />
                 Scenic
               </span>
               <span className="inline-flex items-center gap-1">
-                <i className="inline-block h-2 w-2 rounded-full bg-teal-600" />
+                <i className="inline-block h-2 w-2 rounded-full bg-navy" />
                 Quiet
               </span>
               {picking && (

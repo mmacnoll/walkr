@@ -48,7 +48,7 @@ export default function CustomPicker(props: Props) {
             ≈ {minutes} min <span className="text-base font-normal text-forest">· {formatMiles(estimate.meters)}</span>
           </p>
         ) : (
-          <p className="mt-1 text-sm text-forest">Tap a purple or teal dot on the map, then “Add to walk”.</p>
+          <p className="mt-1 text-sm text-forest">Tap a pink or navy dot on the map, then “Add to walk”.</p>
         )}
         {picks.length > 0 && (
           <p className="mt-0.5 text-[11px] text-forest">
