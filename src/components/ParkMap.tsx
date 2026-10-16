@@ -2,6 +2,7 @@
 
 import { AdvancedMarker, AdvancedMarkerAnchorPoint, APILoadingStatus, APIProvider, InfoWindow, Map, useApiLoadingStatus, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
+import { parks } from "@/data/parks";
 import type { Entrance, LatLng, Park, Sight } from "@/lib/types";
 import { type PhotoRef, stopColor, stopEmoji, type WalkResult } from "@/lib/walk";
 import PlacePhoto from "./PlacePhoto";
@@ -12,6 +13,21 @@ import RouteLine from "./RouteLine";
 // Browser key: restricted to Maps JavaScript API + our domains, so it's safe to expose.
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY;
 const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
+
+/**
+ * The map can't be panned or zoomed out beyond the area around our parks (about 3 km past the
+ * outermost park edges), so nobody ends up looking at Texas. Grows automatically with new parks.
+ */
+const MARGIN_DEG = { lat: 0.03, lng: 0.04 };
+const allPoints = parks.flatMap((p) => p.boundary.flat());
+const NYC_BOUNDS: google.maps.LatLngBoundsLiteral = {
+  south: Math.min(...allPoints.map((p) => p.lat)) - MARGIN_DEG.lat,
+  north: Math.max(...allPoints.map((p) => p.lat)) + MARGIN_DEG.lat,
+  west: Math.min(...allPoints.map((p) => p.lng)) - MARGIN_DEG.lng,
+  east: Math.max(...allPoints.map((p) => p.lng)) + MARGIN_DEG.lng,
+};
+/** Zoomed all the way out: roughly lower Manhattan to upper Manhattan and north Brooklyn. */
+const MIN_ZOOM = 11;
 
 type Props = {
   park: Park;
@@ -63,6 +79,8 @@ export default function ParkMap(props: Props) {
         mapId={MAP_ID}
         defaultCenter={park.center}
         defaultZoom={14}
+        minZoom={MIN_ZOOM}
+        restriction={{ latLngBounds: NYC_BOUNDS, strictBounds: true }}
         // "greedy" lets one finger pan the map on phones (no "use two fingers" overlay).
         gestureHandling="greedy"
         disableDefaultUI
