@@ -15,8 +15,9 @@ const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY;
 const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
 
 /**
- * The map can't be panned or zoomed out beyond the area around our parks (about 3 km past the
- * outermost park edges), so nobody ends up looking at Texas. Grows automatically with new parks.
+ * The area around our parks (about 3 km past the outermost park edges): the map can't be zoomed out
+ * past MIN_ZOOM, and snaps back here if dragged away, so nobody ends up looking at Texas.
+ * Grows automatically with new parks.
  */
 const MARGIN_DEG = { lat: 0.03, lng: 0.04 };
 const allPoints = parks.flatMap((p) => p.boundary.flat());
@@ -54,7 +55,10 @@ type Props = {
 };
 
 export default function ParkMap(props: Props) {
-  const { park, sights, selectedEntranceId, onSelectEntrance, bottomPadding = 0, walk, focusOnWalk, selectedStopId, onSelectStop } = props;
+  const { park, sights, selectedEntranceId, onSelectEntrance, walk, focusOnWalk, selectedStopId, onSelectStop } = props;
+  // When the phone sheet is pulled up high, don't try to squeeze the park into the sliver of map
+  // left above it: reserve at most ~half the screen (the rest of the park shows when the sheet drops).
+  const bottomPadding = Math.min(props.bottomPadding ?? 0, typeof window === "undefined" ? 0 : Math.round(window.innerHeight * 0.5));
   const { picking = false, picks = [], picksFull = false, onTogglePick } = props;
   const previewStops: NonNullable<Props["previewStops"]> = props.previewStops ?? picks;
   const pickOrder = new globalThis.Map(picks.map((p, i) => [p.placeId, i + 1]));
@@ -80,7 +84,6 @@ export default function ParkMap(props: Props) {
         defaultCenter={park.center}
         defaultZoom={14}
         minZoom={MIN_ZOOM}
-        restriction={{ latLngBounds: NYC_BOUNDS, strictBounds: true }}
         // "greedy" lets one finger pan the map on phones (no "use two fingers" overlay).
         gestureHandling="greedy"
         disableDefaultUI
@@ -91,6 +94,7 @@ export default function ParkMap(props: Props) {
           onSelectStop?.(null);
         }}
       >
+        <StayInNyc />
         <ParkBoundary park={park} bottomPadding={bottomPadding} fit={!walk} />
         {picking && picks.length > 0 && !walk && (
           <PreviewLine path={[selectedEntrance(park, selectedEntranceId), ...previewStops.map((p) => p.location), selectedEntrance(park, selectedEntranceId)]} />
@@ -307,6 +311,27 @@ function useZoom(): number | undefined {
     return () => listener.remove();
   }, [map]);
   return zoom;
+}
+
+/**
+ * Keeps the map around our parks: if someone drags the map's center out of the NYC area, it glides
+ * back when they let go. (Google's own "restriction" option was tried, but it stopped the map from
+ * fitting a park above the phone sheet.)
+ */
+function StayInNyc() {
+  const map = useMap();
+  useEffect(() => {
+    if (!map) return;
+    const listener = map.addListener("dragend", () => {
+      const c = map.getCenter();
+      if (!c) return;
+      const lat = Math.min(NYC_BOUNDS.north, Math.max(NYC_BOUNDS.south, c.lat()));
+      const lng = Math.min(NYC_BOUNDS.east, Math.max(NYC_BOUNDS.west, c.lng()));
+      if (lat !== c.lat() || lng !== c.lng()) map.panTo({ lat, lng });
+    });
+    return () => listener.remove();
+  }, [map]);
+  return null;
 }
 
 /** Friendly message if Google Maps itself can't load (bad key, website not allowed, no internet). */
